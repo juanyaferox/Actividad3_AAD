@@ -1,0 +1,68 @@
+package juanya.cifpaviles.model;
+
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "testancia")
+public class Testancia {
+    @Id
+    @Column(name = "pkid", nullable = false)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "fkid_parada", nullable = false)
+    private Tparada fkidParada;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "fkid_peregrino", nullable = false)
+    private Tperegrino fkidPeregrino;
+
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
+
+    @Column(name = "vip", nullable = false)
+    private Boolean vip = false;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Tparada getFkidParada() {
+        return fkidParada;
+    }
+
+    public void setFkidParada(Tparada fkidParada) {
+        this.fkidParada = fkidParada;
+    }
+
+    public Tperegrino getFkidPeregrino() {
+        return fkidPeregrino;
+    }
+
+    public void setFkidPeregrino(Tperegrino fkidPeregrino) {
+        this.fkidPeregrino = fkidPeregrino;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public Boolean getVip() {
+        return vip;
+    }
+
+    public void setVip(Boolean vip) {
+        this.vip = vip;
+    }
+
+}
