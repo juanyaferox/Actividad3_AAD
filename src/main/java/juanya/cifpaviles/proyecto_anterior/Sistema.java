@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author hulke
+ * @author juanya
  */
 public class Sistema {
 

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface TperegrinoRepository extends JpaRepository<Tperegrino, Integer> {
-    @Query("SELECT * FROM tperegrino WHERE cnombre LIKE ?1 AND cnacionalidad LIKE ?2")
+    @Query("SELECT t FROM Tperegrino t WHERE t.cnombre LIKE ?1 AND t.cnacionalidad LIKE ?2")
     List<Tperegrino> Verificacion(String nombre, String nacionalidad);
 
 }
