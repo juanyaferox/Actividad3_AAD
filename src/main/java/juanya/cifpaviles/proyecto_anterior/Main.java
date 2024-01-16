@@ -12,7 +12,7 @@ import java.util.Scanner;
 /**
  *
  * @author juanya
- */
+
 public class Main {
 
     public static void main(String[] args) {
@@ -173,7 +173,7 @@ public class Main {
                             * get nombre, get nacionalidad, get localdate.now, get distancia total from tcarnet
                             * me canse y 
                             *
-                            */
+                            *
                         }
                         case 2 -> {
                             System.out.println("LOGOUT");
@@ -284,3 +284,4 @@ public class Main {
         }
     }
 }
+*/

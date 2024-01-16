@@ -10,7 +10,7 @@ import java.time.LocalDate;
 /**
  *
  * @author juanya
- */
+ *
 public class Sistema {
 
     //METODOS CASO REGISTRO
@@ -255,3 +255,4 @@ public class Sistema {
         }
     }
 }
+*/
