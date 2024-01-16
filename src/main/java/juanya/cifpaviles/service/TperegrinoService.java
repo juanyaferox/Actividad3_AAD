@@ -1,6 +1,5 @@
 package juanya.cifpaviles.service;
 
-import juanya.cifpaviles.model.Tcarnet;
 import juanya.cifpaviles.model.Tperegrino;
 import juanya.cifpaviles.repository.TperegrinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

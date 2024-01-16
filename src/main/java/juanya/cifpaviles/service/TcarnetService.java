@@ -9,6 +9,11 @@ import java.util.List;
 
 @Service
 public class TcarnetService {
+    private final TcarnetRepository tcarnetRepository;
 
+    @Autowired
+    public TcarnetService(TcarnetRepository tcarnetRepository) {
+        this.tcarnetRepository = tcarnetRepository;
+    }
 }
 
