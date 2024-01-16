@@ -1,4 +1,7 @@
 package juanya.cifpaviles.service;
 
-public class GenericService <T extends Object>{
+import org.springframework.stereotype.Service;
+
+@Service
+public interface GenericService <T extends Object>{
 }

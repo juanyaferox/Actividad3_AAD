@@ -1,17 +1,10 @@
 package juanya.cifpaviles;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.CommandLineRunner;
 
-@SpringBootApplication
-public class Main {
-
-    @Bean
-    public Aplicacion applicationStartupRunner() {
-        return new Aplicacion();
-    }
-    public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+public class Main implements CommandLineRunner {
+    @Override
+    public void run(String... args) throws Exception {
+        System.out.println("Bienvenido al programa gestor de base de datos");
     }
 }

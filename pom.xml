@@ -13,7 +13,7 @@
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <exec.mainClass>juanya.cifpaviles.Main</exec.mainClass>
+        <exec.mainClass>juanya.cifpaviles.Aplicacion</exec.mainClass>
         <maven.compiler.release>17</maven.compiler.release>
     </properties>
     <dependencies>
@@ -67,6 +67,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>juanya.cifpaviles.Aplicacion</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
