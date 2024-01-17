@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TperfilRepository extends JpaRepository<Tperfil, String> {
+
 }
