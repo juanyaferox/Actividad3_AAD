@@ -27,6 +27,5 @@ public class TperegrinoServiceImpl implements TperegrinoService{
     @Override
     public boolean verificarTperegrino(String nombre, String nacionalidad) {
         return tperegrinoRepository.existsByCnombreAndCnacionalidad(nombre, nacionalidad);
-
     }
 }
