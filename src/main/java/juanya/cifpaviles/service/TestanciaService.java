@@ -11,6 +11,5 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
-@Service
-public interface TestanciaService  extends JpaRepository<Testancia, Integer> {
+public interface TestanciaService{
 }

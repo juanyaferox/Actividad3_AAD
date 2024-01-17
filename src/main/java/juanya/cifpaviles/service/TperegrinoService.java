@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public interface TperegrinoService extends JpaRepository<Tperegrino, Integer> {
-    List<Tperegrino> verificacion(String nombre, String nacionalidad);
+public interface TperegrinoService{
+
+    boolean verificarTperegrino(String nombre, String nacionalidad);
 }

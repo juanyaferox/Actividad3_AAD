@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TperfilService {
-    private final TperfilRepository tperfilRepository;
+public interface TperfilService {
 
-    @Autowired
-    public TperfilService(TperfilRepository tperfilRepository) {
-        this.tperfilRepository = tperfilRepository;
-    }
 }

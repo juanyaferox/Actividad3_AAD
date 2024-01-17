@@ -7,12 +7,5 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class TparadaService {
-    private final TparadaRepository tparadaRepository;
-
-    @Autowired
-    public TparadaService(TparadaRepository tparadaRepository) {
-        this.tparadaRepository = tparadaRepository;
-    }
+public interface TparadaService {
 }

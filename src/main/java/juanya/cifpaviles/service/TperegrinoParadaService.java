@@ -9,12 +9,5 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class TperegrinoParadaService {
-    private final TperegrinoParadaRepository tperegrinoParadaRepository;
-
-    @Autowired
-    public TperegrinoParadaService(TperegrinoParadaRepository tperegrinoParadaRepository) {
-        this.tperegrinoParadaRepository = tperegrinoParadaRepository;
-    }
+public interface TperegrinoParadaService {
 }

@@ -9,7 +9,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
  @Repository
 public interface TperegrinoRepository extends JpaRepository<Tperegrino, Integer> {
-    @Query("SELECT t FROM Tperegrino t WHERE t.cnombre LIKE ?1 AND t.cnacionalidad LIKE ?2")
-    List<Tperegrino> Verificacion(String nombre, String nacionalidad);
-
+     boolean existsByCnombreAndCnacionalidad(String nombre, String nacionalidad);
 }
