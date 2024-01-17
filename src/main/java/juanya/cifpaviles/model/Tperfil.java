@@ -20,6 +20,16 @@ public class Tperfil {
     @JoinColumn(name = "fkid_parada")
     private Tparada fkidParada;
 
+    public Tperfil() {
+    }
+
+    public Tperfil(String pkidUsuario, String cpassword, Tperegrino fkidPeregrino, Tparada fkidParada) {
+        this.pkidUsuario = pkidUsuario;
+        this.cpassword = cpassword;
+        this.fkidPeregrino = fkidPeregrino;
+        this.fkidParada = fkidParada;
+    }
+
     public String getPkidUsuario() {
         return pkidUsuario;
     }

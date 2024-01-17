@@ -18,6 +18,15 @@ public class TperegrinoParada {
     @JoinColumn(name = "pkfkid_peregrino", nullable = false)
     private Tperegrino pkfkidPeregrino;
 
+    public TperegrinoParada() {
+    }
+
+    public TperegrinoParada(TperegrinoParadaId id, Tparada pkfkidParada, Tperegrino pkfkidPeregrino) {
+        this.id = id;
+        this.pkfkidParada = pkfkidParada;
+        this.pkfkidPeregrino = pkfkidPeregrino;
+    }
+
     public TperegrinoParadaId getId() {
         return id;
     }

@@ -7,8 +7,4 @@ import org.springframework.stereotype.Service;
 @Service
 public class TcarnetServiceImpl {
 
-    @Autowired
-    public TcarnetService(TcarnetRepository tcarnetRepository) {
-        this.tcarnetRepository = tcarnetRepository;
-    }
 }

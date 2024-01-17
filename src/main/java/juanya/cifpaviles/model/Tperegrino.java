@@ -20,6 +20,16 @@ public class Tperegrino {
     @Column(name = "cnacionalidad", nullable = false)
     private String cnacionalidad;
 
+    public Tperegrino() {
+    }
+
+    public Tperegrino(Integer id, Tcarnet tcarnet, String cnombre, String cnacionalidad) {
+        this.id = id;
+        this.tcarnet = tcarnet;
+        this.cnombre = cnombre;
+        this.cnacionalidad = cnacionalidad;
+    }
+
     public Integer getId() {
         return id;
     }

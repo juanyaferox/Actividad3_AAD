@@ -8,7 +8,8 @@ import java.time.LocalDate;
 @Table(name = "tcarnet")
 public class Tcarnet {
     @Id
-    @Column(name = "pkid", nullable = false)
+    @Column(name = "pkid",  nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -18,17 +19,19 @@ public class Tcarnet {
     @Column(name = "fechaexp", nullable = false)
     private LocalDate fechaexp;
 
-    @Column(name = "nvips", nullable = false)
+    @Column(name = "nvips", nullable = false, columnDefinition = "int default 0")
     private Integer nvips;
 
-    @Column(name = "distancia", columnDefinition = "double(0, 0) UNSIGNED not null")
-    private String distancia;
+    @Column(name = "distancia", nullable = false, columnDefinition = "double default 0.0")
+    private Double distancia;
 
-    public String getDistancia() {
-        return distancia;
+    public Tcarnet() {
     }
 
-    public void setDistancia(String distancia) {
+    public Tcarnet(Tparada fkidParada, LocalDate fechaexp, Integer nvips, Double distancia) {
+        this.fkidParada = fkidParada;
+        this.fechaexp = fechaexp;
+        this.nvips = nvips;
         this.distancia = distancia;
     }
 
@@ -62,6 +65,14 @@ public class Tcarnet {
 
     public void setNvips(Integer nvips) {
         this.nvips = nvips;
+    }
+
+    public Double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(Double distancia) {
+        this.distancia = distancia;
     }
 
 }

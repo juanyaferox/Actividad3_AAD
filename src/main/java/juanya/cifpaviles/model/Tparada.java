@@ -1,22 +1,28 @@
 package juanya.cifpaviles.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tparada")
 public class Tparada {
     @Id
     @Column(name = "pkid", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "cnombre", nullable = false)
     private String cnombre;
 
-    @Column(name = "cregion", nullable = false)
+    @Column(name = "cregion", nullable = false, length = 1)
     private Character cregion;
+
+    public Tparada() {
+    }
+
+    public Tparada(String cnombre, Character cregion) {
+        this.cnombre = cnombre;
+        this.cregion = cregion;
+    }
 
     public Integer getId() {
         return id;

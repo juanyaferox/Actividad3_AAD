@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class Testancia {
     @Id
     @Column(name = "pkid", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -22,8 +23,18 @@ public class Testancia {
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
-    @Column(name = "vip", nullable = false)
+    @Column(name = "vip", nullable = false, columnDefinition = "boolean default false")
     private Boolean vip = false;
+
+    public Testancia() {
+    }
+
+    public Testancia(Tparada fkidParada, Tperegrino fkidPeregrino, LocalDate fecha, Boolean vip) {
+        this.fkidParada = fkidParada;
+        this.fkidPeregrino = fkidPeregrino;
+        this.fecha = fecha;
+        this.vip = vip;
+    }
 
     public Integer getId() {
         return id;
