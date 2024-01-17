@@ -62,4 +62,13 @@ public class Tperegrino {
         this.cnacionalidad = cnacionalidad;
     }
 
+    @Override
+    public String toString() {
+        return "Tperegrino{" +
+                "id=" + id +
+                ", tcarnet=" + tcarnet +
+                ", cnombre='" + cnombre + '\'' +
+                ", cnacionalidad='" + cnacionalidad + '\'' +
+                '}';
+    }
 }

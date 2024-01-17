@@ -75,4 +75,14 @@ public class Tcarnet {
         this.distancia = distancia;
     }
 
+    @Override
+    public String toString() {
+        return "Tcarnet{" +
+                "id=" + id +
+                ", fkidParada=" + fkidParada +
+                ", fechaexp=" + fechaexp +
+                ", nvips=" + nvips +
+                ", distancia=" + distancia +
+                '}';
+    }
 }

@@ -48,4 +48,12 @@ public class Tparada {
         this.cregion = cregion;
     }
 
+    @Override
+    public String toString() {
+        return "Tparada{" +
+                "id=" + id +
+                ", cnombre='" + cnombre + '\'' +
+                ", cregion=" + cregion +
+                '}';
+    }
 }

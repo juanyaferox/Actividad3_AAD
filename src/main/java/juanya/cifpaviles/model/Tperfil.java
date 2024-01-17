@@ -62,4 +62,13 @@ public class Tperfil {
         this.fkidParada = fkidParada;
     }
 
+    @Override
+    public String toString() {
+        return "Tperfil{" +
+                "pkidUsuario='" + pkidUsuario + '\'' +
+                ", cpassword='" + cpassword + '\'' +
+                ", fkidPeregrino=" + fkidPeregrino +
+                ", fkidParada=" + fkidParada +
+                '}';
+    }
 }

@@ -76,4 +76,14 @@ public class Testancia {
         this.vip = vip;
     }
 
+    @Override
+    public String toString() {
+        return "Testancia{" +
+                "id=" + id +
+                ", fkidParada=" + fkidParada +
+                ", fkidPeregrino=" + fkidPeregrino +
+                ", fecha=" + fecha +
+                ", vip=" + vip +
+                '}';
+    }
 }
