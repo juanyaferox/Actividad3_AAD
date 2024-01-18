@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TparadaRepository extends JpaRepository<Tparada, Integer> {
+    boolean existsByCnombre(String nombre);
 }
