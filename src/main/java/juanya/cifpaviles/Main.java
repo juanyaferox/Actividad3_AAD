@@ -1,14 +1,20 @@
 package juanya.cifpaviles;
 
-import juanya.cifpaviles.service.TparadaService;
-import juanya.cifpaviles.service.TparadaServiceImpl;
-import juanya.cifpaviles.service.TperegrinoServiceImpl;
+import juanya.cifpaviles.model.Tcarnet;
+import juanya.cifpaviles.model.Tparada;
+import juanya.cifpaviles.model.Tperegrino;
+import juanya.cifpaviles.model.Tperfil;
+import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main implements CommandLineRunner {
+
+    @Autowired
+    public TperfilServiceImpl tperfilService;
 
     @Autowired
     public TperegrinoServiceImpl tperegrinoService;
@@ -49,28 +55,40 @@ public class Main implements CommandLineRunner {
                                     if (opcion == 1) {
                                         break outer;
                                     }
+                                    do {
+                                        System.out.println("Indique la parada en la cuál usted está alojado");
+                                        String parada_actual = scanner.nextLine();
+                                        exists = tparadaService.existsCnombreTparada(parada_actual);
+                                        if (!exists) {
+                                            System.out.println("La parada no existe");
+                                            System.out.println("Qué desea realizar?");
+                                            System.out.println(" 1 - Volver atrás \n 2 - Volver a intentar");
+                                            int opcion = Integer.parseInt(scanner.nextLine());
+                                            if (opcion == 1) {
+                                                break outer;
+                                            }
+                                        }
+                                        Tparada tparada = new Tparada();
+                                        tparada.setCnombre(parada_actual);
+                                        Tcarnet tcarnet = new Tcarnet();
+                                        tcarnet.setFechaexp(LocalDate.now());
+                                        tcarnet.setFkidParada(tparada);
+                                        Tperegrino tperegrino = new Tperegrino();
+                                        tperegrino.setCnombre(nombre);
+                                        tperegrino.setCnombre(nacionalidad);
+                                        tperegrino.setTcarnet(tcarnet);
+                                    } while (exists);
                                 }
                             } while (exists);
-                            System.out.println("Introduzca su usuario");
+                            System.out.println("Introduzca su usuario a registrar");
                             String usuario = scanner.nextLine();
-                            System.out.println("Introduzca la contraseña");
+                            System.out.println("Introduzca la contraseña a registrar");
                             String contrasena = scanner.nextLine();
-                            do {
-                                System.out.println("Indique la parada en la cuál usted está alojado");
-                                String parada_actual = scanner.nextLine();
-                                exists = tparadaService.existsCnombreTparada(parada_actual);
-                                if (!exists) {
-                                    System.out.println("Error parada incorrecta");
-                                    System.out.println("Qué desea realizar?");
-                                    System.out.println(" 1 - Volver atrás \n 2 - Volver a intentar");
-                                    int opcion = Integer.parseInt(scanner.nextLine());
-                                    if (opcion == 1) {
-                                        break outer;
-                                    }
-                                }
-                            } while (exists);
+                            Tperfil tperfil = new Tperfil();
+                            tperfil.setPkidUsuario(usuario);
+                            tperfil.setCpassword(contrasena);
                             //nombre, pais, parada_inicial, usuario, contraseña,
-                            //usar constructor para crear objeto tperfil e introducirlo con los fk nulos
+                            //usar constructor para crear objeto tperfil e introducirlo
                             //usar constructor para crear objeto
                             perfil = TipoSesion.PEREGRINO;
                         }
