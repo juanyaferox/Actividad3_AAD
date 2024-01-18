@@ -21,6 +21,7 @@ public class Main implements CommandLineRunner {
         perfil = TipoSesion.INVITADO;
         bucle:
         while(true){
+            outer:
             switch (perfil){
                 case INVITADO -> {
                     System.out.println("SESIÓN: INVITADO");
@@ -31,20 +32,31 @@ public class Main implements CommandLineRunner {
                             System.out.println("REGISTRARSE");
                             boolean exists=true;
                             do{
-                                System.out.println("Introduzca su nombre (el cuál actuará como usuario)");
+                                System.out.println("Introduzca su nombre");
                                 String nombre = scanner.nextLine();
                                 System.out.println("Introduzca su nacionalidad");
                                 String nacionalidad = scanner.nextLine();
                                 exists = tperegrinoService.verificarTperegrino(nombre, nacionalidad);
                                 if (exists){
-                                    System.out.println("El usuario ya existe en la base de datos, introduzca otro");
+
+                                    System.out.println("El usuario ya existe en la base de datos");
+                                    System.out.println("Qué desea realizar?");
+                                    System.out.println(" 1 - Volver atrás \n 2 - Volver a intentar");
+                                    int opcion = Integer.parseInt(scanner.nextLine());
+                                    if (opcion==1){
+                                        break outer;
+                                    }
                                 }
                             }while(exists);
+                            System.out.println("Introduzca su usuario");
+                            String usuario = scanner.nextLine();
                             System.out.println("Introduzca la contraseña");
                             String contrasena = scanner.nextLine();
                             System.out.println("Indique la parada en la cuál usted está alojado");
                             String parada_actual = scanner.nextLine();
-                            //crear objeto con los datos e introducirlo en la tabla perfil y despues peregrino
+                            //verificar que la parada es correcta y existe
+                            //usar constructor para crear objeto tperfil e introducirlo con los fk nulos
+                            //usar constructor para crear objeto
                             perfil = TipoSesion.PEREGRINO;
                         }
                         case 2 -> {
