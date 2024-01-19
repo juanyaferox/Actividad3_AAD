@@ -16,6 +16,14 @@ public class TperegrinoParadaId implements Serializable {
     @Column(name = "pkfkid_peregrino", nullable = false)
     private Integer pkfkidPeregrino;
 
+    public TperegrinoParadaId() {
+    }
+
+    public TperegrinoParadaId(Integer pkfkidParada, Integer pkfkidPeregrino) {
+        this.pkfkidParada = pkfkidParada;
+        this.pkfkidPeregrino = pkfkidPeregrino;
+    }
+
     public Integer getPkfkidParada() {
         return pkfkidParada;
     }

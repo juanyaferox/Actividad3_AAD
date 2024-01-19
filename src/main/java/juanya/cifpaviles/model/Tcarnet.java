@@ -35,6 +35,12 @@ public class Tcarnet {
         this.distancia = distancia;
     }
 
+    public Tcarnet(Tparada fkidParada, LocalDate fechaexp) {
+        this.fkidParada = fkidParada;
+        this.fechaexp = fechaexp;
+        // Los valores predeterminados se mantendrán para nvips y distancia
+    }
+
     public Integer getId() {
         return id;
     }

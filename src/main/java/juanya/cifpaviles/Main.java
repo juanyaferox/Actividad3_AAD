@@ -22,6 +22,9 @@ public class Main implements CommandLineRunner {
     @Autowired
     public TparadaServiceImpl tparadaService;
 
+    @Autowired
+    public TcarnetServiceImpl tcarnetService;
+
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Bienvenido al programa gestor de base de datos");
@@ -33,7 +36,7 @@ public class Main implements CommandLineRunner {
         while (true) {
             outer:
             switch (perfil) {
-                case INVITADO -> {
+                case INVITADO -> {//aregral el bucle while que se me jodio un poco
                     System.out.println("SESIÓN: INVITADO");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Registrarse \n 2- Iniciar sesión \n 3- Salir");
                     n = Integer.parseInt(scanner.nextLine());
@@ -63,20 +66,19 @@ public class Main implements CommandLineRunner {
                                             System.out.println("La parada no existe");
                                             System.out.println("Qué desea realizar?");
                                             System.out.println(" 1 - Volver atrás \n 2 - Volver a intentar");
-                                            int opcion = Integer.parseInt(scanner.nextLine());
-                                            if (opcion == 1) {
+                                            int opcionP = Integer.parseInt(scanner.nextLine());
+                                            if (opcionP == 1) {
                                                 break outer;
                                             }
                                         }
-                                        Tparada tparada = new Tparada();
-                                        tparada.setCnombre(parada_actual);
-                                        Tcarnet tcarnet = new Tcarnet();
-                                        tcarnet.setFechaexp(LocalDate.now());
-                                        tcarnet.setFkidParada(tparada);
-                                        Tperegrino tperegrino = new Tperegrino();
-                                        tperegrino.setCnombre(nombre);
-                                        tperegrino.setCnombre(nacionalidad);
-                                        tperegrino.setTcarnet(tcarnet);
+                                        //se obtiene el objeto parada con el nombre especificado
+                                        Tparada tparada = tparadaService.objectTparada(parada_actual);
+                                        //se hace la insercion del carnet
+                                        tcarnetService.insertCarnet(tparada);
+                                        //obtengo el ultimo carnet insertado que se encuentra en la cache
+                                        Tcarnet lastcarnet = tcarnetService.selectLastCarnet();
+                                        //insertamos el tperegrino con los datos introducidos y el carnet anterior
+                                        tperegrinoService.insercionTperegrino(lastcarnet, nombre, nacionalidad);
                                     } while (exists);
                                 }
                             } while (exists);
@@ -96,7 +98,7 @@ public class Main implements CommandLineRunner {
 
                         }
                         case 3 -> {
-
+                            break bucle;
                         }
                     }
                 }
