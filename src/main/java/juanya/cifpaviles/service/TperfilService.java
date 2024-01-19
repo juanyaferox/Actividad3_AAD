@@ -1,6 +1,8 @@
 package juanya.cifpaviles.service;
 
 
+import juanya.cifpaviles.model.Tparada;
+import juanya.cifpaviles.model.Tperegrino;
 import juanya.cifpaviles.model.Tperfil;
 import juanya.cifpaviles.repository.TparadaRepository;
 import juanya.cifpaviles.repository.TperfilRepository;
@@ -11,5 +13,5 @@ import java.util.List;
 
 @Service
 public interface TperfilService {
-    Tperfil guardar(Tperfil tperfil);
+    void insercionPerfil(String user, String password, Tperegrino tperegrino, Tparada tparada);
 }

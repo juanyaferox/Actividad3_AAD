@@ -29,6 +29,8 @@ public class TperegrinoServiceImpl implements TperegrinoService{
         this.tperegrinoRepository = tperegrinoRepository;
     }
 
+    private Tperegrino lastPeregrino;
+
     @Override
     public boolean verificarTperegrino(String nombre, String nacionalidad) {
         return tperegrinoRepository.existsByCnombreAndCnacionalidad(nombre, nacionalidad);
@@ -41,5 +43,11 @@ public class TperegrinoServiceImpl implements TperegrinoService{
         }
         Tperegrino tperegrino = new Tperegrino(tcarnet.getId(),tcarnet,nombre,nacionalidad);
         tperegrinoRepository.save(tperegrino);
+        lastPeregrino = tperegrino;
+    }
+
+    @Override
+    public Tperegrino selectLastPeregrino() {
+        return lastPeregrino;
     }
 }
