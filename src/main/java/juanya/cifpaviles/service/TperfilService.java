@@ -14,4 +14,6 @@ import java.util.List;
 @Service
 public interface TperfilService {
     void insercionPerfil(String user, String password, Tperegrino tperegrino, Tparada tparada);
+
+    int verificarDatosTperfil(String usuario, String password);
 }

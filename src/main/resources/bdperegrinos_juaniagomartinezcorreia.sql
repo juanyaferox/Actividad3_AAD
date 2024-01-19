@@ -79,3 +79,7 @@ INSERT INTO `testancia` (`pkid`, `fkid_parada`, `fkid_peregrino`, `fecha`, `vip`
 (4, 4, 1, '2023-11-04', 0),
 (5, 5, 1, '2023-11-05', 0);
 
+INSERT INTO `tperfil` (`pkid_usuario`,`cpassword`,`fkid_peregrino`,`fkid_parada`) VALUES
+("juan","123",1,null),
+("adminp1","123",null,1);
+

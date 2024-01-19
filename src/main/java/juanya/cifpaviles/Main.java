@@ -120,11 +120,22 @@ public class Main implements CommandLineRunner {
                                 System.out.println("Bienvenido Administrador General");
                                 perfil = TipoSesion.ADMIN_G;
                             } else {
-                                //hacer metodo es peregrino verificar que columna fkidparada es null
-                                //hacer metodo es adminP verificar que columna fkidperegrino es null
+                                int exists = tperfilService.verificarDatosTperfil(usuario,contrasenia);
+
+                                if (exists == 1){
+                                    perfil = TipoSesion.ADMIN_P;//es adminparada
+                                }else if (exists ==2){
+                                    perfil = TipoSesion.PEREGRINO;
+                                }else{
+                                    System.out.println("ERROR, NO EXISTE EL PERFIL EN LA BASE DE DATOS");
+                                }
                             }
                         }
-                        case 3, default -> {
+                        case 3 -> {
+                            break bucle;
+                        }
+                        default -> {
+                            System.out.println("No se trata de ninguna opción, se realizara el cierre del programa");
                             break bucle;
                         }
                     }

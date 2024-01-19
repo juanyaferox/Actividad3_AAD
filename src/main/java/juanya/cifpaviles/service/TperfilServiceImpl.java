@@ -18,4 +18,13 @@ public class TperfilServiceImpl implements TperfilService {
         Tperfil tperfil = new Tperfil(user, password, tperegrino, tparada);
         tperfilRepository.save(tperfil);
     }
+
+    @Override
+    public int verificarDatosTperfil(String usuario, String password) {
+        Tperfil tperfil = tperfilRepository.findById(usuario).orElse(null);
+        if (tperfil == null) {
+            return -1;
+        }
+        return (tperfil.getFkidPeregrino() == null) ? 1 : (tperfil.getFkidParada() == null) ? 2 : -1;
+    }
 }
