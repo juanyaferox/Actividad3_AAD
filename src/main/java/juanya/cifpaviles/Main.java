@@ -142,6 +142,21 @@ public class Main implements CommandLineRunner {
                     switch(n){
                         case 1 -> {
                             System.out.println("CREACIÓN DE PARADA");
+
+                                System.out.println("Introduza el nombre de la parada");
+                                String nombre = scanner.nextLine();
+                                boolean parada = true;
+                                do{
+                                System.out.println("Introduza la región (una letra) de la parada");
+                                String region = scanner.nextLine();
+                                        if (region.length()>1) {
+                                            System.out.println("La longitud es mayor a la permitida, vuelva a " +
+                                                    "introducirlo");}
+                                            else {
+                                            System.out.println("ok");
+                                        }
+                                        } while (parada);
+
                         }
                         case 2-> perfil =TipoSesion.INVITADO;
                     }
