@@ -3,12 +3,10 @@ package juanya.cifpaviles;
 import juanya.cifpaviles.model.Tcarnet;
 import juanya.cifpaviles.model.Tparada;
 import juanya.cifpaviles.model.Tperegrino;
-import juanya.cifpaviles.TipoSesion;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main implements CommandLineRunner {
@@ -28,16 +26,15 @@ public class Main implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Bienvenido al programa gestor de base de datos");
-        TipoSesion perfil = null;//inicializacion variable sesion
         int n; //variable para menu
 
         Scanner scanner = new Scanner(System.in);
-        perfil = TipoSesion.INVITADO;
+        TipoSesion perfil = TipoSesion.INVITADO;//inicializacion de variable
         bucle:
         while (true) {
             outer:
             switch (perfil) {
-                case INVITADO -> {//aregral el bucle while que se me jodió un poco
+                case INVITADO -> {
                     System.out.println("SESIÓN: INVITADO");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Registrarse \n 2- Iniciar sesión \n 3- Salir");
                     n = Integer.parseInt(scanner.nextLine());
@@ -59,9 +56,8 @@ public class Main implements CommandLineRunner {
                                     int opcion = Integer.parseInt(scanner.nextLine());
                                     if (opcion == 1) {
                                         break outer;
-                                    } else if (opcion == 2) {
-                                        continue;
-                                    } else {
+                                    } else if (opcion == 2) continue;
+                                    else {
                                         System.out.println("No se trata de ninguna opción, se realizara el cierre" +
                                                 " del programa");
                                         break bucle;
@@ -135,23 +131,55 @@ public class Main implements CommandLineRunner {
                             break bucle;
                         }
                         default -> {
-                            System.out.println("No se trata de ninguna opción, se realizara el cierre del programa");
-                            break bucle;
+                            System.out.println("No se trata de ninguna opción");
                         }
                     }
                 }
                 case ADMIN_G -> {
                     System.out.println("SESIÓN: ADMINISTRADOR GENERAL");
-                    break bucle;
+                    System.out.println("¿QUE DESEA REALIZAR? \n 1- Crear parada \n 2- Logout");
+                    n = Integer.parseInt(scanner.nextLine());
+                    switch(n){
+                        case 1 -> {
+                            System.out.println("CREACIÓN DE PARADA");
+                        }
+                        case 2-> perfil =TipoSesion.INVITADO;
+                    }
+
                 }
                 case PEREGRINO -> {
                     System.out.println("SESIÓN: PEREGRINO");
-                    break bucle;
+                    System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar carnet \n 2- Logout");
+                    n = Integer.parseInt(scanner.nextLine());
+                    switch (n){
+                        case 1 -> {
+                            System.out.println();
+                            System.out.println("EXPORTAR CARNET");
+                        }
+                        case 2 -> {
+                            System.out.println("LOGOUT");
+                                perfil = TipoSesion.INVITADO;
+                        }
+                    }
 
                 }
                 case ADMIN_P -> {
                     System.out.println("SESIÓN: ADMINISTRADOR DE PARADA");
-                    break bucle;
+                    System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar datos parada" +
+                            "\n 2- Sellar/Alojar \n 3- Logout");
+                    n = Integer.parseInt(scanner.nextLine());
+                    switch (n){
+                        case 1 ->{
+                            System.out.println("EXPORTAR DATOS DE LA PARADADA");
+                        }
+                        case 2 ->{
+                            System.out.println("SELLAR | ALOJAR");
+                        }
+                        case 3 -> {
+                            System.out.println("Cerrando sesión...");
+                            perfil =TipoSesion.INVITADO;
+                        }
+                    }
                 }
             }
         }
