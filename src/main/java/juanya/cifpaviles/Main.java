@@ -157,7 +157,7 @@ public class Main implements CommandLineRunner {
                                     } else {
                                         char regionC = regionS.charAt(0);
                                         verificar = tparadaService.existsTparada(nombre, regionC);
-                                        if (verificar) {
+                                        if (!verificar) {
                                             System.out.println("No se encontraron coindencias en la base de datos");
                                             tparadaService.insercionParada(nombre, regionC);
                                             System.out.println("Se ha creado la parada con éxito");
@@ -165,13 +165,12 @@ public class Main implements CommandLineRunner {
                                         } else {
                                             System.out.println("Se ha encontrado una coincidencia en la base de datos");
                                             System.out.println("¿Qué desea hacer?\n" +
-                                                    " 1- Volver a intentar\n 2-Volver al menú");
+                                                    " 1 - Volver a intentar\n 2 - Volver al menú");
                                             int opcion = Integer.parseInt(scanner.nextLine());
                                             if (opcion == 1) {
-                                                verificar = true;
-                                                //volver a intentar es decir acabar con el bucle verificar
+                                                //volver a intentar es decir continuar con el bucle
+                                                continue;
                                             } else if (opcion == 2) {
-                                                verificar = true;
                                                 crearParada = false;
                                                 //volver al menu es decir acabar con el bucle verificar y crearParada
                                             } else {
