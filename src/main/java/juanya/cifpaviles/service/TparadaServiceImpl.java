@@ -24,4 +24,15 @@ public class TparadaServiceImpl implements TparadaService{
     public Tparada objectTparada(String nombre) {
         return tparadaRepository.findByCnombre(nombre);
     }
+
+    @Override
+    public boolean existsTparada(String nombre, Character region) {
+        return tparadaRepository.existsByCnombreAndAndCregion(nombre, region);
+    }
+
+    @Override
+    public void insercionParada(String nombre, Character region) {
+        Tparada tparada = new Tparada(nombre, region);
+        tparadaRepository.save(tparada);
+    }
 }

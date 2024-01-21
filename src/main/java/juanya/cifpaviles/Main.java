@@ -41,6 +41,7 @@ public class Main implements CommandLineRunner {
                     switch (n) {
                         case 1 -> {
                             System.out.println("REGISTRARSE");
+                            //arreglar puesto que no permite especificar la region de la parada
                             String nombre, nacionalidad;
                             boolean exists;
                             do {
@@ -116,13 +117,13 @@ public class Main implements CommandLineRunner {
                                 System.out.println("Bienvenido Administrador General");
                                 perfil = TipoSesion.ADMIN_G;
                             } else {
-                                int exists = tperfilService.verificarDatosTperfil(usuario,contrasenia);
+                                int exists = tperfilService.verificarDatosTperfil(usuario, contrasenia);
 
-                                if (exists == 1){
+                                if (exists == 1) {
                                     perfil = TipoSesion.ADMIN_P;//es adminparada
-                                }else if (exists ==2){
+                                } else if (exists == 2) {
                                     perfil = TipoSesion.PEREGRINO;
-                                }else{
+                                } else {
                                     System.out.println("ERROR, NO EXISTE EL PERFIL EN LA BASE DE DATOS");
                                 }
                             }
@@ -139,26 +140,51 @@ public class Main implements CommandLineRunner {
                     System.out.println("SESIÓN: ADMINISTRADOR GENERAL");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Crear parada \n 2- Logout");
                     n = Integer.parseInt(scanner.nextLine());
-                    switch(n){
+                    switch (n) {
                         case 1 -> {
                             System.out.println("CREACIÓN DE PARADA");
-
+                            boolean crearParada = true;
+                            do {
                                 System.out.println("Introduza el nombre de la parada");
                                 String nombre = scanner.nextLine();
-                                boolean parada = true;
-                                do{
-                                System.out.println("Introduza la región (una letra) de la parada");
-                                String region = scanner.nextLine();
-                                        if (region.length()>1) {
-                                            System.out.println("La longitud es mayor a la permitida, vuelva a " +
-                                                    "introducirlo");}
-                                            else {
-                                            System.out.println("ok");
+                                boolean verificar = false;
+                                do {
+                                    System.out.println("Introduza la región (una letra) de la parada");
+                                    String regionS = scanner.nextLine();
+                                    if (regionS.length() > 1) {
+                                        System.out.println("La longitud es mayor a la permitida, vuelva a " +
+                                                "introducirlo");
+                                    } else {
+                                        char regionC = regionS.charAt(0);
+                                        verificar = tparadaService.existsTparada(nombre, regionC);
+                                        if (verificar) {
+                                            System.out.println("No se encontraron coindencias en la base de datos");
+                                            tparadaService.insercionParada(nombre, regionC);
+                                            System.out.println("Se ha creado la parada con éxito");
+                                            crearParada = false;
+                                        } else {
+                                            System.out.println("Se ha encontrado una coincidencia en la base de datos");
+                                            System.out.println("¿Qué desea hacer?\n" +
+                                                    " 1- Volver a intentar\n 2-Volver al menú");
+                                            int opcion = Integer.parseInt(scanner.nextLine());
+                                            if (opcion == 1) {
+                                                verificar = true;
+                                                //volver a intentar es decir acabar con el bucle verificar
+                                            } else if (opcion == 2) {
+                                                verificar = true;
+                                                crearParada = false;
+                                                //volver al menu es decir acabar con el bucle verificar y crearParada
+                                            } else {
+                                                System.out.println("No se ha introducido ninguan de las opciones, " +
+                                                        "se va a realizar el cierre del programa");
+                                                break bucle;
+                                            }
                                         }
-                                        } while (parada);
-
+                                    }
+                                } while (!verificar);
+                            } while (crearParada);
                         }
-                        case 2-> perfil =TipoSesion.INVITADO;
+                        case 2 -> perfil = TipoSesion.INVITADO;
                     }
 
                 }
@@ -166,14 +192,15 @@ public class Main implements CommandLineRunner {
                     System.out.println("SESIÓN: PEREGRINO");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar carnet \n 2- Logout");
                     n = Integer.parseInt(scanner.nextLine());
-                    switch (n){
+                    switch (n) {
                         case 1 -> {
                             System.out.println();
                             System.out.println("EXPORTAR CARNET");
+                            //hacer un faking xml se deja para despues
                         }
                         case 2 -> {
                             System.out.println("LOGOUT");
-                                perfil = TipoSesion.INVITADO;
+                            perfil = TipoSesion.INVITADO;
                         }
                     }
 
@@ -183,16 +210,16 @@ public class Main implements CommandLineRunner {
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar datos parada" +
                             "\n 2- Sellar/Alojar \n 3- Logout");
                     n = Integer.parseInt(scanner.nextLine());
-                    switch (n){
-                        case 1 ->{
+                    switch (n) {
+                        case 1 -> {
                             System.out.println("EXPORTAR DATOS DE LA PARADADA");
                         }
-                        case 2 ->{
+                        case 2 -> {
                             System.out.println("SELLAR | ALOJAR");
                         }
                         case 3 -> {
                             System.out.println("Cerrando sesión...");
-                            perfil =TipoSesion.INVITADO;
+                            perfil = TipoSesion.INVITADO;
                         }
                     }
                 }

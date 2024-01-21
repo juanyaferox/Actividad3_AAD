@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface TparadaRepository extends JpaRepository<Tparada, Integer> {
     boolean existsByCnombre(String nombre);
     Tparada findByCnombre(String nombre);
+
+    boolean existsByCnombreAndAndCregion(String nombre, char region);
 }
