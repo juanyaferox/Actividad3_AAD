@@ -9,12 +9,12 @@ public class TperegrinoParada {
     private TperegrinoParadaId id;
 
     @MapsId("pkfkidParada")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "pkfkid_parada", nullable = false)
     private Tparada pkfkidParada;
 
     @MapsId("pkfkidPeregrino")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "pkfkid_peregrino", nullable = false)
     private Tperegrino pkfkidPeregrino;
 

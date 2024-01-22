@@ -1,5 +1,6 @@
 package juanya.cifpaviles.service;
 
+import jakarta.transaction.Transactional;
 import juanya.cifpaviles.model.Tcarnet;
 import juanya.cifpaviles.model.Tperegrino;
 import juanya.cifpaviles.repository.TcarnetRepository;
@@ -37,11 +38,9 @@ public class TperegrinoServiceImpl implements TperegrinoService{
     }
 
     @Override
+    @Transactional
     public void insercionTperegrino(Tcarnet tcarnet, String nombre, String nacionalidad) {
-        if (tcarnet.getId() == null) {
-            tcarnetRepository.save(tcarnet);
-        }
-        Tperegrino tperegrino = new Tperegrino(tcarnet.getId(),tcarnet,nombre,nacionalidad);
+        Tperegrino tperegrino = new Tperegrino(tcarnet,nombre,nacionalidad);
         tperegrinoRepository.save(tperegrino);
         lastPeregrino = tperegrino;
     }

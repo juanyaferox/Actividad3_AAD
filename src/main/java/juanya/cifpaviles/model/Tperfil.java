@@ -12,11 +12,11 @@ public class Tperfil {
     @Column(name = "cpassword", nullable = false)
     private String cpassword;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fkid_peregrino")
     private Tperegrino fkidPeregrino;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fkid_parada")
     private Tparada fkidParada;
 

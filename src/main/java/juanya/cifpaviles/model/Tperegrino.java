@@ -10,7 +10,7 @@ public class Tperegrino {
     private Integer id;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "pkfkid", nullable = false)
     private Tcarnet tcarnet;
 
@@ -23,8 +23,7 @@ public class Tperegrino {
     public Tperegrino() {
     }
 
-    public Tperegrino(Integer id, Tcarnet tcarnet, String cnombre, String cnacionalidad) {
-        this.id = id;
+    public Tperegrino(Tcarnet tcarnet, String cnombre, String cnacionalidad) {
         this.tcarnet = tcarnet;
         this.cnombre = cnombre;
         this.cnacionalidad = cnacionalidad;

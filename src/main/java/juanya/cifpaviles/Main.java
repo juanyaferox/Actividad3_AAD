@@ -3,11 +3,15 @@ package juanya.cifpaviles;
 import juanya.cifpaviles.model.Tcarnet;
 import juanya.cifpaviles.model.Tparada;
 import juanya.cifpaviles.model.Tperegrino;
+import juanya.cifpaviles.model.Tperfil;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
+import java.time.LocalDate;
 import java.util.Scanner;
+
+import static juanya.cifpaviles.Metodos.obtenerFechaValida;
 
 public class Main implements CommandLineRunner {
 
@@ -27,7 +31,7 @@ public class Main implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("Bienvenido al programa gestor de base de datos");
         int n; //variable para menu
-
+        String usuario = null;//inicialización variable del nombre de sesión
         Scanner scanner = new Scanner(System.in);
         TipoSesion perfil = TipoSesion.INVITADO;//inicializacion de variable
         bucle:
@@ -42,6 +46,7 @@ public class Main implements CommandLineRunner {
                         case 1 -> {
                             System.out.println("REGISTRARSE");
                             //arreglar puesto que no permite especificar la region de la parada
+                            //no me funciona el registro me voy suicidar
                             String nombre, nacionalidad;
                             boolean exists;
                             do {
@@ -97,7 +102,7 @@ public class Main implements CommandLineRunner {
                                     tperegrinoService.insercionTperegrino(lastcarnet, nombre, nacionalidad);
 
                                     System.out.println("Introduzca su usuario a registrar");
-                                    String usuario = scanner.nextLine();
+                                    usuario = scanner.nextLine();
                                     System.out.println("Introduzca la contraseña a registrar");
                                     String contrasena = scanner.nextLine();
 
@@ -110,7 +115,7 @@ public class Main implements CommandLineRunner {
                         case 2 -> {
                             System.out.println("INICIAR SESIÓN");
                             System.out.println("Introduzca su usuario");
-                            String usuario = scanner.nextLine();
+                            usuario = scanner.nextLine();
                             System.out.println("Introduzca su contrasenia");
                             String contrasenia = scanner.nextLine();
                             if (usuario.equals("admin") && contrasenia.equals("admin")) {
@@ -185,7 +190,6 @@ public class Main implements CommandLineRunner {
                         }
                         case 2 -> perfil = TipoSesion.INVITADO;
                     }
-
                 }
                 case PEREGRINO -> {
                     System.out.println("SESIÓN: PEREGRINO");
@@ -202,19 +206,47 @@ public class Main implements CommandLineRunner {
                             perfil = TipoSesion.INVITADO;
                         }
                     }
-
                 }
                 case ADMIN_P -> {
-                    System.out.println("SESIÓN: ADMINISTRADOR DE PARADA");
+
+                    //obtener nombre de sesión la cual está en caché
+                    //obtener el objeto perfil
+                    Tperfil tperfil = tperfilService.findUser(usuario);
+                    //buscar en la tabla perfil el nombre y verificar el id de columna parada
+                    Tparada tparada = tparadaService.getParada(tperfil);
+                    //buscar la fila con el id correspondiente y rescatar nombre y region
+                    String nombreParada = tparada.getCnombre();
+                    Character regionParada = tparada.getCregion();
+                    System.out.println("SESIÓN: ADMINISTRADOR DE PARADA \"" + nombreParada +
+                            "\" REGIÓN \"" + regionParada+"\"");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar datos parada" +
                             "\n 2- Sellar/Alojar \n 3- Logout");
                     n = Integer.parseInt(scanner.nextLine());
                     switch (n) {
                         case 1 -> {
                             System.out.println("EXPORTAR DATOS DE LA PARADADA");
+                            //introducir el rango de fechas del que desea realizar la exportación
+                            System.out.println("Introduzca el rango de fechas del cuál desea realizar la exportación");
+                            //introducir fecha de inicio
+                            System.out.println("Primero la fecha inicial");
+                            LocalDate fechaInicial = obtenerFechaValida(scanner);
+                            //introducir fecha de fin
+                            System.out.println("Ahora la fecha final");
+                            LocalDate fechaFinal = obtenerFechaValida(scanner);
+                            //validar
+                            if (fechaFinal.isBefore(fechaInicial)) {
+                                System.out.println("La fecha inicial es anterior a la fecha final.");
+                                //poner algo yo que sé
+                            } else {
+                                //mostrar parada y rango de fechas antes de confirmar
+                                System.out.println("¿Está seguro que desea exportar los datos de la parada " +
+                                        nombreParada+", región "+regionParada+"?");
+                                //mostrar la exportacion
+                            }
                         }
                         case 2 -> {
                             System.out.println("SELLAR | ALOJAR");
+
                         }
                         case 3 -> {
                             System.out.println("Cerrando sesión...");

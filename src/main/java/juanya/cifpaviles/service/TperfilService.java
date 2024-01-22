@@ -16,4 +16,6 @@ public interface TperfilService {
     void insercionPerfil(String user, String password, Tperegrino tperegrino, Tparada tparada);
 
     int verificarDatosTperfil(String usuario, String password);
+
+    Tperfil findUser(String usuario);
 }

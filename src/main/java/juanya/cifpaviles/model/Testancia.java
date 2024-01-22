@@ -12,7 +12,7 @@ public class Testancia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "fkid_parada", nullable = false)
     private Tparada fkidParada;
 

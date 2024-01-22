@@ -12,7 +12,7 @@ public class Tcarnet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "fkid_parada", nullable = false)
     private Tparada fkidParada;
 
@@ -36,9 +36,7 @@ public class Tcarnet {
     }
 
     public Tcarnet(Tparada fkidParada, LocalDate fechaexp) {
-        this.fkidParada = fkidParada;
-        this.fechaexp = fechaexp;
-        // Los valores predeterminados se mantendrán para nvips y distancia
+        this(fkidParada, fechaexp, 0, 0.0);
     }
 
     public Integer getId() {

@@ -1,6 +1,7 @@
 package juanya.cifpaviles.service;
 
 import juanya.cifpaviles.model.Tparada;
+import juanya.cifpaviles.model.Tperfil;
 import juanya.cifpaviles.repository.TparadaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,10 @@ public class TparadaServiceImpl implements TparadaService{
     public void insercionParada(String nombre, Character region) {
         Tparada tparada = new Tparada(nombre, region);
         tparadaRepository.save(tparada);
+    }
+
+    @Override
+    public Tparada getParada(Tperfil tperfil) {
+        return tperfil.getFkidParada();
     }
 }

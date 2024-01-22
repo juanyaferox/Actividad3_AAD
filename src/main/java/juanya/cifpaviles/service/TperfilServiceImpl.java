@@ -27,4 +27,10 @@ public class TperfilServiceImpl implements TperfilService {
         }
         return (tperfil.getFkidPeregrino() == null) ? 1 : (tperfil.getFkidParada() == null) ? 2 : -1;
     }
+
+    @Override
+    public Tperfil findUser(String usuario) {
+        Tperfil tperfil = tperfilRepository.findByPkidUsuario(usuario);
+        return tperfil;
+    }
 }
