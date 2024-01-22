@@ -267,7 +267,16 @@ public class Main implements CommandLineRunner {
                         }
                         case 2 -> {
                             System.out.println("SELLAR | ALOJAR");
-
+                            System.out.println("Introduzca el nombre y nacionalidad del peregrino a alojar");
+                            //preguntar si los datos son correctos
+                            //verificar
+                            //obtener objeto peregrino
+                            //sellar
+                            System.out.println("Desea realizar realizar una estancia?");
+                            System.out.println("Digite 1 si así lo desea o cualquier otro si no");
+                            System.out.println("Se trata de una instancia vip o no?");
+                            //si lo es, añadir true a la estancia y +1 al nvips de peregrino
+                            //si no lo es, no añadir nada, solo la estancia
                         }
                         case 3 -> {
                             System.out.println("Cerrando sesión...");
