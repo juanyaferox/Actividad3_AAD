@@ -9,7 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface TestanciaService{
+    List<Object[]> encontrarEstanciaPorFechas(LocalDate fechaInicio, LocalDate fechafinal, int idparada);
 }

@@ -23,6 +23,13 @@ public class Tperegrino {
     public Tperegrino() {
     }
 
+    public Tperegrino(Integer id, Tcarnet tcarnet, String cnombre, String cnacionalidad) {
+        this.id = id;
+        this.tcarnet = tcarnet;
+        this.cnombre = cnombre;
+        this.cnacionalidad = cnacionalidad;
+    }
+
     public Tperegrino(Tcarnet tcarnet, String cnombre, String cnacionalidad) {
         this.tcarnet = tcarnet;
         this.cnombre = cnombre;

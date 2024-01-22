@@ -16,6 +16,7 @@ public class Tcarnet {
     @JoinColumn(name = "fkid_parada", nullable = false)
     private Tparada fkidParada;
 
+
     @Column(name = "fechaexp", nullable = false)
     private LocalDate fechaexp;
 

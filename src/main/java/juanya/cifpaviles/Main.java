@@ -1,14 +1,12 @@
 package juanya.cifpaviles;
 
-import juanya.cifpaviles.model.Tcarnet;
-import juanya.cifpaviles.model.Tparada;
-import juanya.cifpaviles.model.Tperegrino;
-import juanya.cifpaviles.model.Tperfil;
+import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 import static juanya.cifpaviles.Metodos.obtenerFechaValida;
@@ -26,6 +24,9 @@ public class Main implements CommandLineRunner {
 
     @Autowired
     public TcarnetServiceImpl tcarnetService;
+
+    @Autowired
+    public TestanciaServiceImpl testanciaService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -45,8 +46,8 @@ public class Main implements CommandLineRunner {
                     switch (n) {
                         case 1 -> {
                             System.out.println("REGISTRARSE");
-                            //arreglar puesto que no permite especificar la region de la parada
-                            //no me funciona el registro me voy suicidar
+                            //no funciona correctamente el metodo de registro, da error en el save
+                            //no consigo solucionar el error :)))))
                             String nombre, nacionalidad;
                             boolean exists;
                             do {
@@ -73,7 +74,10 @@ public class Main implements CommandLineRunner {
                             do {
                                 System.out.println("Indique la parada en la cuál usted está alojado");
                                 String parada_actual = scanner.nextLine();
-                                exists = tparadaService.existsCnombreTparada(parada_actual);
+                                System.out.println("Indique la región (1 letra) de la parada");
+                                String regionS = scanner.nextLine();
+                                Character regionC = regionS.charAt(0);
+                                exists = tparadaService.existsTparada(parada_actual,regionC);
                                 if (!exists) {
                                     System.out.println("La parada no existe");
                                     System.out.println("¿Qué desea realizar?");
@@ -179,7 +183,7 @@ public class Main implements CommandLineRunner {
                                                 crearParada = false;
                                                 //volver al menu es decir acabar con el bucle verificar y crearParada
                                             } else {
-                                                System.out.println("No se ha introducido ninguan de las opciones, " +
+                                                System.out.println("No se ha introducido ninguna de las opciones, " +
                                                         "se va a realizar el cierre del programa");
                                                 break bucle;
                                             }
@@ -240,8 +244,25 @@ public class Main implements CommandLineRunner {
                             } else {
                                 //mostrar parada y rango de fechas antes de confirmar
                                 System.out.println("¿Está seguro que desea exportar los datos de la parada " +
-                                        nombreParada+", región "+regionParada+"?");
-                                //mostrar la exportacion
+                                        nombreParada+", región "+regionParada+"entre las fechas "+fechaInicial+
+                                        "y "+fechaFinal+" ?");
+                                System.out.println(" 1 - Confirmar\n cualquier otro - Volver atrás");
+                                String opcion = scanner.nextLine();
+                                if (opcion.equals("1")){
+                                    List<Object[]> estancias = testanciaService.encontrarEstanciaPorFechas
+                                            (fechaInicial, fechaFinal, tparada.getId());
+                                    for (Object[] posicion:estancias){
+                                        //mostrar la exportacion
+                                        Testancia testancia = (Testancia) posicion[0];
+                                        String cnombre = (String) posicion[1];
+                                        System.out.println("Id de la estancia: "+testancia.getId()+
+                                                " Fecha: "+testancia.getFecha()+" del peregrino "+
+                                                cnombre);
+                                        System.out.println("---------------");
+                                    }
+                                } else {
+                                    //no hacer nada
+                                }
                             }
                         }
                         case 2 -> {
