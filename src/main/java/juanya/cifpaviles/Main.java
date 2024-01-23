@@ -5,6 +5,7 @@ import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -48,6 +49,7 @@ public class Main implements CommandLineRunner {
                             System.out.println("REGISTRARSE");
                             //no funciona correctamente el metodo de registro, da error en el save
                             //no consigo solucionar el error :)))))
+                            //solucioné el error odio eterno al cascade
                             String nombre, nacionalidad;
                             boolean exists;
                             do {
@@ -77,7 +79,7 @@ public class Main implements CommandLineRunner {
                                 System.out.println("Indique la región (1 letra) de la parada");
                                 String regionS = scanner.nextLine();
                                 Character regionC = regionS.charAt(0);
-                                exists = tparadaService.existsTparada(parada_actual,regionC);
+                                exists = tparadaService.existsTparada(parada_actual, regionC);
                                 if (!exists) {
                                     System.out.println("La parada no existe");
                                     System.out.println("¿Qué desea realizar?");
@@ -223,7 +225,7 @@ public class Main implements CommandLineRunner {
                     String nombreParada = tparada.getCnombre();
                     Character regionParada = tparada.getCregion();
                     System.out.println("SESIÓN: ADMINISTRADOR DE PARADA \"" + nombreParada +
-                            "\" REGIÓN \"" + regionParada+"\"");
+                            "\" REGIÓN \"" + regionParada + "\"");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar datos parada" +
                             "\n 2- Sellar/Alojar \n 3- Logout");
                     n = Integer.parseInt(scanner.nextLine());
@@ -245,20 +247,20 @@ public class Main implements CommandLineRunner {
                             } else {
                                 //mostrar parada y rango de fechas antes de confirmar
                                 System.out.println("¿Está seguro que desea exportar los datos de la parada \"" +
-                                        nombreParada+"\", región \""+regionParada+"\" entre el "+fechaInicial+
-                                        " y el "+fechaFinal+" ?");
+                                        nombreParada + "\", región \"" + regionParada + "\" entre el " + fechaInicial +
+                                        " y el " + fechaFinal + " ?");
                                 System.out.println(" 1 - Confirmar\n otro - Volver atrás");
                                 String opcion = scanner.nextLine();
-                                if (opcion.equals("1")){
+                                if (opcion.equals("1")) {
                                     List<Object[]> estancias = testanciaService.encontrarEstanciaPorFechas
                                             (fechaInicial, fechaFinal, tparada);
                                     if (!estancias.isEmpty()) {//lo que funciona no se toca
                                         for (Object[] posicion : estancias) {
                                             //posible mejor: obtener el nombre del peregrino de la instancia
-                                                Testancia testancia = (Testancia) posicion[0];
-                                                System.out.println("Id de la estancia: " + testancia.getId() +
-                                                        " Fecha: " + testancia.getFecha());
-                                                System.out.println("---------------");
+                                            Testancia testancia = (Testancia) posicion[0];
+                                            System.out.println("Id de la estancia: " + testancia.getId() +
+                                                    " Fecha: " + testancia.getFecha());
+                                            System.out.println("---------------");
                                         }
                                     } else System.out.println("No se encontró nada");
                                 }
@@ -267,15 +269,53 @@ public class Main implements CommandLineRunner {
                         case 2 -> {
                             System.out.println("SELLAR | ALOJAR");
                             System.out.println("Introduzca el nombre y nacionalidad del peregrino a alojar");
-                            //preguntar si los datos son correctos
-                            //verificar
-                            //obtener objeto peregrino
-                            //sellar
-                            System.out.println("Desea realizar realizar una estancia?");
-                            System.out.println("Digite 1 si así lo desea o cualquier otro si no");
-                            System.out.println("Se trata de una instancia vip o no?");
-                            //si lo es, añadir true a la estancia y +1 al nvips de peregrino
-                            //si no lo es, no añadir nada, solo la estancia
+                            System.out.println("Nombre:");
+                            String nombre = scanner.nextLine();
+                            System.out.println("Nacionalidad:");
+                            String nacionalidad = scanner.nextLine();
+                            System.out.println("Nombre: " + nombre + ", nacionalidad: " + nacionalidad + ".¿Son estos datos correctos?");
+                            System.out.println(" 1 - Son correctos\n 2&- Volver atrás"); //preguntar si los datos son correctos
+                            try {
+                                int opcion = Integer.parseInt(scanner.nextLine());
+                                if (opcion == 1) {
+                                    boolean verificar = tperegrinoService.verificarTperegrino(nombre, nacionalidad);
+                                    if (verificar) {
+                                        System.out.println("Se va realizar el sellado");
+                                        //metodo para hacer la insercion en la tabla tperegrino_parada
+                                        System.out.println("Desea realizar realizar una estancia?");
+                                        System.out.println(" 1 - Realizar estancia \n 2& - No realizar estancia");
+                                        try {
+                                            int opcionEstancia = Integer.parseInt(scanner.nextLine());
+                                            if (opcionEstancia == 1) {
+                                                System.out.println("Es vip o no?");
+                                                System.out.println(" 1 - Sí, es vip \n 2& - No, no es vip");
+                                                try {
+                                                    int opcionVIP = Integer.parseInt(scanner.nextLine());
+                                                    if (opcionVIP == 1){
+                                                        //metodo para insertar en estancia con vip true(1)
+                                                        //metodo para añadir +1 al vip de tcarnet del peregrino
+                                                    } else {
+                                                        //metodo para inserta en estancia con vip false(0)
+                                                    }
+                                                } catch (NumberFormatException e) {
+                                                    System.out.println("No se trata de un número, " + e.getMessage());
+                                                }
+
+                                            } else {
+                                                //no hacer nada
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            System.out.println("No se trata de un número, " + e.getMessage());
+                                        }
+                                    } else {
+                                        System.out.println("No existe este peregrino en la base de datos");
+                                    }
+                                } else {
+                                    //no hacer nada
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("No se trata de un número, " + e.getMessage());
+                            }
                         }
                         case 3 -> {
                             System.out.println("Cerrando sesión...");
