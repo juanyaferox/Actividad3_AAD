@@ -2,9 +2,11 @@ package juanya.cifpaviles.service;
 
 
 import juanya.cifpaviles.model.Testancia;
+import juanya.cifpaviles.model.Tparada;
 import juanya.cifpaviles.repository.TestanciaRepository;
 import juanya.cifpaviles.repository.TparadaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +16,5 @@ import java.util.Date;
 import java.util.List;
 
 public interface TestanciaService{
-    List<Object[]> encontrarEstanciaPorFechas(LocalDate fechaInicio, LocalDate fechafinal, int idparada);
+    List<Object[]> encontrarEstanciaPorFechas(LocalDate fecha1, LocalDate fecha2, Tparada tparada);
 }

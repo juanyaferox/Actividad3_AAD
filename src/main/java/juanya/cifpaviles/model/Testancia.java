@@ -16,7 +16,7 @@ public class Testancia {
     @JoinColumn(name = "fkid_parada", nullable = false)
     private Tparada fkidParada;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "fkid_peregrino", nullable = false)
     private Tperegrino fkidPeregrino;
 

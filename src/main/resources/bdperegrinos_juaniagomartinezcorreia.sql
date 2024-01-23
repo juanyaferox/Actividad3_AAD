@@ -73,11 +73,19 @@
     (5, 'Zelda', 'Emiratos Árabes Unidos');
 
     INSERT INTO `testancia` (`pkid`, `fkid_parada`, `fkid_peregrino`, `fecha`, `vip`) VALUES
-    (1, 1, 1, '2023-06-01', 0),
+    (1, 1, 1, '2023-06-01', 0),/*peregrino1 hace 5 estancias*/
     (2, 2, 1, '2023-06-02', 0),
     (3, 3, 1, '2023-11-03', 0),
     (4, 4, 1, '2023-11-04', 0),
-    (5, 5, 1, '2023-11-05', 0);
+    (5, 5, 1, '2023-11-05', 0),
+    (6,1,2,'2023-01-01',0),/*peregrino2 hace 2 estancias*/
+    (7,2,2,'2023-02-02',0);
+
+    INSERT INTO `tperegrino_parada`(pkfkid_parada, pkfkid_peregrino) VALUES
+    (1,1),(2,1),(3,1),(4,1),(5,1),/*peregrino1 pasa por todas las paradas y se estancia en todas*/
+    (1,2),(2,2),(3,2),(4,2),(5,2),/*peregrino 2 pasa por todas las paradas solo estancia en 2*/
+    (1,3),(2,3),/*peregrino 3 pasa por 2 paradas*/
+    (3,4),(4,5);/*peregrino 4 y 5 solo tiene la parada inicial*/
 
     INSERT INTO `tperfil` (`pkid_usuario`,`cpassword`,`fkid_peregrino`,`fkid_parada`) VALUES
     ("juan","123",1,null),

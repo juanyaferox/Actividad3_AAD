@@ -104,7 +104,8 @@ public class Main implements CommandLineRunner {
 
                                     // Insertamos el tperegrino con los datos introducidos y el carnet anterior
                                     tperegrinoService.insercionTperegrino(lastcarnet, nombre, nacionalidad);
-
+                                    //me falta insertar los datos en la tabla tperegrino_parada para mostrar
+                                    //el "paso" por la parada******************
                                     System.out.println("Introduzca su usuario a registrar");
                                     usuario = scanner.nextLine();
                                     System.out.println("Introduzca la contraseña a registrar");
@@ -243,25 +244,23 @@ public class Main implements CommandLineRunner {
                                 //poner algo yo que sé
                             } else {
                                 //mostrar parada y rango de fechas antes de confirmar
-                                System.out.println("¿Está seguro que desea exportar los datos de la parada " +
-                                        nombreParada+", región "+regionParada+"entre las fechas "+fechaInicial+
-                                        "y "+fechaFinal+" ?");
-                                System.out.println(" 1 - Confirmar\n cualquier otro - Volver atrás");
+                                System.out.println("¿Está seguro que desea exportar los datos de la parada \"" +
+                                        nombreParada+"\", región \""+regionParada+"\" entre el "+fechaInicial+
+                                        " y el "+fechaFinal+" ?");
+                                System.out.println(" 1 - Confirmar\n otro - Volver atrás");
                                 String opcion = scanner.nextLine();
                                 if (opcion.equals("1")){
                                     List<Object[]> estancias = testanciaService.encontrarEstanciaPorFechas
-                                            (fechaInicial, fechaFinal, tparada.getId());
-                                    for (Object[] posicion:estancias){
-                                        //mostrar la exportacion
-                                        Testancia testancia = (Testancia) posicion[0];
-                                        String cnombre = (String) posicion[1];
-                                        System.out.println("Id de la estancia: "+testancia.getId()+
-                                                " Fecha: "+testancia.getFecha()+" del peregrino "+
-                                                cnombre);
-                                        System.out.println("---------------");
-                                    }
-                                } else {
-                                    //no hacer nada
+                                            (fechaInicial, fechaFinal, tparada);
+                                    if (!estancias.isEmpty()) {//lo que funciona no se toca
+                                        for (Object[] posicion : estancias) {
+                                            //posible mejor: obtener el nombre del peregrino de la instancia
+                                                Testancia testancia = (Testancia) posicion[0];
+                                                System.out.println("Id de la estancia: " + testancia.getId() +
+                                                        " Fecha: " + testancia.getFecha());
+                                                System.out.println("---------------");
+                                        }
+                                    } else System.out.println("No se encontró nada");
                                 }
                             }
                         }

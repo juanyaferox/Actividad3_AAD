@@ -10,7 +10,9 @@ public class Tperegrino {
     private Integer id;
 
     @MapsId
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)//me cago en los muertos del cascade
+                                                                            //literalmente estuve 3 horas por
+                                                                        //esta MIERDA QUE ME HACIA FALTA Y NO LO SABIA
     @JoinColumn(name = "pkfkid", nullable = false)
     private Tcarnet tcarnet;
 
@@ -25,12 +27,6 @@ public class Tperegrino {
 
     public Tperegrino(Integer id, Tcarnet tcarnet, String cnombre, String cnacionalidad) {
         this.id = id;
-        this.tcarnet = tcarnet;
-        this.cnombre = cnombre;
-        this.cnacionalidad = cnacionalidad;
-    }
-
-    public Tperegrino(Tcarnet tcarnet, String cnombre, String cnacionalidad) {
         this.tcarnet = tcarnet;
         this.cnombre = cnombre;
         this.cnacionalidad = cnacionalidad;

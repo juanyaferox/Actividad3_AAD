@@ -1,5 +1,6 @@
 package juanya.cifpaviles.service;
 
+import juanya.cifpaviles.model.Tparada;
 import juanya.cifpaviles.repository.TestanciaRepository;
 import juanya.cifpaviles.repository.TparadaRepository;
 import juanya.cifpaviles.repository.TperegrinoRepository;
@@ -21,7 +22,7 @@ public class TestanciaServiceImpl implements TestanciaService{
         this.testanciaRepository = testanciaRepository;
     }
     @Override
-    public List<Object[]> encontrarEstanciaPorFechas(LocalDate fechaInicio, LocalDate fechafinal, int idparada) {
-        return testanciaRepository.findByFechaBetweenAndFkidParada(fechaInicio, fechafinal, idparada);
+    public List<Object[]> encontrarEstanciaPorFechas(LocalDate fecha1, LocalDate fecha2, Tparada tparada) {
+        return testanciaRepository.findByFechaBetweenAndFkidParada(fecha1, fecha2, tparada);
     }
 }
