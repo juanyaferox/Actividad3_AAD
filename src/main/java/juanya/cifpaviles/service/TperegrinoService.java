@@ -10,4 +10,7 @@ public interface TperegrinoService{
     void insercionTperegrino(Tcarnet tcarnet, String nombre, String nacionalidad);
 
     Tperegrino selectLastPeregrino();
+
+    Tperegrino selectPeregrino(String nombre, String nacionalidad);
+
 }

@@ -10,4 +10,6 @@ import java.util.List;
  @Repository
 public interface TperegrinoRepository extends JpaRepository<Tperegrino, Integer> {
      boolean existsByCnombreAndCnacionalidad(String nombre, String nacionalidad);
+
+     Tperegrino findByCnombreAndCnacionalidad(String nombre, String nacionalidad);
 }

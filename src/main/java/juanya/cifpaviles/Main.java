@@ -29,6 +29,9 @@ public class Main implements CommandLineRunner {
     @Autowired
     public TestanciaServiceImpl testanciaService;
 
+    @Autowired
+    public TperegrinoParadaServiceImpl tperegrinoParadaService;
+
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Bienvenido al programa gestor de base de datos");
@@ -106,15 +109,18 @@ public class Main implements CommandLineRunner {
 
                                     // Insertamos el tperegrino con los datos introducidos y el carnet anterior
                                     tperegrinoService.insercionTperegrino(lastcarnet, nombre, nacionalidad);
+                                    //conseguir peregrino
+                                    Tperegrino tperegrino = tperegrinoService.selectLastPeregrino();
                                     //me falta insertar los datos en la tabla tperegrino_parada para mostrar
-                                    //el "paso" por la parada******************
+                                    //el "paso" por la parada
+                                    tperegrinoParadaService.insertarTperegrinoTparada(tperegrino, tparada);
                                     System.out.println("Introduzca su usuario a registrar");
                                     usuario = scanner.nextLine();
                                     System.out.println("Introduzca la contraseña a registrar");
                                     String contrasena = scanner.nextLine();
 
                                     //Se inserta en perfil con los datos introducidos+peregrino en caché
-                                    Tperegrino tperegrino = tperegrinoService.selectLastPeregrino();
+
                                     tperfilService.insercionPerfil(usuario, contrasena, tperegrino, tparada);
                                 }
                             } while (!exists);//false
@@ -141,6 +147,7 @@ public class Main implements CommandLineRunner {
                             }
                         }
                         case 3 -> {
+                            System.out.println("Saliendo del programa...");
                             break bucle;
                         }
                         default -> {
@@ -212,6 +219,9 @@ public class Main implements CommandLineRunner {
                             System.out.println("LOGOUT");
                             perfil = TipoSesion.INVITADO;
                         }
+                        default -> {
+                            System.out.println("No se trata de ninguna opción");
+                        }
                     }
                 }
                 case ADMIN_P -> {
@@ -281,7 +291,10 @@ public class Main implements CommandLineRunner {
                                     boolean verificar = tperegrinoService.verificarTperegrino(nombre, nacionalidad);
                                     if (verificar) {
                                         System.out.println("Se va realizar el sellado");
+                                        //metodo para conseguir el peregrino
+                                        Tperegrino tperegrino = tperegrinoService.selectPeregrino(nombre,nacionalidad);
                                         //metodo para hacer la insercion en la tabla tperegrino_parada
+                                        tperegrinoParadaService.insertarTperegrinoTparada(tperegrino,tparada);
                                         System.out.println("Desea realizar realizar una estancia?");
                                         System.out.println(" 1 - Realizar estancia \n 2& - No realizar estancia");
                                         try {

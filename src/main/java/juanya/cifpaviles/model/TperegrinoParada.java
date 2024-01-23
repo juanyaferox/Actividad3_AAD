@@ -21,7 +21,7 @@ public class TperegrinoParada {
     public TperegrinoParada() {
     }
 
-    public TperegrinoParada(TperegrinoParadaId id, Tparada pkfkidParada, Tperegrino pkfkidPeregrino) {
+    public TperegrinoParada(Tparada pkfkidParada, Tperegrino pkfkidPeregrino) {
         this.id = id;
         this.pkfkidParada = pkfkidParada;
         this.pkfkidPeregrino = pkfkidPeregrino;

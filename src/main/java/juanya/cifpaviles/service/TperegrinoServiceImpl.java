@@ -49,4 +49,9 @@ public class TperegrinoServiceImpl implements TperegrinoService{
     public Tperegrino selectLastPeregrino() {
         return lastPeregrino;
     }
+
+    @Override
+    public Tperegrino selectPeregrino(String nombre, String nacionalidad) {
+        return tperegrinoRepository.findByCnombreAndCnacionalidad(nombre, nacionalidad);
+    }
 }
