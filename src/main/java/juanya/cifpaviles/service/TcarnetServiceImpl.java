@@ -2,11 +2,13 @@ package juanya.cifpaviles.service;
 
 import juanya.cifpaviles.model.Tcarnet;
 import juanya.cifpaviles.model.Tparada;
+import juanya.cifpaviles.model.Tperegrino;
 import juanya.cifpaviles.repository.TcarnetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class TcarnetServiceImpl implements TcarnetService{
@@ -28,5 +30,16 @@ public class TcarnetServiceImpl implements TcarnetService{
     @Override
     public Tcarnet selectLastCarnet() {
         return lastcarnet;
+    }
+
+    @Override
+    public Tcarnet selectCarnet(Tperegrino tperegrino) {
+        return tcarnetRepository.findById(tperegrino.getId())
+                .orElseThrow(() -> new RuntimeException("No se encontró el Tcarnet con el ID proporcionado"));
+    }
+    @Override
+    public void updateTcarnetVIP(Tcarnet tcarnet) {
+        tcarnet.setNvips(tcarnet.getNvips()+1);
+        tcarnetRepository.save(tcarnet);
     }
 }

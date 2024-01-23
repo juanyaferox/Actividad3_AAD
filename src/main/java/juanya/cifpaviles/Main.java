@@ -306,14 +306,18 @@ public class Main implements CommandLineRunner {
                                                     int opcionVIP = Integer.parseInt(scanner.nextLine());
                                                     if (opcionVIP == 1){
                                                         //metodo para insertar en estancia con vip true(1)
+                                                        testanciaService.insertarEstanciaVip(tparada,tperegrino);
+                                                        Tcarnet tcarnet = tcarnetService.selectCarnet(tperegrino);
+
                                                         //metodo para añadir +1 al vip de tcarnet del peregrino
+                                                        tcarnetService.updateTcarnetVIP(tcarnet);
                                                     } else {
                                                         //metodo para inserta en estancia con vip false(0)
+                                                        testanciaService.insertarEstanciaNoVip(tparada,tperegrino);
                                                     }
                                                 } catch (NumberFormatException e) {
                                                     System.out.println("No se trata de un número, " + e.getMessage());
                                                 }
-
                                             } else {
                                                 //no hacer nada
                                             }
