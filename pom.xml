@@ -76,7 +76,19 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
         </dependency>
+        <!-- Dependencia para el manejo de XML (DOM) -->
+        <dependency>
+            <groupId>org.w3c.dom</groupId>
+            <artifactId>dom</artifactId>
+            <version>3.0.1</version>
+        </dependency>
 
+        <!-- Dependencia para el manejo de documentos XML -->
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxp-api</artifactId>
+            <version>1.4.5</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

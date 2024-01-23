@@ -4,13 +4,15 @@ import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.w3c.dom.Document;
 
+import java.io.InputStream;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-import static juanya.cifpaviles.Metodos.obtenerFechaValida;
+import static juanya.cifpaviles.Metodos.*;
 
 public class Main implements CommandLineRunner {
 
@@ -53,13 +55,25 @@ public class Main implements CommandLineRunner {
                             //no funciona correctamente el metodo de registro, da error en el save
                             //no consigo solucionar el error :)))))
                             //solucioné el error odio eterno al cascade
-                            String nombre, nacionalidad;
+                            String nombre, nacionalidad = null;
                             boolean exists;
                             do {
                                 System.out.println("Introduzca su nombre");
                                 nombre = scanner.nextLine();
-                                System.out.println("Introduzca su nacionalidad");
-                                nacionalidad = scanner.nextLine();
+                                //metodo verificar nacionalidad correcta
+
+                                boolean verificarNacionalidad = false;
+                                do {
+                                    try {
+                                        System.out.println("Introduzca su nacionalidad");
+                                        nacionalidad = scanner.nextLine();
+                                        InputStream inputStream = cargarxml("paises.xml");
+                                        Document documento = parsearXML(inputStream);
+                                        verificarNacionalidad = buscarPaisPorNombre(documento, nacionalidad);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                } while (!verificarNacionalidad);
                                 exists = tperegrinoService.verificarTperegrino(nombre, nacionalidad);
                                 if (exists) {
                                     System.out.println("El usuario ya existe en la base de datos");
@@ -206,7 +220,13 @@ public class Main implements CommandLineRunner {
                     }
                 }
                 case PEREGRINO -> {
-                    System.out.println("SESIÓN: PEREGRINO");
+                    //obtener el objeto perfil
+                    Tperfil tperfil = tperfilService.findUser(usuario);
+                    //buscar en la tabla perfil el nombre y verificar el id de columna peregrino
+                    Tperegrino tperegrino = tperegrinoService.getPeregrino(tperfil);
+                    String nombre = tperegrino.getCnombre();
+                    String nacionalidad = tperegrino.getCnacionalidad();
+                    System.out.println("SESIÓN: PEREGRINO " + nombre + ", nacionalidad " + nacionalidad);
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar carnet \n 2- Logout");
                     n = Integer.parseInt(scanner.nextLine());
                     switch (n) {
@@ -292,9 +312,9 @@ public class Main implements CommandLineRunner {
                                     if (verificar) {
                                         System.out.println("Se va realizar el sellado");
                                         //metodo para conseguir el peregrino
-                                        Tperegrino tperegrino = tperegrinoService.selectPeregrino(nombre,nacionalidad);
+                                        Tperegrino tperegrino = tperegrinoService.selectPeregrino(nombre, nacionalidad);
                                         //metodo para hacer la insercion en la tabla tperegrino_parada
-                                        tperegrinoParadaService.insertarTperegrinoTparada(tperegrino,tparada);
+                                        tperegrinoParadaService.insertarTperegrinoTparada(tperegrino, tparada);
                                         System.out.println("Desea realizar realizar una estancia?");
                                         System.out.println(" 1 - Realizar estancia \n 2& - No realizar estancia");
                                         try {
@@ -304,16 +324,16 @@ public class Main implements CommandLineRunner {
                                                 System.out.println(" 1 - Sí, es vip \n 2& - No, no es vip");
                                                 try {
                                                     int opcionVIP = Integer.parseInt(scanner.nextLine());
-                                                    if (opcionVIP == 1){
+                                                    if (opcionVIP == 1) {
                                                         //metodo para insertar en estancia con vip true(1)
-                                                        testanciaService.insertarEstanciaVip(tparada,tperegrino);
+                                                        testanciaService.insertarEstanciaVip(tparada, tperegrino);
                                                         Tcarnet tcarnet = tcarnetService.selectCarnet(tperegrino);
 
                                                         //metodo para añadir +1 al vip de tcarnet del peregrino
                                                         tcarnetService.updateTcarnetVIP(tcarnet);
                                                     } else {
                                                         //metodo para inserta en estancia con vip false(0)
-                                                        testanciaService.insertarEstanciaNoVip(tparada,tperegrino);
+                                                        testanciaService.insertarEstanciaNoVip(tparada, tperegrino);
                                                     }
                                                 } catch (NumberFormatException e) {
                                                     System.out.println("No se trata de un número, " + e.getMessage());

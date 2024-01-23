@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TperfilRepository extends JpaRepository<Tperfil, String> {
     Tperfil findByPkidUsuario(String usuario);
+
+    Tperfil findByPkidUsuarioAndCpassword(String usuario, String password);
 }

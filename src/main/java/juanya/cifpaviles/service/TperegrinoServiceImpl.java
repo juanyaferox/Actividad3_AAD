@@ -3,6 +3,7 @@ package juanya.cifpaviles.service;
 import jakarta.transaction.Transactional;
 import juanya.cifpaviles.model.Tcarnet;
 import juanya.cifpaviles.model.Tperegrino;
+import juanya.cifpaviles.model.Tperfil;
 import juanya.cifpaviles.repository.TcarnetRepository;
 import juanya.cifpaviles.repository.TperegrinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,10 @@ public class TperegrinoServiceImpl implements TperegrinoService{
     @Override
     public Tperegrino selectPeregrino(String nombre, String nacionalidad) {
         return tperegrinoRepository.findByCnombreAndCnacionalidad(nombre, nacionalidad);
+    }
+
+    @Override
+    public Tperegrino getPeregrino(Tperfil tperfil) {
+        return tperfil.getFkidPeregrino();
     }
 }

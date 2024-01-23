@@ -21,7 +21,7 @@ public class TperfilServiceImpl implements TperfilService {
 
     @Override
     public int verificarDatosTperfil(String usuario, String password) {
-        Tperfil tperfil = tperfilRepository.findById(usuario).orElse(null);
+        Tperfil tperfil = tperfilRepository.findByPkidUsuarioAndCpassword(usuario,password);
         if (tperfil == null) {
             return -1;
         }
