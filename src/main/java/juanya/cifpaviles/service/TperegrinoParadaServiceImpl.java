@@ -19,9 +19,7 @@ public class TperegrinoParadaServiceImpl implements TperegrinoParadaService{
     }
     @Override
     public void insertarTperegrinoTparada(Tperegrino tperegrino, Tparada tparada) {
-        TperegrinoParadaId tperegrinoParadaId = new TperegrinoParadaId(tperegrino.getId(), tparada.getId());
         TperegrinoParada tperegrinoParada = new TperegrinoParada(tparada, tperegrino);
-        tperegrinoParada.setId(tperegrinoParadaId);
         tperegrinoParadaRepository.save(tperegrinoParada);
     }
 }

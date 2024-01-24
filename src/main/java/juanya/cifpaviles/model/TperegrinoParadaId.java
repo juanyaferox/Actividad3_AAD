@@ -10,10 +10,8 @@ import java.util.Objects;
 @Embeddable
 public class TperegrinoParadaId implements Serializable {
     private static final long serialVersionUID = 6129697821253778539L;
-    @Column(name = "pkfkid_parada", nullable = false)
-    private Integer pkfkidParada;
 
-    @Column(name = "pkfkid_peregrino", nullable = false)
+    private Integer pkfkidParada;
     private Integer pkfkidPeregrino;
 
     public TperegrinoParadaId() {

@@ -42,4 +42,9 @@ public class TcarnetServiceImpl implements TcarnetService{
         tcarnet.setNvips(tcarnet.getNvips()+1);
         tcarnetRepository.save(tcarnet);
     }
+
+    @Override
+    public void updateCarnet(Tcarnet tcarnet) {
+        tcarnetRepository.save(tcarnet);
+    }
 }

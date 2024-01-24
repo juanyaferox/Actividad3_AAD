@@ -4,17 +4,16 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tperegrino_parada")
+@IdClass(TperegrinoParadaId.class)
 public class TperegrinoParada {
-    @EmbeddedId
-    private TperegrinoParadaId id;
 
-    @MapsId("pkfkidParada")
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @Id
+    @ManyToOne(fetch = FetchType.EAGER, optional = false,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "pkfkid_parada", nullable = false)
     private Tparada pkfkidParada;
 
-    @MapsId("pkfkidPeregrino")
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @Id
+    @ManyToOne(fetch = FetchType.EAGER, optional = false,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "pkfkid_peregrino", nullable = false)
     private Tperegrino pkfkidPeregrino;
 
@@ -22,17 +21,8 @@ public class TperegrinoParada {
     }
 
     public TperegrinoParada(Tparada pkfkidParada, Tperegrino pkfkidPeregrino) {
-        this.id = id;
         this.pkfkidParada = pkfkidParada;
         this.pkfkidPeregrino = pkfkidPeregrino;
-    }
-
-    public TperegrinoParadaId getId() {
-        return id;
-    }
-
-    public void setId(TperegrinoParadaId id) {
-        this.id = id;
     }
 
     public Tparada getPkfkidParada() {

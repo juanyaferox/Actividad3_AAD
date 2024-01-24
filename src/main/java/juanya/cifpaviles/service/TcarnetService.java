@@ -10,5 +10,7 @@ public interface TcarnetService {
 
     Tcarnet selectCarnet(Tperegrino tperegrino);
     void updateTcarnetVIP(Tcarnet tcarnet);
+
+    void updateCarnet(Tcarnet tcarnet);
 }
 

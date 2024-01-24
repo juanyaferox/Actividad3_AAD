@@ -317,6 +317,7 @@ public class Main implements CommandLineRunner {
                                         Tcarnet tcarnet = tcarnetService.selectCarnet(tperegrino);
                                         //añadimos distancia
                                         tcarnet.setDistancia(tcarnet.getDistancia()+5);//suponemos 5km entre parada y parada
+                                        tcarnetService.updateCarnet(tcarnet);//update del carnet
                                         //metodo para hacer la insercion en la tabla tperegrino_parada
                                         tperegrinoParadaService.insertarTperegrinoTparada(tperegrino, tparada);
                                         System.out.println("Desea realizar realizar una estancia?");
