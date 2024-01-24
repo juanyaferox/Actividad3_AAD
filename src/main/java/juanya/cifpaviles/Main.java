@@ -36,7 +36,7 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Bienvenido al programa gestor de base de datos");
+        System.out.println("\u001B[38;5;173mBIENVENIDO AL PROGRAMA GESTOR DE LA BASE DE DATOS");
         int n; //variable para menu
         String usuario = null;//inicialización variable del nombre de sesión
         Scanner scanner = new Scanner(System.in);
