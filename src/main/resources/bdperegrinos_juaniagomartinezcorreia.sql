@@ -89,5 +89,13 @@
 
     INSERT INTO `tperfil` (`pkid_usuario`,`cpassword`,`fkid_peregrino`,`fkid_parada`) VALUES
     ("juan","123",1,null),
-    ("adminp1","123",null,1);
+    ("jennie","123",2,null),
+    ("mario","123",3,null),
+    ("luigi","123",4,null),
+    ("zelda","123",5,null),
+    ("adminp1","123",null,1),
+    ("adminp2","123",null,2),
+    ("adminp3","123",null,3),
+    ("adminp4","123",null,4),
+    ("adminp5","123",null,5);
 
