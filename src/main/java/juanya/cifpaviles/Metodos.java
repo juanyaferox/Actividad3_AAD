@@ -4,15 +4,11 @@
  */
 package juanya.cifpaviles;
 
-import jakarta.persistence.*;
 import juanya.cifpaviles.model.*;
-import juanya.cifpaviles.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -28,27 +24,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static org.hibernate.cfg.AvailableSettings.PERSISTENCE_UNIT_NAME;
 
 public class Metodos {
-
-    public TperfilServiceImpl tperfilService;
-
-    public TperegrinoServiceImpl tperegrinoService;
-
-
-    public TparadaServiceImpl tparadaService;
-
-
-    public TcarnetServiceImpl tcarnetService;
-
-
-    public TestanciaServiceImpl testanciaService;
-
-
-    public TperegrinoParadaServiceImpl tperegrinoParadaService;
 
     protected static LocalDate obtenerFechaValida(Scanner scanner) {
         LocalDate fecha;
@@ -72,9 +49,9 @@ public class Metodos {
         return fecha;
     }
 
-    protected static InputStream cargarxml(String nombreRecurso) {
+    protected static InputStream cargarxml() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        return classLoader.getResourceAsStream(nombreRecurso);
+        return classLoader.getResourceAsStream("paises.xml");
     }
 
     protected static Document parsearXML(InputStream inputStream) throws Exception {

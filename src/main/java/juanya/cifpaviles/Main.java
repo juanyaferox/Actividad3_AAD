@@ -7,7 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -68,7 +67,7 @@ public class Main implements CommandLineRunner{
                                         try {
                                             System.out.println("Introduzca su nacionalidad");
                                             nacionalidad = scanner.nextLine();
-                                            InputStream inputStream = cargarxml("paises.xml");
+                                            InputStream inputStream = cargarxml();
                                             Document documento = parsearXML(inputStream);
                                             verificarNacionalidad = buscarPaisPorNombre(documento, nacionalidad);
                                         } catch (Exception e) {
