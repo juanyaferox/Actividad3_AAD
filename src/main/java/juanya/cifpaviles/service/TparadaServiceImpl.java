@@ -1,20 +1,22 @@
 package juanya.cifpaviles.service;
 
 import juanya.cifpaviles.model.Tparada;
+import juanya.cifpaviles.model.TperegrinoParada;
 import juanya.cifpaviles.model.Tperfil;
 import juanya.cifpaviles.repository.TparadaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class TparadaServiceImpl implements TparadaService{
 
-    @Autowired
-    private TparadaRepository tparadaRepository;
+    private final TparadaRepository tparadaRepository;
 
-    public TparadaServiceImpl(TparadaRepository tparadaRepository){
+    public TparadaServiceImpl(TparadaRepository tparadaRepository) {
         this.tparadaRepository = tparadaRepository;
     }
+
 
     @Override
     public boolean existsCnombreTparada(String nombre) {
@@ -41,4 +43,14 @@ public class TparadaServiceImpl implements TparadaService{
     public Tparada getParada(Tperfil tperfil) {
         return tperfil.getFkidParada();
     }
+
+    @Override
+    public Optional<Tparada> getParadaById(TperegrinoParada tperegrinoParada) {
+        if (tperegrinoParada != null && tperegrinoParada.getPkfkidParada() != null) {
+            return tparadaRepository.findById(tperegrinoParada.getPkfkidParada().getId());
+        } else {
+            return Optional.empty();
+        }
+    }
+
 }

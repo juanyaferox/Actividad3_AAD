@@ -234,6 +234,16 @@ public class Main implements CommandLineRunner{
                             case 1 -> {
                                 System.out.println();
                                 System.out.println("EXPORTAR CARNET");
+                                Tcarnet tcarnet = tcarnetService.selectCarnet(tperegrino);
+                                List<TperegrinoParada> listaTperegrinoParada = tperegrinoParadaService.obtenerPeregrinoParada(tperegrino);
+                                List<Tparada> listaTparada = listaTperegrinoParada.stream()
+                                        .map(tperegrinoParada -> tparadaService.getParadaById(tperegrinoParada)
+                                                .orElse(null)) // Convierte Optional<Tparada> a Tparada o null si no presente
+                                        .toList();
+                                List<Testancia> listaTestancia = testanciaService.obtenerParadas(tperegrino);
+                                //String nombreParada = tparadaService.getParada(tperfil).getCnombre();
+                                String nombreParada = "Parada";
+                                generarXMLPeregrino(tperegrino, tcarnet, listaTparada, listaTestancia);
                                 //hacer un faking xml se deja para despues
                             }
                             case 2 -> {

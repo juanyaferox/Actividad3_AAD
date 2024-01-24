@@ -42,4 +42,9 @@ public class TestanciaServiceImpl implements TestanciaService{
         Testancia testancia = new Testancia(tparada,tperegrino, LocalDate.now(), false);
         testanciaRepository.save(testancia);
     }
+
+    @Override
+    public List<Testancia> obtenerParadas(Tperegrino tperegrino) {
+        return testanciaRepository.findByFkidPeregrino(tperegrino);
+    }
 }

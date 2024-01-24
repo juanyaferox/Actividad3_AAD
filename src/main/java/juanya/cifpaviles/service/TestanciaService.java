@@ -22,4 +22,6 @@ public interface TestanciaService{
     void insertarEstanciaVip(Tparada tparada, Tperegrino tperegrino);
 
     void insertarEstanciaNoVip(Tparada tparada, Tperegrino tperegrino);
+
+    List<Testancia> obtenerParadas(Tperegrino tperegrino);
 }

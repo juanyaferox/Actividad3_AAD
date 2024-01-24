@@ -14,4 +14,6 @@ import java.util.List;
 @Service
 public interface TperegrinoParadaService {
     void insertarTperegrinoTparada(Tperegrino tperegrino, Tparada tparada);
+
+    List<TperegrinoParada> obtenerPeregrinoParada(Tperegrino tperegrino);
 }
