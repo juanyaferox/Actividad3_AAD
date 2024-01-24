@@ -1,4 +1,4 @@
-package juanya.cifpaviles;
+package juanya.cifpaviles.etc;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
 

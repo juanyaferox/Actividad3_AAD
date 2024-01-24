@@ -226,7 +226,7 @@ public class Main implements CommandLineRunner {
                     Tperegrino tperegrino = tperegrinoService.getPeregrino(tperfil);
                     String nombre = tperegrino.getCnombre();
                     String nacionalidad = tperegrino.getCnacionalidad();
-                    System.out.println("SESIÓN: PEREGRINO " + nombre + ", nacionalidad " + nacionalidad);
+                    System.out.println("SESIÓN: PEREGRINO - " + nombre + ", nacionalidad " + nacionalidad);
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar carnet \n 2- Logout");
                     n = Integer.parseInt(scanner.nextLine());
                     switch (n) {
@@ -313,6 +313,10 @@ public class Main implements CommandLineRunner {
                                         System.out.println("Se va realizar el sellado");
                                         //metodo para conseguir el peregrino
                                         Tperegrino tperegrino = tperegrinoService.selectPeregrino(nombre, nacionalidad);
+                                        //creamos objeto carnet del peregrino
+                                        Tcarnet tcarnet = tcarnetService.selectCarnet(tperegrino);
+                                        //añadimos distancia
+                                        tcarnet.setDistancia(tcarnet.getDistancia()+5);//suponemos 5km entre parada y parada
                                         //metodo para hacer la insercion en la tabla tperegrino_parada
                                         tperegrinoParadaService.insertarTperegrinoTparada(tperegrino, tparada);
                                         System.out.println("Desea realizar realizar una estancia?");
@@ -327,8 +331,6 @@ public class Main implements CommandLineRunner {
                                                     if (opcionVIP == 1) {
                                                         //metodo para insertar en estancia con vip true(1)
                                                         testanciaService.insertarEstanciaVip(tparada, tperegrino);
-                                                        Tcarnet tcarnet = tcarnetService.selectCarnet(tperegrino);
-
                                                         //metodo para añadir +1 al vip de tcarnet del peregrino
                                                         tcarnetService.updateTcarnetVIP(tcarnet);
                                                     } else {
