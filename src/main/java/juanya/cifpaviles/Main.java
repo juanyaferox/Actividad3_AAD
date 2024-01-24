@@ -136,7 +136,7 @@ public class Main implements CommandLineRunner{
 
                                         //Se inserta en perfil con los datos introducidos+peregrino en caché
 
-                                        tperfilService.insercionPerfil(usuario, contrasena, tperegrino, tparada);
+                                        tperfilService.insercionPerfil(usuario, contrasena, tperegrino);
                                     }
                                 } while (!exists);//false
                             }//fin del caso 1 (REGISTRO)
@@ -196,6 +196,7 @@ public class Main implements CommandLineRunner{
                                                 tparadaService.insercionParada(nombre, regionC);
                                                 System.out.println("Se ha creado la parada con éxito");
                                                 crearParada = false;
+                                                verificar = true;
                                             } else {
                                                 System.out.println("Se ha encontrado una coincidencia en la base de datos");
                                                 System.out.println("¿Qué desea hacer?\n" +

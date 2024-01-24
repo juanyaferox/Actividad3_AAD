@@ -317,8 +317,8 @@ public class Metodos {
     public static String normalize(String cadena) {
         // Reemplazar acentos y caracteres especiales
         String cadenaNormalizada = Normalizer.normalize(cadena, Normalizer.Form.NFD);
-        Pattern patron = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        return patron.matcher(cadenaNormalizada).replaceAll("");
+        Pattern patron = Pattern.compile("[^\\p{ASCII}]");
+        return patron.matcher(cadenaNormalizada).replaceAll("").replaceAll("\\s", "");
     }
 
 

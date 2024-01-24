@@ -14,8 +14,8 @@ public class TperfilServiceImpl implements TperfilService {
     private TperfilRepository tperfilRepository;
 
     @Override
-    public void insercionPerfil(String user, String password, Tperegrino tperegrino, Tparada tparada) {
-        Tperfil tperfil = new Tperfil(user, password, tperegrino, tparada);
+    public void insercionPerfil(String user, String password, Tperegrino tperegrino) {
+        Tperfil tperfil = new Tperfil(user, password, tperegrino, null);
         tperfilRepository.save(tperfil);
     }
 
