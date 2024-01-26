@@ -10,4 +10,6 @@ public interface TperfilRepository extends JpaRepository<Tperfil, String> {
     Tperfil findByPkidUsuario(String usuario);
 
     Tperfil findByPkidUsuarioAndCpassword(String usuario, String password);
+
+    boolean existsByPkidUsuario(String usuario);
 }

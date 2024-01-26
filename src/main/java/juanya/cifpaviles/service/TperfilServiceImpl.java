@@ -33,4 +33,9 @@ public class TperfilServiceImpl implements TperfilService {
         Tperfil tperfil = tperfilRepository.findByPkidUsuario(usuario);
         return tperfil;
     }
+
+    @Override
+    public boolean existsUser(String usuario) {
+        return tperfilRepository.existsByPkidUsuario(usuario);
+    }
 }

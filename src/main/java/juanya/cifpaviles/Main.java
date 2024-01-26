@@ -4,6 +4,7 @@ import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 
 import static juanya.cifpaviles.Metodos.*;
 
+@Component
 public class Main implements CommandLineRunner{
 
     @Autowired
@@ -128,14 +130,25 @@ public class Main implements CommandLineRunner{
                                         //me falta insertar los datos en la tabla tperegrino_parada para mostrar
                                         //el "paso" por la parada
                                         tperegrinoParadaService.insertarTperegrinoTparada(tperegrino, tparada);
-                                        System.out.println("Introduzca su usuario a registrar");
-                                        usuario = scanner.nextLine();
-                                        System.out.println("Introduzca la contraseña a registrar");
-                                        String contrasena = scanner.nextLine();
+                                        boolean existUser;
+                                        do {
+                                            System.out.println("Introduzca su usuario a registrar");
+                                            usuario = scanner.nextLine();
+                                            existUser = tperfilService.existsUser(usuario);
+                                            if(!existUser) {
+                                                System.out.println("Introduzca la contraseña a registrar");
+                                                String contrasena = scanner.nextLine();
+                                                tperfilService.insercionPerfil(usuario, contrasena, tperegrino);
+                                                System.out.println("Usuario registrado con exito");
+                                            }
+                                             else {
+                                                System.out.println("Ya existe un usuario con ese usuario, " +
+                                                                    "introduzca otro");
+                                            }
+                                        }while(existUser);
 
                                         //Se inserta en perfil con los datos introducidos+peregrino en caché
 
-                                        tperfilService.insercionPerfil(usuario, contrasena, tperegrino);
                                     }
                                 } while (!exists);//false
                             }//fin del caso 1 (REGISTRO)

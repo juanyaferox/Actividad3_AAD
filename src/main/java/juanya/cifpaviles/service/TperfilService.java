@@ -18,4 +18,6 @@ public interface TperfilService {
     int verificarDatosTperfil(String usuario, String password);
 
     Tperfil findUser(String usuario);
+
+    boolean existsUser(String usuario);
 }
