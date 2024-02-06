@@ -108,7 +108,7 @@ public class Metodos {
 
             exportarDocumentoXml(document,
                     normalize(tperegrino.getCnombre()+tperegrino.getCnacionalidad()+
-                            "ID"+tperegrino.getId()));
+                            "Id"+tperegrino.getId()));
         }
     }
 
