@@ -9,11 +9,13 @@ public class ConjuntoContratado {
     private String extra;
     private int testanciaPkid;
 
+    private static int lastId = 0;
+
     public ConjuntoContratado() {
     }
 
     public ConjuntoContratado(int pkid, double precioTotal, char metodoPago, String extra, int testanciaPkid) {
-        this.pkid = pkid;
+        this.pkid = ++lastId;
         this.precioTotal = precioTotal;
         this.metodoPago = metodoPago;
         this.extra = extra;

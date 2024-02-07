@@ -1,5 +1,8 @@
 package juanya.cifpaviles;
 
+import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
+import juanya.cifpaviles.db4o.ServicioDAO;
 import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +11,9 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,7 +40,10 @@ public class Main implements CommandLineRunner {
     @Autowired
     public TperegrinoParadaServiceImpl tperegrinoParadaService;
 
+    String dbFilePath = Paths.get(System.getProperty("user.dir"), "db4oDB", "database.db").toString();
+    // Ruta del archivo de la base de datos
 
+    ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), dbFilePath);
     /*
     pasos a seguir:
     #esto en db4o
@@ -48,9 +56,9 @@ public class Main implements CommandLineRunner {
     c9- admin_p puede ver los envios realizados en su parada, es decir direccion y dimensiones del envio
      */
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
         System.out.println("\u001B[38;5;173mBIENVENIDO AL PROGRAMA GESTOR DE LA BASE DE DATOS");
-        try {
+
             int n; //variable para menu
             String usuario = null;//inicialización variable del nombre de sesión
             Scanner scanner = new Scanner(System.in);
@@ -244,15 +252,76 @@ public class Main implements CommandLineRunner {
                             }
                             case 2 -> {
                                 System.out.println("CREACIÓN/MODIFICACIÓN DE SERVICIO");
-                                boolean crearServicio = true;
-                                do {
-                                    System.out.println("Introduzca el nombre del servicio");
-                                    String nombreServicio = scanner.nextLine();
-                                    boolean verificar = false;
-                                    do {
+                                System.out.println("QUÉ DESEA REALIZAR? \n 1- Crear servicio \n 2- Modificar servicio ");
+                                n = Integer.parseInt(scanner.nextLine());
+                                switch (n) {
+                                    case 1 -> {
+                                        System.out.println("CREACIÓN DE SERVICIO");
+                                        boolean crearServicio = true;
+                                        bucleServicio:
+                                        do {
+                                            String nombreServicio;
+                                            double precio;
+                                            List<Integer> listIdParada = null;
+                                            //verificar existencia
+                                            boolean verificar = true;
+                                            do {
+                                                System.out.println("Introduzca el nombre del servicio");
+                                                nombreServicio = scanner.nextLine();
+                                                verificar = ServicioDAO.verificarNombre(nombreServicio);
+                                                if (verificar) {
+                                                    System.out.println("Ya existe un servicio con ese nombre," +
+                                                            " desea repetir o salir");
+                                                    System.out.println("1 - Repetir\n 2 - Salir");
+                                                    int opcion = Integer.parseInt(scanner.nextLine());
+                                                    if (opcion == 1) {
+                                                        //volver a intentar es decir continuar con el bucle
+                                                        continue;
+                                                    } else if (opcion == 2) {
+                                                        break bucleServicio;
+                                                        //volver al menu es decir acabar con el
+                                                    }
+                                                }
+                                            } while (verificar);
+
+                                            boolean precioBucle = true;
+                                            do {
+                                                System.out.println("Introduzca el precio");
+                                                precio = Double.parseDouble(scanner.nextLine());
+                                                if (ServicioDAO.verificarPrecio(precio)){
+                                                    precioBucle = false;
+                                                }else{
+                                                    System.out.println("El precio introducido no es válido");
+                                                }
+                                            }while(precioBucle);
+                                            boolean bucleIdParada = true;
+
+                                            do {
+                                                System.out.println("A qué parada desea asignar el servicio? Introduzca el ID");
+                                                String input = scanner.nextLine();
+                                                if (input != null && !input.isEmpty()) {
+                                                    int idParada = Integer.parseInt(input);
+                                                    listIdParada.add(idParada);
+                                                }
+                                                System.out.println("Desea añadir más paradas?\n 1 - Si\n 2 - No");
+                                                int opcion = Integer.parseInt(scanner.nextLine());
+                                                if (opcion == 2) {
+                                                    //volver a intentar es decir continuar con el bucle
+                                                    continue;
+                                                } else if (opcion == 1) {
+                                                    bucleIdParada = false;
+                                                }
+                                            }while(bucleIdParada);
+                                            ServicioDAO.crearServicio(nombreServicio, precio, listIdParada);
+                                            System.out.println("Servicio creado con éxito");
+                                            crearServicio = false;
+                                        } while (crearServicio);
+                                    }
+                                    case 2 -> {
 
                                     }
-                                } while (crearServicio);
+                                }
+
                             }
                             case 3 -> perfil = TipoSesion.INVITADO;
                         }
@@ -413,9 +482,6 @@ public class Main implements CommandLineRunner {
                     }
                 }
             }
-        } catch (Exception e) {
-            System.out.println("Excepcion encontrada: " + e.getMessage());
 
-        }
     }
 }

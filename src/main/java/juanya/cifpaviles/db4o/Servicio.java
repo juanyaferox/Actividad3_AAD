@@ -2,21 +2,24 @@ package juanya.cifpaviles.db4o;
 
 import juanya.cifpaviles.d_objectdb.EnvioACasa;
 
+import java.util.List;
+
 //posible modifiacion: añadir idEnvioACasa as nullable
 public class Servicio {
     private int pkid;
     private String nombre;
     private double precio;
-    private int tparadaPkid;
+    private List<Integer> arrayIdParadas;
+    private static int lastId = 0;
 
     public Servicio() {
     }
 
-    public Servicio(int pkid, String nombre, double precio, int tparadaPkid) {
-        this.pkid = pkid;
+    public Servicio(String nombre, double precio, List<Integer> arrayIdParadas) {
+        this.pkid = ++lastId;
         this.nombre = nombre;
         this.precio = precio;
-        this.tparadaPkid = tparadaPkid;
+        this.arrayIdParadas = arrayIdParadas;
     }
 
     public int getPkid() {
@@ -43,12 +46,12 @@ public class Servicio {
         this.precio = precio;
     }
 
-    public int getTparadaPkid() {
-        return tparadaPkid;
+    public List<Integer> getArrayIdParadas() {
+        return arrayIdParadas;
     }
 
-    public void setTparadaPkid(int tparadaPkid) {
-        this.tparadaPkid = tparadaPkid;
+    public void setArrayIdParadas(List<Integer> arrayIdParadas) {
+        this.arrayIdParadas = arrayIdParadas;
     }
 
 }
