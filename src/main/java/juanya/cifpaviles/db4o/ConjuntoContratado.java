@@ -7,17 +7,17 @@ public class ConjuntoContratado {
     private double precioTotal;
     private char metodoPago;
     private String extra;
-    private Testancia testancia;
+    private int testanciaPkid;
 
     public ConjuntoContratado() {
     }
 
-    public ConjuntoContratado(int pkid, double precioTotal, char metodoPago, String extra, Testancia testancia) {
+    public ConjuntoContratado(int pkid, double precioTotal, char metodoPago, String extra, int testanciaPkid) {
         this.pkid = pkid;
         this.precioTotal = precioTotal;
         this.metodoPago = metodoPago;
         this.extra = extra;
-        this.testancia = testancia;
+        this.testanciaPkid = testanciaPkid;
     }
 
     public int getPkid() {
@@ -52,11 +52,11 @@ public class ConjuntoContratado {
         this.extra = extra;
     }
 
-    public Testancia getTestancia() {
-        return testancia;
+    public int getTestanciaPkid() {
+        return testanciaPkid;
     }
 
-    public void setTestancia(Testancia testancia) {
-        this.testancia = testancia;
+    public void setTestanciaPkid(int testanciaPkid) {
+        this.testanciaPkid = testanciaPkid;
     }
 }

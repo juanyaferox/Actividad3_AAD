@@ -15,7 +15,7 @@ import java.util.Scanner;
 import static juanya.cifpaviles.Metodos.*;
 
 @Component
-public class Main implements CommandLineRunner{
+public class Main implements CommandLineRunner {
 
     @Autowired
     public TperfilServiceImpl tperfilService;
@@ -38,16 +38,17 @@ public class Main implements CommandLineRunner{
 
     /*
     pasos a seguir:
-    #todo esto se ha de realizar en DB4O y ObjectDB
+    #esto en db4o
     c6- admin_g puede crear nuevo servicio o editar existentes
     c7- añadir opcion a admin_p de contratar paquete de servicio  de los disponbiles al realizar un alojamiento
     + añadir metodo de pago -> crear objeto ConjuntoContratado con esos datos
+    #esto en objectdb
     c8- introducir direccion y dimensiones del paqute con un boolean de envio urgente(s/n), se trata de un servicio más
     + se registraran de maneras separadas la inforamción del envio y la contratacion del mismo
     c9- admin_p puede ver los envios realizados en su parada, es decir direccion y dimensiones del envio
      */
     @Override
-    public void run(String... args){
+    public void run(String... args) {
         System.out.println("\u001B[38;5;173mBIENVENIDO AL PROGRAMA GESTOR DE LA BASE DE DATOS");
         try {
             int n; //variable para menu
@@ -146,17 +147,16 @@ public class Main implements CommandLineRunner{
                                             System.out.println("Introduzca su usuario a registrar");
                                             usuario = scanner.nextLine();
                                             existUser = tperfilService.existsUser(usuario);
-                                            if(!existUser) {
+                                            if (!existUser) {
                                                 System.out.println("Introduzca la contraseña a registrar");
                                                 String contrasena = scanner.nextLine();
                                                 tperfilService.insercionPerfil(usuario, contrasena, tperegrino);
                                                 System.out.println("Usuario registrado con exito");
-                                            }
-                                             else {
+                                            } else {
                                                 System.out.println("Ya existe un usuario con ese usuario, " +
-                                                                    "introduzca otro");
+                                                        "introduzca otro");
                                             }
-                                        }while(existUser);
+                                        } while (existUser);
 
                                         //Se inserta en perfil con los datos introducidos+peregrino en caché
 
@@ -195,7 +195,8 @@ public class Main implements CommandLineRunner{
                     }
                     case ADMIN_G -> {
                         System.out.println("SESIÓN: ADMINISTRADOR GENERAL");
-                        System.out.println("¿QUE DESEA REALIZAR? \n 1- Crear parada \n 2- Logout");
+                        System.out.println("¿QUE DESEA REALIZAR? \n 1- Crear parada \n 2- Crear/Modificar servicio " +
+                                "\n 3- Logout");
                         n = Integer.parseInt(scanner.nextLine());
                         switch (n) {
                             case 1 -> {
@@ -241,7 +242,19 @@ public class Main implements CommandLineRunner{
                                     } while (!verificar);
                                 } while (crearParada);
                             }
-                            case 2 -> perfil = TipoSesion.INVITADO;
+                            case 2 -> {
+                                System.out.println("CREACIÓN/MODIFICACIÓN DE SERVICIO");
+                                boolean crearServicio = true;
+                                do {
+                                    System.out.println("Introduzca el nombre del servicio");
+                                    String nombreServicio = scanner.nextLine();
+                                    boolean verificar = false;
+                                    do {
+
+                                    }
+                                } while (crearServicio);
+                            }
+                            case 3 -> perfil = TipoSesion.INVITADO;
                         }
                     }
                     case PEREGRINO -> {
@@ -400,8 +413,8 @@ public class Main implements CommandLineRunner{
                     }
                 }
             }
-        } catch (Exception e){
-            System.out.println("Excepcion encontrada: "+e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Excepcion encontrada: " + e.getMessage());
 
         }
     }

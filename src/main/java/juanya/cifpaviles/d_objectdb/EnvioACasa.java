@@ -1,8 +1,12 @@
-package juanya.cifpaviles.db4o;
+package juanya.cifpaviles.d_objectdb;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import juanya.cifpaviles.model.Tparada;
 
+@Entity
 public class EnvioACasa {
+    @Id
     private int pkid;
     private double peso;
     private int largo;

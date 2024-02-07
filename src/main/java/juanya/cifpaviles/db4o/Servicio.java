@@ -1,19 +1,22 @@
 package juanya.cifpaviles.db4o;
 
+import juanya.cifpaviles.d_objectdb.EnvioACasa;
+
+//posible modifiacion: añadir idEnvioACasa as nullable
 public class Servicio {
     private int pkid;
     private String nombre;
     private double precio;
-    private EnvioACasa envioACasa;
+    private int tparadaPkid;
 
     public Servicio() {
     }
 
-    public Servicio(int pkid, String nombre, double precio, EnvioACasa envioACasa) {
+    public Servicio(int pkid, String nombre, double precio, int tparadaPkid) {
         this.pkid = pkid;
         this.nombre = nombre;
         this.precio = precio;
-        this.envioACasa = envioACasa;
+        this.tparadaPkid = tparadaPkid;
     }
 
     public int getPkid() {
@@ -40,12 +43,12 @@ public class Servicio {
         this.precio = precio;
     }
 
-    public EnvioACasa getEnvioACasa() {
-        return envioACasa;
+    public int getTparadaPkid() {
+        return tparadaPkid;
     }
 
-    public void setEnvioACasa(EnvioACasa envioACasa) {
-        this.envioACasa = envioACasa;
+    public void setTparadaPkid(int tparadaPkid) {
+        this.tparadaPkid = tparadaPkid;
     }
 
 }

@@ -1,6 +1,11 @@
-package juanya.cifpaviles.db4o;
+package juanya.cifpaviles.d_objectdb;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Direccion {
+    @Id
     private int pkid;
     private String direccion;
     private String localidad;
