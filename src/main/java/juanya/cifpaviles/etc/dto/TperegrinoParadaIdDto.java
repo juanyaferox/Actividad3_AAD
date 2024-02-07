@@ -1,4 +1,4 @@
-package juanya.cifpaviles.dto;
+package juanya.cifpaviles.etc.dto;
 
 import java.io.Serializable;
 import java.util.Objects;

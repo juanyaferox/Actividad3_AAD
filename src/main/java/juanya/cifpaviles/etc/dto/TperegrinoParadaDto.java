@@ -1,4 +1,4 @@
-package juanya.cifpaviles.dto;
+package juanya.cifpaviles.etc.dto;
 
 import juanya.cifpaviles.model.TperegrinoParadaId;
 
