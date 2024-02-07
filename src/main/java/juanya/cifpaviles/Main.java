@@ -35,6 +35,17 @@ public class Main implements CommandLineRunner{
     @Autowired
     public TperegrinoParadaServiceImpl tperegrinoParadaService;
 
+
+    /*
+    pasos a seguir:
+    #todo esto se ha de realizar en DB4O y ObjectDB
+    c6- admin_g puede crear nuevo servicio o editar existentes
+    c7- añadir opcion a admin_p de contratar paquete de servicio  de los disponbiles al realizar un alojamiento
+    + añadir metodo de pago -> crear objeto ConjuntoContratado con esos datos
+    c8- introducir direccion y dimensiones del paqute con un boolean de envio urgente(s/n), se trata de un servicio más
+    + se registraran de maneras separadas la inforamción del envio y la contratacion del mismo
+    c9- admin_p puede ver los envios realizados en su parada, es decir direccion y dimensiones del envio
+     */
     @Override
     public void run(String... args){
         System.out.println("\u001B[38;5;173mBIENVENIDO AL PROGRAMA GESTOR DE LA BASE DE DATOS");
