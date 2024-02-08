@@ -1,30 +1,30 @@
 package juanya.cifpaviles.db4o;
 
 import java.util.List;
+import java.util.UUID;
 
 //posible modifiacion: añadir idEnvioACasa as nullable
 public class Servicio {
-    private int pkid;
+    private String pkid;
     private String nombre;
     private double precio;
     private List<Integer> arrayIdParadas;
-    private static int lastId = 0;
 
     public Servicio() {
     }
 
     public Servicio(String nombre, double precio, List<Integer> arrayIdParadas) {
-        this.pkid = ++lastId;
+        this.pkid = UUID.randomUUID().toString();
         this.nombre = nombre;
         this.precio = precio;
         this.arrayIdParadas = arrayIdParadas;
     }
 
-    public int getPkid() {
+    public String getPkid() {
         return pkid;
     }
 
-    public void setPkid(int pkid) {
+    public void setPkid(String pkid) {
         this.pkid = pkid;
     }
 
@@ -52,4 +52,19 @@ public class Servicio {
         this.arrayIdParadas = arrayIdParadas;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID: ").append(pkid).append("\n");
+        sb.append("Nombre: '").append(nombre).append("'\n");
+        sb.append("Precio: ").append(precio).append("\n");
+        sb.append("ID de paradas asociadas:\n");
+
+        // Agrega cada elemento de la lista en una nueva línea
+        for (int idParada : arrayIdParadas) {
+            sb.append("- ").append(idParada).append("\n");
+        }
+
+        return sb.toString();
+    }
 }

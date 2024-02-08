@@ -3,11 +3,13 @@ package juanya.cifpaviles;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import jdk.swing.interop.SwingInterOpUtils;
+import juanya.cifpaviles.db4o.Servicio;
 import juanya.cifpaviles.db4o.ServicioDAO;
 import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.ReactiveAdapterRegistry;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
@@ -300,7 +302,6 @@ public class Main implements CommandLineRunner {
                                                 }
                                             }
                                         } while (verificar);
-
                                         boolean precioBucle = true;
                                         do {
                                             System.out.println("Introduzca el precio");
@@ -312,7 +313,6 @@ public class Main implements CommandLineRunner {
                                             }
                                         } while (precioBucle);
                                         boolean bucleIdParada = true;
-
                                         do {
                                             System.out.println("A qué parada desea asignar el servicio? Introduzca el ID");
                                             String input = scanner.nextLine();
@@ -320,7 +320,7 @@ public class Main implements CommandLineRunner {
                                                 int idParada = Integer.parseInt(input);
                                                 listIdParada.add(idParada);
                                             }
-                                            System.out.println("Desea añadir más paradas?\n 1 - Si\n 2 - No");
+                                            System.out.println("Desea añadir más paradas?\n Si\n No");
                                             String opcion = scanner.nextLine();
                                             if (opcion.equalsIgnoreCase("si") || opcion.equals("sí")) {
                                                 //volver a intentar es decir continuar con el bucle
@@ -338,7 +338,110 @@ public class Main implements CommandLineRunner {
                                     } while (crearServicio);
                                 }
                                 case 2 -> {
+                                    System.out.println("MODIFICACIÓN DE SERVICIO");
+                                    boolean crearServicio = true;
+                                    //MODIFICAR PARA QUE SEA INTRODUCIENDO NOMBRE, NO ID
+                                    do {
+                                        System.out.println("Introduzca el nombre del servicio");
+                                        String input = scanner.nextLine();
+                                        if (input != null && !input.isEmpty()) {
+                                            boolean existsByNombreService = ServicioDAO.verificarNombre(input, db);
+                                            if (existsByNombreService) {
+                                                Servicio servicio = ServicioDAO.obtenerServicioPorNombre(input, db);
+                                                System.out.println("Los datos del servicio introducido son:\n" + servicio.toString()
+                                                        + "\n¿Desea modificar los datos del servicio? \n Si\n No");
+                                                String opcion = scanner.nextLine();
+                                                if (opcion.equalsIgnoreCase("si") || opcion.equals("sí")) {
 
+                                                    System.out.println("EN CASO DE NO QUERER MODIFICAR ALGUN CAMPO, DEJELO EN BLANCO");
+                                                    boolean verificar = true;
+                                                    String idServicio = servicio.getPkid();
+                                                    String nombreServicio = servicio.getNombre();
+                                                    double precio = servicio.getPrecio();
+                                                    List<Integer> IdParada = servicio.getArrayIdParadas();
+
+                                                    do {
+                                                        System.out.println("Introduzca el nuevo nombre del servicio");
+                                                        nombreServicio = scanner.nextLine();
+                                                        if (nombreServicio.isEmpty()) {
+                                                            System.out.println("Campo vacío, no se aplicaran cambios");
+                                                            nombreServicio = servicio.getNombre();
+                                                            verificar = false;
+                                                        } else {
+                                                            verificar = ServicioDAO.verificarNombre(nombreServicio, db);
+                                                            if (verificar) {
+                                                                System.out.println("Ya existe un servicio con ese nombre");
+                                                            }
+                                                        }
+                                                    } while (verificar);
+
+                                                    do {
+                                                        System.out.println("Introduzca el nuevo precio del servicio");
+                                                        input = scanner.nextLine();
+                                                        if (input.isEmpty()) {
+                                                            System.out.println("Campo vacío, no se aplicaran cambios");
+                                                            verificar = true;
+                                                        } else {
+                                                            if (!ServicioDAO.verificarPrecio(precio)) {
+                                                                System.out.println("El precio se encuentra fuera de rango");
+                                                            } else {
+                                                                precio = Double.parseDouble(input);
+                                                                verificar = true;
+                                                            }
+                                                        }
+
+                                                    } while (!verificar);
+                                                    //verificar que se encuentra en el rango
+                                                    //bucle
+                                                    do {
+                                                        System.out.println("Introduzca el ID de la parada a la que desea asignar el servicio");
+                                                        String idparada = scanner.nextLine();
+                                                        if (idparada.isEmpty()) {
+                                                            System.out.println("Campo vacío, no se aplicaran cambios");
+                                                            verificar = false;
+                                                        } else {
+                                                            int idparadaInt = Integer.parseInt(idparada);
+                                                            IdParada.add(idparadaInt);
+                                                            System.out.println("Desea continuar? \n 1 - Si \n 2 - No");
+                                                            int opcion2 = Integer.parseInt(scanner.nextLine());
+                                                            if (opcion2 ==1) {
+                                                                continue;
+                                                            } else {
+                                                                verificar = false;
+                                                            }
+                                                        }
+                                                    } while (verificar);
+                                                    do {
+                                                        System.out.println("Introduzca el ID de la parada a la que desea eliminar el servicio");
+                                                        String idparada = scanner.nextLine();
+                                                        if (idparada.isEmpty()) {
+                                                            System.out.println("Campo vacío, no se aplicaran cambios");
+                                                            verificar = true;
+                                                        } else {
+                                                            int idparadaInt = Integer.parseInt(idparada);
+                                                            IdParada.remove(Integer.valueOf(idparadaInt));
+                                                            System.out.println("Desea continuar? \n 1 - Si \n 2 - No");
+                                                            int opcion2 = Integer.parseInt(scanner.nextLine());
+                                                            if (opcion2 ==1) {
+                                                                continue;
+                                                            } else {
+                                                                verificar = true;
+                                                            }
+                                                        }
+                                                    } while (!verificar);
+                                                    ServicioDAO.modificarServicioPorId(idServicio, nombreServicio, precio, IdParada, db);
+                                                    System.out.println("Servicio modificado con éxito");
+                                                    crearServicio = false;
+                                                } else {
+                                                    System.out.println("No se trata de una opción, se interpretará como un NO");
+                                                    crearServicio = false;
+                                                }
+                                            } else {
+                                                System.out.println("No existe un servicio con ese nombre");
+                                            }
+                                        }//problemas conocidos:
+                                        //en modificar servicio por id el objeto servicio sale como null
+                                    } while (crearServicio);
                                 }
                             }
                         }
