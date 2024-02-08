@@ -4,29 +4,25 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ServicioDAO {
-    private static ObjectContainer db;
-
-    public ServicioDAO(ObjectContainer Objetodb) {
-        db = Objetodb;
-    }
 
     //Método para crear un servicio
-    public static void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas) {
+    public static void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, ObjectContainer db) {
         Servicio servicio = new Servicio(nombre, precio, arrayIdParadas);
         db.store(servicio);
     }
 
     // Método para obtener un servicio por su ID
-    public Servicio obtenerServicioPorId(int pkid) {
+    public Servicio obtenerServicioPorId(int pkid, ObjectContainer db) {
         ObjectSet<Servicio> resultados = db.queryByExample(new Servicio(null, 0, null));
         return resultados.hasNext() ? resultados.next() : null;
     }
 
     // Método para modificar un servicio por su ID
-    public void modificarServicioPorId(int pkid, String nuevoNombre, double nuevoPrecio, List<Integer> nuevoArrayIdParadas) {
-        Servicio servicio = obtenerServicioPorId(pkid);
+    public void modificarServicioPorId(int pkid, String nuevoNombre, double nuevoPrecio, List<Integer> nuevoArrayIdParadas, ObjectContainer db) {
+        Servicio servicio = obtenerServicioPorId(pkid,db);
         if (servicio != null) {
             servicio.setNombre(nuevoNombre);
             servicio.setPrecio(nuevoPrecio);
@@ -36,7 +32,7 @@ public class ServicioDAO {
     }
 
     // Método para verificar si un servicio ya existe
-    public static boolean verificarNombre(String nombreServicio) {
+    public static boolean verificarNombre(String nombreServicio, ObjectContainer db) {
 
         Servicio servicio = new Servicio();
         servicio.setNombre(nombreServicio);
@@ -47,6 +43,6 @@ public class ServicioDAO {
 
     // Método para verificar si el precio es correcto
     public static boolean verificarPrecio(double precioServicio) {
-        return precioServicio >= 0;
+        return precioServicio > 0;
     }
 }

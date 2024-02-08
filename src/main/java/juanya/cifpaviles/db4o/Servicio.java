@@ -1,7 +1,5 @@
 package juanya.cifpaviles.db4o;
 
-import juanya.cifpaviles.d_objectdb.EnvioACasa;
-
 import java.util.List;
 
 //posible modifiacion: añadir idEnvioACasa as nullable

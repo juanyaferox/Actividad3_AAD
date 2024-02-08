@@ -1,5 +1,5 @@
 package juanya.cifpaviles.d_objectdb;
-
+/*
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import juanya.cifpaviles.model.Tparada;
@@ -94,3 +94,4 @@ public class EnvioACasa {
         this.direccion = direccion;
     }
 }
+*/
