@@ -5,5 +5,7 @@
     <option name="renamerInitialized" value="true" />
     <option name="reverseEngineeringLastDbConnectionId" value="16986eab-70a0-49b9-a2de-8c43b63af202__bdperegrinos_juaniagomartinezcorreia" />
     <option name="reLastEntityCreationPackage" value="src/main/java/juanya/cifpaviles/model" />
+    <option name="newEntityIdType" value="Integer" />
+    <option name="newEntityIdStrategy" value="Identity" />
   </component>
 </project>

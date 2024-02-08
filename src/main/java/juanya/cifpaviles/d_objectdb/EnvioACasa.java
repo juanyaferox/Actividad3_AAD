@@ -1,7 +1,9 @@
 package juanya.cifpaviles.d_objectdb;
-/*
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import juanya.cifpaviles.model.Tparada;
 
 @Entity
@@ -13,7 +15,9 @@ public class EnvioACasa {
     private int ancho;
     private int alto;
     private boolean urgente;
+    @ManyToOne
     private Tparada tparada;
+    @ManyToOne
     private Direccion direccion;
 
     public EnvioACasa() {
@@ -94,4 +98,3 @@ public class EnvioACasa {
         this.direccion = direccion;
     }
 }
-*/

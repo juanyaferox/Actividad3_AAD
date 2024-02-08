@@ -2,10 +2,7 @@ package juanya.cifpaviles;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
-import juanya.cifpaviles.db4o.ConjuntoContratado;
-import juanya.cifpaviles.db4o.NMConjuntoServicio;
-import juanya.cifpaviles.db4o.Servicio;
-import juanya.cifpaviles.db4o.ServicioDAO;
+import juanya.cifpaviles.db4o.*;
 import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -581,10 +578,10 @@ public class Main implements CommandLineRunner {
                                                 } catch (NumberFormatException e) {
                                                     System.out.println("No se trata de un número, " + e.getMessage());
                                                 }
-
+                                                //************************CU7*****************************************
                                                 System.out.println("Desea contratar algún servicio adicional?");
                                                 System.out.println(" 1 - Si, contratar servicio \n 2& - No, no contratar servicio");
-                                                List<String> ListaServiciosDisponibles = new ArrayList<>();
+                                                List<String> ListaServiciosDisponibles = new ArrayList<>();//lista servicios de la parada
                                                 int opcionServicio = Integer.parseInt(scanner.nextLine());
                                                 if (opcionServicio == 1) {
                                                     int idtparada = tparada.getId();//para sacar el id de la parada
@@ -605,41 +602,54 @@ public class Main implements CommandLineRunner {
                                                     double preciototal = 0;
                                                     do {
                                                         System.out.println("Cuál desea contratar?");
-                                                        int ServicioAContratar = Integer.parseInt(scanner.nextLine());
-                                                        if (ListaServiciosDisponibles.get(ServicioAContratar).isEmpty()){
-                                                            System.out.println("No se ha introducido nada");
+                                                        int IntServicioAContratar = Integer.parseInt(scanner.nextLine());
+                                                        if (ListaServiciosDisponibles.get(IntServicioAContratar).isEmpty()) {
+                                                            System.out.println("No se trata de una opcion disponible");
                                                         } else {
+                                                            String nombreServicio
+                                                                    = ListaServiciosDisponibles.get(IntServicioAContratar);
+
+                                                            System.out.println("El servicio contratado es: " + nombreServicio);
+                                                            Servicio servicio = ServicioDAO.obtenerServicioPorNombre(nombreServicio, db);
                                                             //get precio servicio
                                                             //guardar en variable e ir sumando en cada iteracion
-                                                            System.out.println("Desea contratar más servicios?");
+                                                            /*System.out.println("Desea contratar más servicios?");
                                                             System.out.println(" 1 - Si, contratar más servicios \n 2& - No, no contratar más servicios");
                                                             int opcionServicioAContratar2 = Integer.parseInt(scanner.nextLine());
-                                                            if (opcionServicioAContratar2 == 2) {
-                                                                System.out.println("Cuál será el método de pago?");
-                                                                System.out.println("E-efectivo\nT-tarjeta\nB-bizum");
-                                                                char metodopago = scanner.nextLine().charAt(0);
-                                                                //??extra -> servicio contratado
-                                                                String extra=null;
-                                                                ConjuntoContratado conjunto = new ConjuntoContratado
-                                                                        (preciototal,metodopago,extra, iDtestancia);
-                                                                //metodo para guardar en db4o!!!
-                                                                //metodo para obtener objeto servicio apartir de nombre
-                                                                NMConjuntoServicio nm = new NMConjuntoServicio();
-                                                                //crear conjunto con precio, metodo pago,extra?,idestancia
-                                                                break;
-                                                            } else if (opcionServicioAContratar2 == 1){
+                                                            if (opcionServicioAContratar2 == 2) {*/
+                                                            System.out.println("Cuál será el método de pago?");
+                                                            System.out.println("E-efectivo\nT-tarjeta\nB-bizum");
+                                                            char metodopago = scanner.nextLine().charAt(0);
+                                                            System.out.println("Introduza el extra, caso no exista no digite nada");
+                                                            String extra = scanner.nextLine();
+                                                            if (extra.isEmpty()) {
+                                                                extra = null;
+                                                            }
+                                                            //??extra -> servicio contratado
+                                                            ConjuntoContratado conjunto = new ConjuntoContratado
+                                                                    (preciototal, metodopago, extra, iDtestancia);
+                                                            db.store(conjunto);//me dio pereza crear el metodo
+                                                            //metodo para guardar en db4o!!!^^^^^^^^^^
+                                                            ConjuntoContratadoDAO.crearConjunto(conjunto, db);
+                                                            //****
+                                                            NMConjuntoServicio nm
+                                                                    = new NMConjuntoServicio(conjunto, servicio);
+                                                            db.store(nm);
+                                                            //crear conjunto con precio, metodo pago,extra?,idestancia
+                                                            break;
+                                                        } /*else if (opcionServicioAContratar2 == 1) {
                                                                 continue;
                                                             } else {
                                                                 System.out.println("No se trata de una opción valida");
                                                             }
-                                                        }
+                                                        }*/
                                                         //pasos a seguir:
                                                         //1. dar volver a elegir si quiere más servicios
                                                         //2. crear objeto conjunto contratado con precio total, metodopago,
                                                         //extras? + id de la estancia
                                                         //3. crear objeto conjuntoservicio con id conjunto+id servicio
                                                         //con esto estaria terminado el CU7
-                                                    }while(true);
+                                                    } while (true);
                                                 } else {
                                                     //no hacer nada
                                                     continue;

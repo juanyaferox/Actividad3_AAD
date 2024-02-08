@@ -1,5 +1,5 @@
 package juanya.cifpaviles.d_objectdb;
-/*
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -43,4 +43,3 @@ public class Direccion {
         this.localidad = localidad;
     }
 }
-*/

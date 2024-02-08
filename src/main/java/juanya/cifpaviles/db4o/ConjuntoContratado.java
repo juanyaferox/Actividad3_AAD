@@ -8,7 +8,7 @@ public class ConjuntoContratado {
     private String pkid;
     private double precioTotal;
     private char metodoPago;
-    private String extra;
+    private String extra = null;
     private int testanciaPkid;
 
     public ConjuntoContratado() {
@@ -21,6 +21,13 @@ public class ConjuntoContratado {
         this.extra = extra;
         this.testanciaPkid = testanciaPkid;
     }
+    public ConjuntoContratado(double precioTotal, char metodoPago, int testanciaPkid) {
+        this.pkid = UUID.randomUUID().toString();
+        this.precioTotal = precioTotal;
+        this.metodoPago = metodoPago;
+        this.testanciaPkid = testanciaPkid;
+    }
+
 
     public String getPkid() {
         return pkid;
