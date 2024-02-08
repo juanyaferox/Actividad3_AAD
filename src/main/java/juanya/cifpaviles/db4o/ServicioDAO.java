@@ -16,17 +16,24 @@ public class ServicioDAO {
 
     // Método para obtener un servicio por su ID
     public static Servicio obtenerServicioPorId(String pkid, ObjectContainer db) {
-        ObjectSet<Servicio> resultados = db.queryByExample(new Servicio(null, 0, null));
+        Servicio servicio = new Servicio();
+        servicio.setPkid(pkid);
+
+        ObjectSet<Servicio> resultados = db.queryByExample(servicio);
         return resultados.hasNext() ? resultados.next() : null;
     }
 
     // Método para modificar un servicio por su ID
     public static void modificarServicioPorId(String pkid, String nuevoNombre, double nuevoPrecio, List<Integer> nuevoArrayIdParadas, ObjectContainer db) {
         Servicio servicio = obtenerServicioPorId(pkid,db);
+        if (servicio != null) {
             servicio.setNombre(nuevoNombre);
             servicio.setPrecio(nuevoPrecio);
             servicio.setArrayIdParadas(nuevoArrayIdParadas);
             db.store(servicio);
+        } else{
+            System.out.println("El servicio no existe, nose ka pasao");
+        }
     }
 
     // Método para obtener un servicio por su Nombre
