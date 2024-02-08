@@ -2,31 +2,31 @@ package juanya.cifpaviles.db4o;
 
 import juanya.cifpaviles.model.Testancia;
 
+import java.util.UUID;
+
 public class ConjuntoContratado {
-    private int pkid;
+    private String pkid;
     private double precioTotal;
     private char metodoPago;
     private String extra;
     private int testanciaPkid;
 
-    private static int lastId = 0;
-
     public ConjuntoContratado() {
     }
 
-    public ConjuntoContratado(int pkid, double precioTotal, char metodoPago, String extra, int testanciaPkid) {
-        this.pkid = ++lastId;
+    public ConjuntoContratado(double precioTotal, char metodoPago, String extra, int testanciaPkid) {
+        this.pkid = UUID.randomUUID().toString();
         this.precioTotal = precioTotal;
         this.metodoPago = metodoPago;
         this.extra = extra;
         this.testanciaPkid = testanciaPkid;
     }
 
-    public int getPkid() {
+    public String getPkid() {
         return pkid;
     }
 
-    public void setPkid(int pkid) {
+    public void setPkid(String pkid) {
         this.pkid = pkid;
     }
 

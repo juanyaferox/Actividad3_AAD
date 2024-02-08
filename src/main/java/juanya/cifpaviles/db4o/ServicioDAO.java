@@ -45,9 +45,6 @@ public class ServicioDAO {
         return resultados.hasNext() ? resultados.next() : null;
     }
 
-
-
-
     // Método para verificar si un servicio ya existe por Nombre
     public static boolean verificarNombre(String nombreServicio, ObjectContainer db) {
 
@@ -70,5 +67,11 @@ public class ServicioDAO {
     // Método para verificar si el precio es correcto por Precio
     public static boolean verificarPrecio(double precioServicio) {
         return precioServicio > 0;
+    }
+
+    //Método para recorrer todos los servicios
+    public static List<Servicio> recorrerServicios(ObjectContainer db) {
+        List<Servicio> listaServicios = db.queryByExample(new Servicio());
+        return listaServicios;
     }
 }

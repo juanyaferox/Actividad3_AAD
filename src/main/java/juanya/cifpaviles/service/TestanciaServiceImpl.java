@@ -4,14 +4,11 @@ import juanya.cifpaviles.model.Testancia;
 import juanya.cifpaviles.model.Tparada;
 import juanya.cifpaviles.model.Tperegrino;
 import juanya.cifpaviles.repository.TestanciaRepository;
-import juanya.cifpaviles.repository.TparadaRepository;
-import juanya.cifpaviles.repository.TperegrinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 
@@ -31,16 +28,18 @@ public class TestanciaServiceImpl implements TestanciaService{
 
     @Override
     @Transactional
-    public void insertarEstanciaVip(Tparada tparada, Tperegrino tperegrino) {
+    public int insertarEstanciaVip(Tparada tparada, Tperegrino tperegrino) {
         Testancia testancia = new Testancia(tparada,tperegrino, LocalDate.now(), true);
-        testanciaRepository.save(testancia);
+        Testancia testanciaSaved = testanciaRepository.save(testancia);
+        return testanciaSaved.getId();
     }
 
     @Override
     @Transactional
-    public void insertarEstanciaNoVip(Tparada tparada, Tperegrino tperegrino) {
+    public int insertarEstanciaNoVip(Tparada tparada, Tperegrino tperegrino) {
         Testancia testancia = new Testancia(tparada,tperegrino, LocalDate.now(), false);
-        testanciaRepository.save(testancia);
+        Testancia testanciaSaved = testanciaRepository.save(testancia);
+        return testanciaSaved.getId();
     }
 
     @Override

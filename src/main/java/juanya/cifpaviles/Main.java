@@ -2,14 +2,14 @@ package juanya.cifpaviles;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
-import jdk.swing.interop.SwingInterOpUtils;
+import juanya.cifpaviles.db4o.ConjuntoContratado;
+import juanya.cifpaviles.db4o.NMConjuntoServicio;
 import juanya.cifpaviles.db4o.Servicio;
 import juanya.cifpaviles.db4o.ServicioDAO;
 import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.ReactiveAdapterRegistry;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
@@ -61,12 +61,14 @@ public class Main implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("\u001B[38;5;173mBIENVENIDO AL PROGRAMA GESTOR DE LA BASE DE DATOS");
 
+        //lógica para la creación de la base de datos en db4o
         String folderPath = Paths.get(System.getProperty("user.dir"), "db4oDB").toString();
         String dbFilePath = Paths.get(folderPath, "database.db").toString();
 
         ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), dbFilePath);
         Path folder = Paths.get(folderPath);
 
+        //lógica para estar seguro de la existencia de la carpeta contenedora
         if (!Files.exists(folder)) {
             try {
                 Files.createDirectories(folder);
@@ -75,7 +77,6 @@ public class Main implements CommandLineRunner {
                 System.err.println("Error al crear la carpeta: " + e.getMessage());
             }
         }
-
 
         int n; //variable para menu
         String usuario = null;//inicialización variable del nombre de sesión
@@ -340,7 +341,7 @@ public class Main implements CommandLineRunner {
                                 case 2 -> {
                                     System.out.println("MODIFICACIÓN DE SERVICIO");
                                     boolean crearServicio = true;
-                                    //MODIFICAR PARA QUE SEA INTRODUCIENDO NOMBRE, NO ID
+
                                     do {
                                         System.out.println("Introduzca el nombre del servicio");
                                         String input = scanner.nextLine();
@@ -404,7 +405,7 @@ public class Main implements CommandLineRunner {
                                                             IdParada.add(idparadaInt);
                                                             System.out.println("Desea continuar? \n 1 - Si \n 2 - No");
                                                             int opcion2 = Integer.parseInt(scanner.nextLine());
-                                                            if (opcion2 ==1) {
+                                                            if (opcion2 == 1) {
                                                                 continue;
                                                             } else {
                                                                 verificar = false;
@@ -422,7 +423,7 @@ public class Main implements CommandLineRunner {
                                                             IdParada.remove(Integer.valueOf(idparadaInt));
                                                             System.out.println("Desea continuar? \n 1 - Si \n 2 - No");
                                                             int opcion2 = Integer.parseInt(scanner.nextLine());
-                                                            if (opcion2 ==1) {
+                                                            if (opcion2 == 1) {
                                                                 continue;
                                                             } else {
                                                                 verificar = true;
@@ -439,8 +440,7 @@ public class Main implements CommandLineRunner {
                                             } else {
                                                 System.out.println("No existe un servicio con ese nombre");
                                             }
-                                        }//problemas conocidos:
-                                        //en modificar servicio por id el objeto servicio sale como null
+                                        }
                                     } while (crearServicio);
                                 }
                             }
@@ -566,23 +566,89 @@ public class Main implements CommandLineRunner {
                                             if (opcionEstancia == 1) {
                                                 System.out.println("Es vip o no?");
                                                 System.out.println(" 1 - Sí, es vip \n 2& - No, no es vip");
+                                                int iDtestancia = -1;
                                                 try {
                                                     int opcionVIP = Integer.parseInt(scanner.nextLine());
                                                     if (opcionVIP == 1) {
                                                         //metodo para insertar en estancia con vip true(1)
-                                                        testanciaService.insertarEstanciaVip(tparada, tperegrino);
+                                                        iDtestancia = testanciaService.insertarEstanciaVip(tparada, tperegrino);
                                                         //metodo para añadir +1 al vip de tcarnet del peregrino
                                                         tcarnetService.updateTcarnetVIP(tcarnet);
                                                     } else {
                                                         //metodo para inserta en estancia con vip false(0)
-                                                        testanciaService.insertarEstanciaNoVip(tparada, tperegrino);
+                                                        iDtestancia = testanciaService.insertarEstanciaNoVip(tparada, tperegrino);
                                                     }
                                                 } catch (NumberFormatException e) {
                                                     System.out.println("No se trata de un número, " + e.getMessage());
                                                 }
+
+                                                System.out.println("Desea contratar algún servicio adicional?");
+                                                System.out.println(" 1 - Si, contratar servicio \n 2& - No, no contratar servicio");
+                                                List<String> ListaServiciosDisponibles = new ArrayList<>();
+                                                int opcionServicio = Integer.parseInt(scanner.nextLine());
+                                                if (opcionServicio == 1) {
+                                                    int idtparada = tparada.getId();//para sacar el id de la parada
+                                                    //metodo para recorrer todas las listas de todo db4o y verificar coincidencia de numero
+                                                    List<Servicio> listaServicios = ServicioDAO.recorrerServicios(db);
+                                                    for (Servicio servicio : listaServicios) {
+                                                        //si coincide, se añade a la lista de servicios del peregrino
+                                                        if (servicio.getArrayIdParadas().contains(idtparada)) {
+                                                            ListaServiciosDisponibles.add(servicio.getNombre());
+                                                        }
+                                                    }
+                                                    int contador = 0;
+                                                    System.out.println("Estos son los servicios disponibles en la parada actual:");
+                                                    for (String nombreService : ListaServiciosDisponibles) {
+                                                        System.out.println(contador + ". " + nombreService);
+                                                        contador++;
+                                                    }
+                                                    double preciototal = 0;
+                                                    do {
+                                                        System.out.println("Cuál desea contratar?");
+                                                        int ServicioAContratar = Integer.parseInt(scanner.nextLine());
+                                                        if (ListaServiciosDisponibles.get(ServicioAContratar).isEmpty()){
+                                                            System.out.println("No se ha introducido nada");
+                                                        } else {
+                                                            //get precio servicio
+                                                            //guardar en variable e ir sumando en cada iteracion
+                                                            System.out.println("Desea contratar más servicios?");
+                                                            System.out.println(" 1 - Si, contratar más servicios \n 2& - No, no contratar más servicios");
+                                                            int opcionServicioAContratar2 = Integer.parseInt(scanner.nextLine());
+                                                            if (opcionServicioAContratar2 == 2) {
+                                                                System.out.println("Cuál será el método de pago?");
+                                                                System.out.println("E-efectivo\nT-tarjeta\nB-bizum");
+                                                                char metodopago = scanner.nextLine().charAt(0);
+                                                                //??extra -> servicio contratado
+                                                                String extra=null;
+                                                                ConjuntoContratado conjunto = new ConjuntoContratado
+                                                                        (preciototal,metodopago,extra, iDtestancia);
+                                                                //metodo para guardar en db4o!!!
+                                                                //metodo para obtener objeto servicio apartir de nombre
+                                                                NMConjuntoServicio nm = new NMConjuntoServicio();
+                                                                //crear conjunto con precio, metodo pago,extra?,idestancia
+                                                                break;
+                                                            } else if (opcionServicioAContratar2 == 1){
+                                                                continue;
+                                                            } else {
+                                                                System.out.println("No se trata de una opción valida");
+                                                            }
+                                                        }
+                                                        //pasos a seguir:
+                                                        //1. dar volver a elegir si quiere más servicios
+                                                        //2. crear objeto conjunto contratado con precio total, metodopago,
+                                                        //extras? + id de la estancia
+                                                        //3. crear objeto conjuntoservicio con id conjunto+id servicio
+                                                        //con esto estaria terminado el CU7
+                                                    }while(true);
+                                                } else {
+                                                    //no hacer nada
+                                                    continue;
+                                                }
                                             } else {
                                                 //no hacer nada
-                                            }
+                                            }   //implementar CU7
+
+
                                         } catch (NumberFormatException e) {
                                             System.out.println("No se trata de un número, " + e.getMessage());
                                         }
