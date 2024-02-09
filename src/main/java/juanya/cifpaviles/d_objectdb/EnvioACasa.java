@@ -1,10 +1,7 @@
 package juanya.cifpaviles.d_objectdb;
 
 import com.objectdb.o.INT;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import juanya.cifpaviles.model.Tparada;
 
 import java.util.List;
@@ -12,24 +9,24 @@ import java.util.List;
 @Entity
 public class EnvioACasa {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pkid;
     private double peso;
     private List<Integer> dimensiones;
     private boolean urgente;
-    @ManyToOne
-    private Tparada tparada;
+    private int paradaid;
     @ManyToOne
     private Direccion direccion;
 
     public EnvioACasa() {
     }
 
-    public EnvioACasa(int pkid, double peso, List<Integer> dimensiones, boolean urgente, Tparada tparada, Direccion direccion) {
+    public EnvioACasa(int pkid, double peso, List<Integer> dimensiones, boolean urgente, int paradaid, Direccion direccion) {
         this.pkid = pkid;
         this.peso = peso;
         this.dimensiones = dimensiones;
         this.urgente = urgente;
-        this.tparada = tparada;
+        this.paradaid = paradaid;
         this.direccion = direccion;
     }
 
@@ -65,12 +62,12 @@ public class EnvioACasa {
         this.urgente = urgente;
     }
 
-    public Tparada getTparada() {
-        return tparada;
+    public int getTparadaid() {
+        return paradaid;
     }
 
-    public void setTparada(Tparada tparada) {
-        this.tparada = tparada;
+    public void setParadaid(int paradaid) {
+        this.paradaid = paradaid;
     }
 
     public Direccion getDireccion() {

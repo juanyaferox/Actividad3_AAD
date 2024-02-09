@@ -1,11 +1,14 @@
 package juanya.cifpaviles.d_objectdb;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Direccion {
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int pkid;
     private String direccion;
     private String localidad;
