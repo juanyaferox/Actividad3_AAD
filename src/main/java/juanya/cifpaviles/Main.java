@@ -2,6 +2,7 @@ package juanya.cifpaviles;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
+import jdk.swing.interop.SwingInterOpUtils;
 import juanya.cifpaviles.db4o.*;
 import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
@@ -635,6 +636,7 @@ public class Main implements CommandLineRunner {
                                                             NMConjuntoServicio nm
                                                                     = new NMConjuntoServicio(conjunto, servicio);
                                                             db.store(nm);
+                                                            System.out.println("Operación realizada con éxito");
                                                             //crear conjunto con precio, metodo pago,extra?,idestancia
                                                             break;
                                                         } /*else if (opcionServicioAContratar2 == 1) {

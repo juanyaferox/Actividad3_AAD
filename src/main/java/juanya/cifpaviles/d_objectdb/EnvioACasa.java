@@ -1,19 +1,20 @@
 package juanya.cifpaviles.d_objectdb;
 
+import com.objectdb.o.INT;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import juanya.cifpaviles.model.Tparada;
 
+import java.util.List;
+
 @Entity
 public class EnvioACasa {
     @Id
     private int pkid;
     private double peso;
-    private int largo;
-    private int ancho;
-    private int alto;
+    private List<Integer> dimensiones;
     private boolean urgente;
     @ManyToOne
     private Tparada tparada;
@@ -23,12 +24,10 @@ public class EnvioACasa {
     public EnvioACasa() {
     }
 
-    public EnvioACasa(int pkid, double peso, int largo, int ancho, int alto, boolean urgente, Tparada tparada, Direccion direccion) {
+    public EnvioACasa(int pkid, double peso, List<Integer> dimensiones, boolean urgente, Tparada tparada, Direccion direccion) {
         this.pkid = pkid;
         this.peso = peso;
-        this.largo = largo;
-        this.ancho = ancho;
-        this.alto = alto;
+        this.dimensiones = dimensiones;
         this.urgente = urgente;
         this.tparada = tparada;
         this.direccion = direccion;
@@ -50,28 +49,12 @@ public class EnvioACasa {
         this.peso = peso;
     }
 
-    public int getLargo() {
-        return largo;
+    public List<Integer> getDimensiones() {
+        return dimensiones;
     }
 
-    public void setLargo(int largo) {
-        this.largo = largo;
-    }
-
-    public int getAncho() {
-        return ancho;
-    }
-
-    public void setAncho(int ancho) {
-        this.ancho = ancho;
-    }
-
-    public int getAlto() {
-        return alto;
-    }
-
-    public void setAlto(int alto) {
-        this.alto = alto;
+    public void setDimensiones(List<Integer> dimensiones) {
+        this.dimensiones = dimensiones;
     }
 
     public boolean isUrgente() {
