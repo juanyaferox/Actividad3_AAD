@@ -60,7 +60,7 @@ public class Servicio {
         this.arrayIdParadas = arrayIdParadas;
     }
 
-    public boolean isEsEnvio() {
+    public boolean getEsEnvio() {
         return esEnvio;
     }
 

@@ -619,7 +619,7 @@ public class Main implements CommandLineRunner {
 
                                                             System.out.println("El servicio contratado es: " + nombreServicio);
                                                             Servicio servicio = ServicioDAO.obtenerServicioPorNombre(nombreServicio, db);
-                                                            if (nombreServicio.equals("Envio a Casa")){
+                                                            if (servicio.getEsEnvio()) {
                                                                 //********************CU8********************
                                                                 System.out.println("¿Cuál es su dirección?");
                                                                 String direccion = scanner.nextLine();
