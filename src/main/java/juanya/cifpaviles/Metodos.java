@@ -4,6 +4,7 @@
  */
 package juanya.cifpaviles;
 
+import jakarta.persistence.Persistence;
 import juanya.cifpaviles.model.*;
 import org.w3c.dom.*;
 
@@ -16,7 +17,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.time.DateTimeException;
@@ -296,6 +300,33 @@ public class Metodos {
         String cadenaNormalizada = Normalizer.normalize(cadena, Normalizer.Form.NFD);
         Pattern patron = Pattern.compile("[^\\p{ASCII}]");
         return patron.matcher(cadenaNormalizada).replaceAll("").replaceAll("\\s", "");
+    }
+
+    public static void verificarYCrearCarpeta(Path ruta) {
+        // Verificar si la carpeta existe
+        if (!Files.exists(ruta)) {
+            try {
+                // Intentar crear la carpeta
+                Files.createDirectories(ruta);
+                System.out.println("La carpeta se ha creado correctamente en la ruta: " + ruta);
+            } catch (IOException e) {
+                System.out.println("No se pudo crear la carpeta en la ruta: " + ruta);
+                e.printStackTrace();
+            }
+        }
+    }
+    public static String obtenerCarpetaPath() {
+        // Especifica la ruta de la carpeta manualmente
+        String carpetaPath = "./objectDB/";
+
+        // Verificar si la carpeta existe
+        File carpeta = new File(carpetaPath);
+        if (!carpeta.exists()) {
+            carpeta.mkdirs(); // Intenta crear la carpeta si no existe
+        }
+
+        // Devuelve la ruta de la carpeta
+        return carpetaPath;
     }
 
 

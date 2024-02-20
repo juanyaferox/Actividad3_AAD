@@ -2,6 +2,9 @@ package juanya.cifpaviles;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jdk.swing.interop.SwingInterOpUtils;
 import juanya.cifpaviles.d_objectdb.Direccion;
 import juanya.cifpaviles.d_objectdb.EnvioACasa;
@@ -69,16 +72,17 @@ public class Main implements CommandLineRunner {
 
         ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), dbFilePath);
         Path folder = Paths.get(folderPath);
-
+        Path folderObjectDB = Paths.get(folderPath, "objectDB");
         //lógica para estar seguro de la existencia de la carpeta contenedora
-        if (!Files.exists(folder)) {
-            try {
-                Files.createDirectories(folder);
-                System.out.println("Carpeta creada en: " + folder);
-            } catch (Exception e) {
-                System.err.println("Error al crear la carpeta: " + e.getMessage());
-            }
-        }
+        verificarYCrearCarpeta(folder);
+        //lógica para la creación de la carpeta contenedora
+        String carpetaPath = obtenerCarpetaPath();
+        Path rutaCarpeta = Paths.get(carpetaPath);
+        verificarYCrearCarpeta(rutaCarpeta);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DatabaseObjectDB");
+        EntityManager em = emf.createEntityManager();
+
+
 
         int n; //variable para menu
         String usuario = null;//inicialización variable del nombre de sesión
@@ -217,6 +221,7 @@ public class Main implements CommandLineRunner {
                             case 3 -> {
                                 System.out.println("Saliendo del programa...");
                                 db.close();
+                                em.close();
                                 break bucle;
                             }
                             default -> {
@@ -636,7 +641,10 @@ public class Main implements CommandLineRunner {
                                                                 String direccion = scanner.nextLine();
                                                                 System.out.println("¿Cuál es su localidad?");
                                                                 String localidad = scanner.nextLine();
+                                                                em.getTransaction().begin();
                                                                 Direccion direccionObj = new Direccion(direccion, localidad);
+                                                                em.persist(direccionObj);
+                                                                em.getTransaction().commit();
                                                                 //GUARDAR EN BD OBJECTDB*******************
                                                                 System.out.println("¿Cuáles son las especificaciones del paquete?");
                                                                 System.out.println("Introduzca el peso:");
@@ -663,6 +671,8 @@ public class Main implements CommandLineRunner {
                                                                 }
                                                                 EnvioACasa envioACasa = new EnvioACasa
                                                                         (peso,dimensiones,urgencia,tparada.getId(),servicio.getPkid(),direccionObj);
+                                                                em.persist(envioACasa);
+                                                                em.getTransaction().commit();
                                                                 //GUARDAR EN BD OBJECTDB**************************
                                                             }
                                                             //get precio servicio
