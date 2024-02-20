@@ -10,6 +10,7 @@ import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
@@ -20,6 +21,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static juanya.cifpaviles.Metodos.*;
@@ -727,12 +729,28 @@ public class Main implements CommandLineRunner {
                         }
                         case 3 -> {
                             System.out.println("VER ENVIOS REALIZADOS");
+                            //*****************************CU9*********************************
+                            List<Servicio> listaServicios= ServicioDAO.obtenerServicioEnvio(db);
                             //obtemer desde db4o lista de servicios con esEnvio=true
+                            List<EnvioACasa> listaEnvio = new ArrayList<>();
                             //obtener desde objectdb lista de envioacasa
+                            List<EnvioACasa> enviosParada = new ArrayList<>();
                             //declarar nuevo list de enviosParada
-                            //for-each de servicio+envioacasa
-                            //if servicio.getId == envioacasa.getId, añadir a lista de enviosParada
+
+                            for (Servicio sao: listaServicios){
+                                for (EnvioACasa eac: listaEnvio){
+                                    //for-each de servicio+envioacasa
+                                    //if servicio.getId == envioacasa.getId, añadir a lista de enviosParada
+                                    if (Objects.equals(sao.getPkid(), eac.getIdServicio())){
+                                        enviosParada.add(eac);
+                                    }
+                                }
+                            }
+                            for (EnvioACasa envio: enviosParada){
+                                System.out.println(envio.toString());
+                            }
                             //recorrer lista de enviosParada y imprimir tostring en cada iteracion
+
                         }
                         case 4 -> {
                             System.out.println("Cerrando sesión...");

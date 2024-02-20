@@ -4,8 +4,10 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ServicioDAO {
 
@@ -23,6 +25,16 @@ public class ServicioDAO {
 
         ObjectSet<Servicio> resultados = db.queryByExample(servicio);
         return resultados.hasNext() ? resultados.next() : null;
+    }
+
+    public static List<Servicio> obtenerServicioEnvio(ObjectContainer db) {
+
+        Servicio servicio = new Servicio();
+        servicio.setEsEnvio(true);
+
+        ObjectSet<Servicio> resultados = db.queryByExample(servicio);
+
+        return resultados.stream().collect(Collectors.toList());
     }
 
     // Método para modificar un servicio por su ID
