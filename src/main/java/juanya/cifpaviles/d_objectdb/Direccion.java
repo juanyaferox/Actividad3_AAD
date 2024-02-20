@@ -16,8 +16,7 @@ public class Direccion {
     public Direccion() {
     }
 
-    public Direccion(int pkid, String direccion, String localidad) {
-        this.pkid = pkid;
+    public Direccion(String direccion, String localidad) {
         this.direccion = direccion;
         this.localidad = localidad;
     }

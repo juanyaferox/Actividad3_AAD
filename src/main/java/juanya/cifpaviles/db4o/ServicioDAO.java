@@ -14,6 +14,11 @@ public class ServicioDAO {
         db.store(servicio);
     }
 
+    public static void crearServicioEnvio(String nombre, double precio, List<Integer> arrayIdParadas, ObjectContainer db) {
+        Servicio servicio = new Servicio(nombre, precio, arrayIdParadas, true);
+        db.store(servicio);
+    }
+
     // Método para obtener un servicio por su ID
     public static Servicio obtenerServicioPorId(String pkid, ObjectContainer db) {
         Servicio servicio = new Servicio();

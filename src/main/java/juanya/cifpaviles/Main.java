@@ -3,6 +3,8 @@ package juanya.cifpaviles;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import jdk.swing.interop.SwingInterOpUtils;
+import juanya.cifpaviles.d_objectdb.Direccion;
+import juanya.cifpaviles.d_objectdb.EnvioACasa;
 import juanya.cifpaviles.db4o.*;
 import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
@@ -610,12 +612,42 @@ public class Main implements CommandLineRunner {
                                                         int IntServicioAContratar = Integer.parseInt(scanner.nextLine());
                                                         if (ListaServiciosDisponibles.get(IntServicioAContratar).isEmpty()) {
                                                             System.out.println("No se trata de una opcion disponible");
-                                                        } else {
+                                                        }
+                                                        else {
                                                             String nombreServicio
                                                                     = ListaServiciosDisponibles.get(IntServicioAContratar);
 
                                                             System.out.println("El servicio contratado es: " + nombreServicio);
                                                             Servicio servicio = ServicioDAO.obtenerServicioPorNombre(nombreServicio, db);
+                                                            if (nombreServicio.equals("Envio a Casa")){
+                                                                //********************CU8********************
+                                                                System.out.println("¿Cuál es su dirección?");
+                                                                String direccion = scanner.nextLine();
+                                                                System.out.println("¿Cuál es su localidad?");
+                                                                String localidad = scanner.nextLine();
+                                                                Direccion direccionObj = new Direccion(direccion, localidad);
+                                                                //GUARDAR EN BD OBJECTDB*******************
+                                                                System.out.println("¿Cuáles son las especificaciones del paquete?");
+                                                                System.out.println("Introduzca el peso:");
+                                                                double peso = Double.parseDouble(scanner.nextLine());
+                                                                System.out.println("Introduzca el largo:");
+                                                                int largo = Integer.parseInt(scanner.nextLine());
+                                                                System.out.println("Introduzca el ancho:");
+                                                                int ancho = Integer.parseInt(scanner.nextLine());
+                                                                System.out.println("Introduzca el alto:");
+                                                                int alto = Integer.parseInt(scanner.nextLine());
+                                                                int[] dimensiones = {largo, ancho, alto};
+                                                                System.out.println("Se trata de un paquete urgente?" +
+                                                                        " En caso afirmativo, digite 1, si no, no digite nada");
+                                                                boolean urgencia = false;
+                                                                byte opcionUrgencia = Byte.parseByte(scanner.nextLine());
+                                                                if (opcionUrgencia == 1){
+                                                                    urgencia = true;
+                                                                }
+                                                                EnvioACasa envioACasa = new EnvioACasa
+                                                                        (peso,dimensiones,urgencia,tparada.getId(),direccionObj);
+                                                                //GUARDAR EN BD OBJECTDB**************************
+                                                            }
                                                             //get precio servicio
                                                             //guardar en variable e ir sumando en cada iteracion
                                                             /*System.out.println("Desea contratar más servicios?");

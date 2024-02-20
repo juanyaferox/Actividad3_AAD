@@ -9,6 +9,7 @@ public class Servicio {
     private String nombre;
     private double precio;
     private List<Integer> arrayIdParadas;
+    private boolean esEnvio = false;
 
     public Servicio() {
     }
@@ -18,6 +19,13 @@ public class Servicio {
         this.nombre = nombre;
         this.precio = precio;
         this.arrayIdParadas = arrayIdParadas;
+    }
+    public Servicio(String nombre, double precio, List<Integer> arrayIdParadas, boolean esEnvio) {
+        this.pkid = UUID.randomUUID().toString();
+        this.nombre = nombre;
+        this.precio = precio;
+        this.arrayIdParadas = arrayIdParadas;
+        this.esEnvio = esEnvio;
     }
 
     public String getPkid() {
@@ -50,6 +58,14 @@ public class Servicio {
 
     public void setArrayIdParadas(List<Integer> arrayIdParadas) {
         this.arrayIdParadas = arrayIdParadas;
+    }
+
+    public boolean isEsEnvio() {
+        return esEnvio;
+    }
+
+    public void setEsEnvio(boolean esEnvio) {
+        this.esEnvio = esEnvio;
     }
 
     @Override

@@ -2,8 +2,10 @@ package juanya.cifpaviles.d_objectdb;
 
 import com.objectdb.o.INT;
 import jakarta.persistence.*;
+import juanya.cifpaviles.db4o.Servicio;
 import juanya.cifpaviles.model.Tparada;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 @Entity
@@ -12,17 +14,17 @@ public class EnvioACasa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pkid;
     private double peso;
-    private List<Integer> dimensiones;
+    private int[] dimensiones = new int[3];
     private boolean urgente;
     private int paradaid;
     @ManyToOne
     private Direccion direccion;
 
+
     public EnvioACasa() {
     }
 
-    public EnvioACasa(int pkid, double peso, List<Integer> dimensiones, boolean urgente, int paradaid, Direccion direccion) {
-        this.pkid = pkid;
+    public EnvioACasa(double peso, int[] dimensiones, boolean urgente, int paradaid, Direccion direccion) {
         this.peso = peso;
         this.dimensiones = dimensiones;
         this.urgente = urgente;
@@ -46,11 +48,11 @@ public class EnvioACasa {
         this.peso = peso;
     }
 
-    public List<Integer> getDimensiones() {
+    public int[] getDimensiones() {
         return dimensiones;
     }
 
-    public void setDimensiones(List<Integer> dimensiones) {
+    public void setDimensiones(int[] dimensiones) {
         this.dimensiones = dimensiones;
     }
 
@@ -62,7 +64,7 @@ public class EnvioACasa {
         this.urgente = urgente;
     }
 
-    public int getTparadaid() {
+    public int getParadaid() {
         return paradaid;
     }
 
