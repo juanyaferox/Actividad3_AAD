@@ -727,7 +727,12 @@ public class Main implements CommandLineRunner {
                         }
                         case 3 -> {
                             System.out.println("VER ENVIOS REALIZADOS");
-
+                            //obtemer desde db4o lista de servicios con esEnvio=true
+                            //obtener desde objectdb lista de envioacasa
+                            //declarar nuevo list de enviosParada
+                            //for-each de servicio+envioacasa
+                            //if servicio.getId == envioacasa.getId, añadir a lista de enviosParada
+                            //recorrer lista de enviosParada y imprimir tostring en cada iteracion
                         }
                         case 4 -> {
                             System.out.println("Cerrando sesión...");

@@ -111,6 +111,8 @@ public class EnvioACasa {
         // Obtener datos del objeto Direccion
         if (direccion != null) {
             sb.append("Dirección: ").append(direccion.toString()).append("\n");
+        } else {
+            sb.append("No hay dirección asociada al envío").append("\n");
         }
         return sb.toString();
     }
