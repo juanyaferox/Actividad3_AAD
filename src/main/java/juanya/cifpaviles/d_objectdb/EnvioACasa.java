@@ -1,6 +1,9 @@
 package juanya.cifpaviles.d_objectdb;
 
 import jakarta.persistence.*;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
 
 
 //El servicio de envio a casa se ha creado con anterioridad, con valor 50 y nombre "Envio a casa"
@@ -93,5 +96,22 @@ public class EnvioACasa {
 
     public void setIdServicio(String idServicio) {
         this.idServicio = idServicio;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID Envio: ").append(pkid).append("\n");
+        sb.append("Peso: ").append(peso).append("'\n");
+        String[] dimensionesString = Arrays.stream(dimensiones).mapToObj(String::valueOf).toArray(String[]::new);
+        sb.append("Dimensiones: ").append(StringUtils.join(dimensionesString, ", ")).append("\n");
+        sb.append("Urgente: ").append(urgente).append("\n");
+        sb.append("Parada: ").append(paradaid).append("\n");
+        Direccion direccion = getDireccion();
+        // Obtener datos del objeto Direccion
+        if (direccion != null) {
+            sb.append("Dirección: ").append(direccion.toString()).append("\n");
+        }
+        return sb.toString();
     }
 }

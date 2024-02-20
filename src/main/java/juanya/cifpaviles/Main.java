@@ -508,11 +508,11 @@ public class Main implements CommandLineRunner {
                     System.out.println("SESIÓN: ADMINISTRADOR DE PARADA \"" + nombreParada +
                             "\" REGIÓN \"" + regionParada + "\"");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar datos parada" +
-                            "\n 2- Sellar/Alojar \n 3- Logout");
+                            "\n 2- Sellar/Alojar \n 3- Ver envíos realizados \n 4- Logout");
                     n = Integer.parseInt(scanner.nextLine());
                     switch (n) {
                         case 1 -> {
-                            System.out.println("EXPORTAR DATOS DE LA PARADADA");
+                            System.out.println("EXPORTAR DATOS DE LA PARADA");
                             //introducir el rango de fechas del que desea realizar la exportación
                             System.out.println("Introduzca el rango de fechas del cuál desea realizar la exportación");
                             //introducir fecha de inicio
@@ -646,12 +646,18 @@ public class Main implements CommandLineRunner {
                                                                 System.out.println("Introduzca el alto:");
                                                                 int alto = Integer.parseInt(scanner.nextLine());
                                                                 int[] dimensiones = {largo, ancho, alto};
-                                                                System.out.println("Se trata de un paquete urgente?\n" +
-                                                                        " En caso afirmativo, digite 1, si no, no digite nada");
+                                                                System.out.println("Se trata de un paquete urgente?");
+                                                                System.out.println("En caso afirmativo, digite 1. Si no, no digite nada.");
                                                                 boolean urgencia = false;
-                                                                byte opcionUrgencia = Byte.parseByte(scanner.nextLine());
-                                                                if (opcionUrgencia == 1){
-                                                                    urgencia = true;
+                                                                String entrada = scanner.nextLine();
+
+                                                                if (!entrada.isEmpty()) {
+                                                                    byte opcionUrgencia = Byte.parseByte(entrada);
+                                                                    if (opcionUrgencia == 1) {
+                                                                        urgencia = true;
+                                                                    }
+                                                                } else {
+                                                                    System.out.println("No se ha ingresado ninguna opción. No se considera urgente.");
                                                                 }
                                                                 EnvioACasa envioACasa = new EnvioACasa
                                                                         (peso,dimensiones,urgencia,tparada.getId(),servicio.getPkid(),direccionObj);
@@ -720,6 +726,10 @@ public class Main implements CommandLineRunner {
                             }
                         }
                         case 3 -> {
+                            System.out.println("VER ENVIOS REALIZADOS");
+
+                        }
+                        case 4 -> {
                             System.out.println("Cerrando sesión...");
                             perfil = TipoSesion.INVITADO;
                         }

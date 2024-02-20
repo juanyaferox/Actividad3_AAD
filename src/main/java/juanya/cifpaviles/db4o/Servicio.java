@@ -82,9 +82,6 @@ public class Servicio {
         for (int idParada : arrayIdParadas) {
             sb.append("- ").append(idParada).append("\n");
         }
-        if (esEnvio) {
-            sb.append("Es envío a casa\n");
-        }
 
         return sb.toString();
     }

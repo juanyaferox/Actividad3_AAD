@@ -44,4 +44,9 @@ public class Direccion {
     public void setLocalidad(String localidad) {
         this.localidad = localidad;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Dirección: %s\nLocalidad: %s", direccion, localidad);
+    }
 }
