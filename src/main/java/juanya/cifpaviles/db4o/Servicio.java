@@ -3,13 +3,15 @@ package juanya.cifpaviles.db4o;
 import java.util.List;
 import java.util.UUID;
 
-//posible modifiacion: añadir idEnvioACasa as nullable
+//El boolean esEnvio es una manera de simplificar el proceso de conocer si el servicio contratado se trata de envio a casa
+//Asi (considero) que hago el proceso de saber si es un envio o no mejor, para no fiarse unicamente del nombre.
 public class Servicio {
     private String pkid;
     private String nombre;
     private double precio;
     private List<Integer> arrayIdParadas;
     private boolean esEnvio = false;
+
 
     public Servicio() {
     }
@@ -79,6 +81,9 @@ public class Servicio {
         // Agrega cada elemento de la lista en una nueva línea
         for (int idParada : arrayIdParadas) {
             sb.append("- ").append(idParada).append("\n");
+        }
+        if (esEnvio) {
+            sb.append("Es envío a casa\n");
         }
 
         return sb.toString();

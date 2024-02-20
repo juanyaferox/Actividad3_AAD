@@ -9,14 +9,10 @@ import java.util.Objects;
 public class ServicioDAO {
 
     //Método para crear un servicio
-    public static void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, ObjectContainer db) {
-        Servicio servicio = new Servicio(nombre, precio, arrayIdParadas);
+    public static void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, boolean esEnvio, ObjectContainer db) {
+        Servicio servicio = new Servicio(nombre, precio, arrayIdParadas, esEnvio);
         db.store(servicio);
-    }
-
-    public static void crearServicioEnvio(String nombre, double precio, List<Integer> arrayIdParadas, ObjectContainer db) {
-        Servicio servicio = new Servicio(nombre, precio, arrayIdParadas, true);
-        db.store(servicio);
+        System.out.println("Servicio creado con éxito");
     }
 
     // Método para obtener un servicio por su ID

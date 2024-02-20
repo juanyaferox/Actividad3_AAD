@@ -337,8 +337,16 @@ public class Main implements CommandLineRunner {
                                                 bucleIdParada = false;
                                             }
                                         } while (bucleIdParada);
-                                        ServicioDAO.crearServicio(nombreServicio, precio, listIdParada, db);
-                                        System.out.println("Servicio creado con éxito");
+                                        System.out.println("El servicio creado de trata de un envio a casa? " +
+                                                "Porfavor, evite crear otro si ya existe uno \n Si\n No");
+                                        String opcion = scanner.nextLine();
+                                        boolean envio=false;
+                                        if (opcion.equalsIgnoreCase("si") || opcion.equals("sí")) {
+                                            //crear servicio en la base de datos y enviar el servicio a la vista
+                                            envio = true;
+                                        }
+                                        ServicioDAO.crearServicio(nombreServicio, precio, listIdParada, envio, db);
+
                                         crearServicio = false;
                                     } while (crearServicio);
                                 }
@@ -620,6 +628,7 @@ public class Main implements CommandLineRunner {
                                                             System.out.println("El servicio contratado es: " + nombreServicio);
                                                             Servicio servicio = ServicioDAO.obtenerServicioPorNombre(nombreServicio, db);
                                                             if (servicio.getEsEnvio()) {
+
                                                                 //********************CU8********************
                                                                 System.out.println("¿Cuál es su dirección?");
                                                                 String direccion = scanner.nextLine();
@@ -637,7 +646,7 @@ public class Main implements CommandLineRunner {
                                                                 System.out.println("Introduzca el alto:");
                                                                 int alto = Integer.parseInt(scanner.nextLine());
                                                                 int[] dimensiones = {largo, ancho, alto};
-                                                                System.out.println("Se trata de un paquete urgente?" +
+                                                                System.out.println("Se trata de un paquete urgente?\n" +
                                                                         " En caso afirmativo, digite 1, si no, no digite nada");
                                                                 boolean urgencia = false;
                                                                 byte opcionUrgencia = Byte.parseByte(scanner.nextLine());
@@ -645,7 +654,7 @@ public class Main implements CommandLineRunner {
                                                                     urgencia = true;
                                                                 }
                                                                 EnvioACasa envioACasa = new EnvioACasa
-                                                                        (peso,dimensiones,urgencia,tparada.getId(),direccionObj);
+                                                                        (peso,dimensiones,urgencia,tparada.getId(),servicio.getPkid(),direccionObj);
                                                                 //GUARDAR EN BD OBJECTDB**************************
                                                             }
                                                             //get precio servicio

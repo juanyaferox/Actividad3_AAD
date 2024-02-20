@@ -1,13 +1,10 @@
 package juanya.cifpaviles.d_objectdb;
 
-import com.objectdb.o.INT;
 import jakarta.persistence.*;
-import juanya.cifpaviles.db4o.Servicio;
-import juanya.cifpaviles.model.Tparada;
 
-import java.lang.reflect.Array;
-import java.util.List;
 
+//El servicio de envio a casa se ha creado con anterioridad, con valor 50 y nombre "Envio a casa"
+//Además fue asignado a todas las paradas existentes en el servidor local actualmente (1 a 8)
 @Entity
 public class EnvioACasa {
     @Id
@@ -17,6 +14,7 @@ public class EnvioACasa {
     private int[] dimensiones = new int[3];
     private boolean urgente;
     private int paradaid;
+    private String idServicio;
     @ManyToOne
     private Direccion direccion;
 
@@ -29,6 +27,15 @@ public class EnvioACasa {
         this.dimensiones = dimensiones;
         this.urgente = urgente;
         this.paradaid = paradaid;
+        this.direccion = direccion;
+    }
+
+    public EnvioACasa(double peso, int[] dimensiones, boolean urgente, int paradaid, String idServicio, Direccion direccion) {
+        this.peso = peso;
+        this.dimensiones = dimensiones;
+        this.urgente = urgente;
+        this.paradaid = paradaid;
+        this.idServicio = idServicio;
         this.direccion = direccion;
     }
 
@@ -78,5 +85,13 @@ public class EnvioACasa {
 
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
+    }
+
+    public String getIdServicio() {
+        return idServicio;
+    }
+
+    public void setIdServicio(String idServicio) {
+        this.idServicio = idServicio;
     }
 }
