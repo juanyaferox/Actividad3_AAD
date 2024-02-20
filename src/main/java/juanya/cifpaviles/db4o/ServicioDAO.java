@@ -2,6 +2,7 @@ package juanya.cifpaviles.db4o;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
 
 import java.util.List;
 import java.util.Objects;
@@ -48,13 +49,19 @@ public class ServicioDAO {
 
     // Método para verificar si un servicio ya existe por Nombre
     public static boolean verificarNombre(String nombreServicio, ObjectContainer db) {
+        // Realizar la consulta en la base de datos
+        ObjectSet<Servicio> resultados = db.query(new Predicate<Servicio>() {
+            @Override
+            public boolean match(Servicio servicio) {
+                // Realizar la comparación ignorando las diferencias entre mayúsculas y minúsculas
+                return servicio.getNombre().equalsIgnoreCase(nombreServicio);
+            }
+        });
 
-        Servicio servicio = new Servicio();
-        servicio.setNombre(nombreServicio);
-
-        ObjectSet<Servicio> resultados = db.queryByExample(servicio);
-        return resultados.hasNext(); // Devuelve true si hay al menos un resultado (coincidencia encontrada)
+        // Devolver true si hay al menos un resultado (coincidencia encontrada)
+        return resultados.hasNext();
     }
+
     // Método para verificar si un servicio ya existe por Id
     public static boolean verificarId(String id, ObjectContainer db) {
 
