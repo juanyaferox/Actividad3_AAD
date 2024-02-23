@@ -89,7 +89,7 @@ public class Main implements CommandLineRunner {
             System.out.println(provider.getClass().getName());
         }*/
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("$objectdb/objectDB/db.odb");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("objectdb:objectDB/b.odb");
         EntityManager em = emf.createEntityManager();
 
         int n; //variable para menu
