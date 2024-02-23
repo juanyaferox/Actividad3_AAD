@@ -82,22 +82,15 @@ public class Main implements CommandLineRunner {
         String carpetaPath = obtenerCarpetaPath();
         Path rutaCarpeta = Paths.get(carpetaPath);
         verificarYCrearCarpeta(rutaCarpeta);
-        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
+        /*PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
         List<PersistenceProvider> providers = resolver.getPersistenceProviders();
         //verificar que existan los proveedores de persistencia
         for (PersistenceProvider provider : providers) {
             System.out.println(provider.getClass().getName());
-        }
-        /*El error ocurre aqui al crear el objeto de la clase EntityManagerFactory
-        no lee el persistence.xml correctamente aunque esté todo bien, de hecho miro los providers
-        y solo me sale el de hibernate, no el que introduje en el persistence.xml
+        }*/
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DatabaseObjectDB");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("$objectdb/objectDB/db.odb");
         EntityManager em = emf.createEntityManager();
-         */
-
-
-
 
         int n; //variable para menu
         String usuario = null;//inicialización variable del nombre de sesión

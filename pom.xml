@@ -16,13 +16,6 @@
         <exec.mainClass>juanya.cifpaviles.Aplicacion</exec.mainClass>
         <maven.compiler.release>17</maven.compiler.release>
     </properties>
-    <repositories>
-    <repository>
-        <id>objectdb</id>
-        <name>ObjectDB Repository</name>
-        <url>https://m2.objectdb.com</url>
-    </repository>
-</repositories>
     <dependencies>
         <dependency>
             <groupId>com.objectdb</groupId>

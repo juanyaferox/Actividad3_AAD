@@ -26,6 +26,7 @@ import java.text.Normalizer;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -327,6 +328,13 @@ public class Metodos {
 
         // Devuelve la ruta de la carpeta
         return carpetaPath;
+    }
+
+    public static Map<String, String> createProperties() {
+        return Map.of(
+                "javax.persistence.jdbc.url", "objectdb:/objectDB/db.odb",
+                "javax.persistence.provider", "com.objectdb.jpa.Provider"
+        );
     }
 
 
