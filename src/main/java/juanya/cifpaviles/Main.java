@@ -25,10 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 import static juanya.cifpaviles.Metodos.*;
 
@@ -72,6 +69,7 @@ public class Main implements CommandLineRunner {
         //lógica para la creación de la base de datos en db4o
         String folderPath = Paths.get(System.getProperty("user.dir"), "db4oDB").toString();
         String dbFilePath = Paths.get(folderPath, "database.db").toString();
+        
 
         ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), dbFilePath);
         Path folder = Paths.get(folderPath);
@@ -82,15 +80,24 @@ public class Main implements CommandLineRunner {
         String carpetaPath = obtenerCarpetaPath();
         Path rutaCarpeta = Paths.get(carpetaPath);
         verificarYCrearCarpeta(rutaCarpeta);
-        /*PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
-        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-        //verificar que existan los proveedores de persistencia
-        for (PersistenceProvider provider : providers) {
-            System.out.println(provider.getClass().getName());
-        }*/
+        // Obtener el resolver de proveedores de persistencia
+        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("objectdb:objectDB/b.odb");
-        EntityManager em = emf.createEntityManager();
+    // Obtener la lista de proveedores de persistencia disponibles
+        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
+
+    // Verificar si hay algún proveedor compatible disponible
+        boolean providerAvailable = providers.stream().anyMatch(provider -> provider instanceof com.objectdb.jpa.Provider);
+
+        if (providerAvailable) {
+            // Si hay un proveedor compatible disponible, crear el EntityManagerFactory
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("objectdb:myDbFile.odb");
+            // Realizar otras operaciones con el EntityManagerFactory y el EntityManager
+        } else {
+            // Si no hay ningún proveedor compatible disponible, mostrar un mensaje de error o tomar alguna acción adecuada
+            System.out.println("No se encontró ningún proveedor de persistencia compatible disponible.");
+        }
+
 
         int n; //variable para menu
         String usuario = null;//inicialización variable del nombre de sesión
