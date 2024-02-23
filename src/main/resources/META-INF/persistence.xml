@@ -6,11 +6,10 @@
 
     <persistence-unit name="DatabaseObjectDB" transaction-type="RESOURCE_LOCAL">
         <provider>com.objectdb.jpa.Provider</provider> <!-- Proveedor de persistencia de ObjectDB -->
-        <class>juanya.cifpaviles.d_objectdb.Direccion</class>
+        <class>juanya.cifpaviles.d_objectdb.Direccion</class><!--- Clases que se van a persistir -->
         <class>juanya.cifpaviles.d_objectdb.EnvioACasa</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="$objectdb/objectDB/db.odb" />
-            <!-- Otros ajustes de configuración, como credenciales de base de datos -->
         </properties>
     </persistence-unit>
 </persistence>

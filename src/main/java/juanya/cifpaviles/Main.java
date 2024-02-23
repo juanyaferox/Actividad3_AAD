@@ -5,6 +5,9 @@ import com.db4o.ObjectContainer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.spi.PersistenceProvider;
+import jakarta.persistence.spi.PersistenceProviderResolver;
+import jakarta.persistence.spi.PersistenceProviderResolverHolder;
 import jdk.swing.interop.SwingInterOpUtils;
 import juanya.cifpaviles.d_objectdb.Direccion;
 import juanya.cifpaviles.d_objectdb.EnvioACasa;
@@ -79,8 +82,20 @@ public class Main implements CommandLineRunner {
         String carpetaPath = obtenerCarpetaPath();
         Path rutaCarpeta = Paths.get(carpetaPath);
         verificarYCrearCarpeta(rutaCarpeta);
+        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
+        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
+        //verificar que existan los proveedores de persistencia
+        for (PersistenceProvider provider : providers) {
+            System.out.println(provider.getClass().getName());
+        }
+        /*El error ocurre aqui al crear el objeto de la clase EntityManagerFactory
+        no lee el persistence.xml correctamente aunque esté todo bien, de hecho miro los providers
+        y solo me sale el de hibernate, no el que introduje en el persistence.xml
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DatabaseObjectDB");
         EntityManager em = emf.createEntityManager();
+         */
+
 
 
 
@@ -221,7 +236,7 @@ public class Main implements CommandLineRunner {
                             case 3 -> {
                                 System.out.println("Saliendo del programa...");
                                 db.close();
-                                em.close();
+                                //em.close();
                                 break bucle;
                             }
                             default -> {
@@ -641,10 +656,10 @@ public class Main implements CommandLineRunner {
                                                                 String direccion = scanner.nextLine();
                                                                 System.out.println("¿Cuál es su localidad?");
                                                                 String localidad = scanner.nextLine();
-                                                                em.getTransaction().begin();
+                                                                //em.getTransaction().begin();
                                                                 Direccion direccionObj = new Direccion(direccion, localidad);
-                                                                em.persist(direccionObj);
-                                                                em.getTransaction().commit();
+                                                                //em.persist(direccionObj);
+                                                                //em.getTransaction().commit();
                                                                 //GUARDAR EN BD OBJECTDB*******************
                                                                 System.out.println("¿Cuáles son las especificaciones del paquete?");
                                                                 System.out.println("Introduzca el peso:");
@@ -671,8 +686,8 @@ public class Main implements CommandLineRunner {
                                                                 }
                                                                 EnvioACasa envioACasa = new EnvioACasa
                                                                         (peso,dimensiones,urgencia,tparada.getId(),servicio.getPkid(),direccionObj);
-                                                                em.persist(envioACasa);
-                                                                em.getTransaction().commit();
+                                                                //em.persist(envioACasa);
+                                                                //em.getTransaction().commit();
                                                                 //GUARDAR EN BD OBJECTDB**************************
                                                             }
                                                             //get precio servicio
