@@ -1,15 +1,9 @@
-package juanya.cifpaviles.d_objectdb;
+package juanya.cifpaviles.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-@Entity
+@Embeddable
 public class Direccion {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int pkid;
     private String direccion;
     private String localidad;
 
@@ -19,14 +13,6 @@ public class Direccion {
     public Direccion(String direccion, String localidad) {
         this.direccion = direccion;
         this.localidad = localidad;
-    }
-
-    public int getPkid() {
-        return pkid;
-    }
-
-    public void setPkid(int pkid) {
-        this.pkid = pkid;
     }
 
     public String getDireccion() {

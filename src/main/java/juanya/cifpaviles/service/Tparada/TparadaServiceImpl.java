@@ -1,16 +1,17 @@
-package juanya.cifpaviles.service;
+package juanya.cifpaviles.service.Tparada;
 
 import juanya.cifpaviles.model.Tparada;
 import juanya.cifpaviles.model.TperegrinoParada;
 import juanya.cifpaviles.model.Tperfil;
 import juanya.cifpaviles.repository.TparadaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class TparadaServiceImpl implements TparadaService{
-
+    @Autowired
     private final TparadaRepository tparadaRepository;
 
     public TparadaServiceImpl(TparadaRepository tparadaRepository) {

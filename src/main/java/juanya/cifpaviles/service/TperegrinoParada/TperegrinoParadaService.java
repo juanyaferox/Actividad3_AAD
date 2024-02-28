@@ -1,4 +1,4 @@
-package juanya.cifpaviles.service;
+package juanya.cifpaviles.service.TperegrinoParada;
 
 
 import juanya.cifpaviles.model.Tparada;

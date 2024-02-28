@@ -5,23 +5,24 @@ import com.db4o.ObjectContainer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.spi.PersistenceProvider;
-import jakarta.persistence.spi.PersistenceProviderResolver;
-import jakarta.persistence.spi.PersistenceProviderResolverHolder;
-import jdk.swing.interop.SwingInterOpUtils;
-import juanya.cifpaviles.d_objectdb.Direccion;
-import juanya.cifpaviles.d_objectdb.EnvioACasa;
+import juanya.cifpaviles.conexionesDB.db4oConnection;
+import juanya.cifpaviles.conexionesDB.objectdbConnection;
+import juanya.cifpaviles.model.Direccion;
+import juanya.cifpaviles.model.EnvioACasa;
 import juanya.cifpaviles.db4o.*;
 import juanya.cifpaviles.model.*;
-import juanya.cifpaviles.service.*;
+import juanya.cifpaviles.service.Tcarnet.TcarnetServiceImpl;
+import juanya.cifpaviles.service.Testancia.TestanciaServiceImpl;
+import juanya.cifpaviles.service.Tparada.TparadaServiceImpl;
+import juanya.cifpaviles.service.Tperegrino.TperegrinoServiceImpl;
+import juanya.cifpaviles.service.TperegrinoParada.TperegrinoParadaServiceImpl;
+import juanya.cifpaviles.service.Tperfil.TperfilServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -65,38 +66,21 @@ public class Main implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("\u001B[38;5;173mBIENVENIDO AL PROGRAMA GESTOR DE LA BASE DE DATOS");
-
-        //lógica para la creación de la base de datos en db4o
-        String folderPath = Paths.get(System.getProperty("user.dir"), "db4oDB").toString();
-        String dbFilePath = Paths.get(folderPath, "database.db").toString();
-        
-
-        ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), dbFilePath);
-        Path folder = Paths.get(folderPath);
-        Path folderObjectDB = Paths.get(folderPath, "objectDB");
+        //se inicia la conexion
+        ObjectContainer db = db4oConnection.getConnection();
+        EntityManager  entityManager = objectdbConnection.getConnection();
         //lógica para estar seguro de la existencia de la carpeta contenedora
-        verificarYCrearCarpeta(folder);
         //lógica para la creación de la carpeta contenedora
         String carpetaPath = obtenerCarpetaPath();
         Path rutaCarpeta = Paths.get(carpetaPath);
         verificarYCrearCarpeta(rutaCarpeta);
-        // Obtener el resolver de proveedores de persistencia
-        PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
 
-    // Obtener la lista de proveedores de persistencia disponibles
-        List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-
-    // Verificar si hay algún proveedor compatible disponible
-        boolean providerAvailable = providers.stream().anyMatch(provider -> provider instanceof com.objectdb.jpa.Provider);
-
-        if (providerAvailable) {
-            // Si hay un proveedor compatible disponible, crear el EntityManagerFactory
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("objectdb:myDbFile.odb");
-            // Realizar otras operaciones con el EntityManagerFactory y el EntityManager
-        } else {
-            // Si no hay ningún proveedor compatible disponible, mostrar un mensaje de error o tomar alguna acción adecuada
-            System.out.println("No se encontró ningún proveedor de persistencia compatible disponible.");
-        }
+       try{
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("objectdb:$objectdb/db.odb");
+            EntityManager em = emf.createEntityManager();
+        }catch (Exception e){
+            System.out.println("Error al crear el EntityManager: "+e.getMessage());
+       }
 
 
         int n; //variable para menu
@@ -115,9 +99,6 @@ public class Main implements CommandLineRunner {
                         switch (n) {
                             case 1 -> {
                                 System.out.println("REGISTRARSE");
-                                //no funciona correctamente el metodo de registro, da error en el save
-                                //no consigo solucionar el error :)))))
-                                //solucioné el error odio eterno al cascade
                                 String nombre, nacionalidad = null;
                                 boolean exists;
                                 do {
@@ -235,8 +216,8 @@ public class Main implements CommandLineRunner {
                             }
                             case 3 -> {
                                 System.out.println("Saliendo del programa...");
-                                db.close();
-                                //em.close();
+                                db4oConnection.cerrarConexion();
+                                objectdbConnection.cerrarConexion();
                                 break bucle;
                             }
                             default -> {

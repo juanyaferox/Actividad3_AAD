@@ -1,4 +1,4 @@
-package juanya.cifpaviles.db4o;
+package juanya.cifpaviles.model;
 
 public class NMConjuntoServicio {
     private ConjuntoContratado conjuntoContratado;

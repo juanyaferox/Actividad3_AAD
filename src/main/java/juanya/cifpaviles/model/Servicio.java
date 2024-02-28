@@ -1,4 +1,4 @@
-package juanya.cifpaviles.db4o;
+package juanya.cifpaviles.model;
 
 import java.util.List;
 import java.util.UUID;

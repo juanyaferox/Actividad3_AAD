@@ -1,4 +1,4 @@
-package juanya.cifpaviles.d_objectdb;
+package juanya.cifpaviles.model;
 
 import jakarta.persistence.*;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +18,7 @@ public class EnvioACasa {
     private boolean urgente;
     private int paradaid;
     private String idServicio;
-    @ManyToOne
+    @Embedded
     private Direccion direccion;
 
 

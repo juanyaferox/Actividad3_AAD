@@ -1,4 +1,4 @@
-package juanya.cifpaviles.db4o;
+package juanya.cifpaviles.repository;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -8,17 +8,21 @@ import juanya.cifpaviles.model.Servicio;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ServicioDAO {
+public class ServicioRepositoryImpl implements ServicioRepository {
+    private ObjectContainer db;
 
-    //Método para crear un servicio
-    public static void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, boolean esEnvio, ObjectContainer db) {
+    public ServicioRepositoryImpl(ObjectContainer db) {
+        this.db = db;
+    }
+    @Override
+    public void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, boolean esEnvio) {
         Servicio servicio = new Servicio(nombre, precio, arrayIdParadas, esEnvio);
         db.store(servicio);
         System.out.println("Servicio creado con éxito");
     }
 
-    // Método para obtener un servicio por su ID
-    public static Servicio obtenerServicioPorId(String pkid, ObjectContainer db) {
+    @Override
+    public Servicio obtenerServicioPorId(String pkid) {
         Servicio servicio = new Servicio();
         servicio.setPkid(pkid);
 
@@ -26,8 +30,8 @@ public class ServicioDAO {
         return resultados.hasNext() ? resultados.next() : null;
     }
 
-    public static List<Servicio> obtenerServicioEnvio(ObjectContainer db) {
-
+    @Override
+    public List<Servicio> obtenerServicioEnvio() {
         Servicio servicio = new Servicio();
         servicio.setEsEnvio(true);
 
@@ -36,21 +40,21 @@ public class ServicioDAO {
         return resultados.stream().collect(Collectors.toList());
     }
 
-    // Método para modificar un servicio por su ID
-    public static void modificarServicioPorId(String pkid, String nuevoNombre, double nuevoPrecio, List<Integer> nuevoArrayIdParadas, ObjectContainer db) {
-        Servicio servicio = obtenerServicioPorId(pkid,db);
+    @Override
+    public void modificarServicioPorId(String pkid, String nuevoNombre, double nuevoPrecio, List<Integer> nuevoArrayIdParadas) {
+        Servicio servicio = obtenerServicioPorId(pkid);
         if (servicio != null) {
             servicio.setNombre(nuevoNombre);
             servicio.setPrecio(nuevoPrecio);
             servicio.setArrayIdParadas(nuevoArrayIdParadas);
             db.store(servicio);
-        } else{
+        } else {
             System.out.println("El servicio no existe, nose ka pasao");
         }
     }
 
-    // Método para obtener un servicio por su Nombre
-    public static Servicio obtenerServicioPorNombre(String nombre, ObjectContainer db) {
+    @Override
+    public Servicio obtenerServicioPorNombre(String nombre) {
         Servicio servicio = new Servicio();
         servicio.setNombre(nombre);
 
@@ -58,8 +62,8 @@ public class ServicioDAO {
         return resultados.hasNext() ? resultados.next() : null;
     }
 
-    // Método para verificar si un servicio ya existe por Nombre
-    public static boolean verificarNombre(String nombreServicio, ObjectContainer db) {
+    @Override
+    public boolean verificarNombre(String nombreServicio) {
         // Realizar la consulta en la base de datos
         ObjectSet<Servicio> resultados = db.query(new Predicate<Servicio>() {
             @Override
@@ -73,23 +77,22 @@ public class ServicioDAO {
         return resultados.hasNext();
     }
 
-    // Método para verificar si un servicio ya existe por Id
-    public static boolean verificarId(String id, ObjectContainer db) {
-
+    @Override
+    public boolean verificarId(String id) {
         Servicio servicio = new Servicio();
         servicio.setPkid(id);
 
         ObjectSet<Servicio> resultados = db.queryByExample(servicio);
-        return resultados.hasNext(); // Devuelve true si hay al menos un resultado (coincidencia encontrada)
+        return resultados.hasNext();
     }
 
-    // Método para verificar si el precio es correcto por Precio
-    public static boolean verificarPrecio(double precioServicio) {
+    @Override
+    public boolean verificarPrecio(double precioServicio) {
         return precioServicio > 0;
     }
 
-    //Método para recorrer todos los servicios
-    public static List<Servicio> recorrerServicios(ObjectContainer db) {
+    @Override
+    public List<Servicio> recorrerServicios() {
         List<Servicio> listaServicios = db.queryByExample(new Servicio());
         return listaServicios;
     }

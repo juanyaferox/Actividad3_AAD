@@ -1,9 +1,8 @@
-package juanya.cifpaviles.service;
+package juanya.cifpaviles.service.TperegrinoParada;
 
 import juanya.cifpaviles.model.Tparada;
 import juanya.cifpaviles.model.Tperegrino;
 import juanya.cifpaviles.model.TperegrinoParada;
-import juanya.cifpaviles.model.TperegrinoParadaId;
 import juanya.cifpaviles.repository.TperegrinoParadaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
