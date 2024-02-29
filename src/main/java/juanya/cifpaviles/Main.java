@@ -11,6 +11,8 @@ import juanya.cifpaviles.model.Direccion;
 import juanya.cifpaviles.model.EnvioACasa;
 import juanya.cifpaviles.db4o.*;
 import juanya.cifpaviles.model.*;
+import juanya.cifpaviles.service.ServicioService;
+import juanya.cifpaviles.service.ServicioServiceImpl;
 import juanya.cifpaviles.service.Tcarnet.TcarnetServiceImpl;
 import juanya.cifpaviles.service.Testancia.TestanciaServiceImpl;
 import juanya.cifpaviles.service.Tparada.TparadaServiceImpl;
@@ -51,6 +53,9 @@ public class Main implements CommandLineRunner {
     @Autowired
     public TperegrinoParadaServiceImpl tperegrinoParadaService;
 
+    @Autowired
+    public ServicioServiceImpl servicioService;
+
 
     /*
     pasos a seguir:
@@ -67,21 +72,27 @@ public class Main implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("\u001B[38;5;173mBIENVENIDO AL PROGRAMA GESTOR DE LA BASE DE DATOS");
         //se inicia la conexion
-        ObjectContainer db = db4oConnection.getConnection();
-        EntityManager  entityManager = objectdbConnection.getConnection();
+        ObjectContainer db = null;
+        EntityManager entityManager = null;
+        try{
+            db = db4oConnection.getConnection();
+            System.out.println("Conexión a db4o realizada con éxito");
+        } catch (Exception e) {
+            System.out.println("Conexión fallidad: "+e.getMessage());
+        }
+        try{
+            entityManager = objectdbConnection.getConnection();
+            System.out.println("Conexión a objectdb realizada con éxito");
+        } catch (Exception e){
+            System.out.println("Conexión fallidad: "+e.getMessage());
+        }
+
         //lógica para estar seguro de la existencia de la carpeta contenedora
         //lógica para la creación de la carpeta contenedora
-        String carpetaPath = obtenerCarpetaPath();
-        Path rutaCarpeta = Paths.get(carpetaPath);
-        verificarYCrearCarpeta(rutaCarpeta);
+        //String carpetaPath = obtenerCarpetaPath();
 
-       try{
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("objectdb:$objectdb/db.odb");
-            EntityManager em = emf.createEntityManager();
-        }catch (Exception e){
-            System.out.println("Error al crear el EntityManager: "+e.getMessage());
-       }
-
+        //Path rutaCarpeta = Paths.get(carpetaPath);
+        //verificarYCrearCarpeta(rutaCarpeta);
 
         int n; //variable para menu
         String usuario = null;//inicialización variable del nombre de sesión
@@ -361,9 +372,9 @@ public class Main implements CommandLineRunner {
                                         System.out.println("Introduzca el nombre del servicio");
                                         String input = scanner.nextLine();
                                         if (input != null && !input.isEmpty()) {
-                                            boolean existsByNombreService = ServicioDAO.verificarNombre(input, db);
+                                            boolean existsByNombreService = servicioService.verificarNombre(input);
                                             if (existsByNombreService) {
-                                                Servicio servicio = ServicioDAO.obtenerServicioPorNombre(input, db);
+                                                Servicio servicio = servicioService.obtenerServicioPorNombre(input);
                                                 System.out.println("Los datos del servicio introducido son:\n" + servicio.toString()
                                                         + "\n¿Desea modificar los datos del servicio? \n Si\n No");
                                                 String opcion = scanner.nextLine();
@@ -384,7 +395,7 @@ public class Main implements CommandLineRunner {
                                                             nombreServicio = servicio.getNombre();
                                                             verificar = false;
                                                         } else {
-                                                            verificar = ServicioDAO.verificarNombre(nombreServicio, db);
+                                                            verificar = servicioService.verificarNombre(nombreServicio);
                                                             if (verificar) {
                                                                 System.out.println("Ya existe un servicio con ese nombre");
                                                             }
@@ -398,7 +409,7 @@ public class Main implements CommandLineRunner {
                                                             System.out.println("Campo vacío, no se aplicaran cambios");
                                                             verificar = true;
                                                         } else {
-                                                            if (!ServicioDAO.verificarPrecio(precio)) {
+                                                            if (!servicioService.verificarPrecio(precio)) {
                                                                 System.out.println("El precio se encuentra fuera de rango");
                                                             } else {
                                                                 precio = Double.parseDouble(input);

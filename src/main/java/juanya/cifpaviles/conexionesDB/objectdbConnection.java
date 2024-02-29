@@ -5,7 +5,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class objectdbConnection {
-    private static final String DB_URL = "objectdb://localhost:6136/mydatabase.odb";
+    private static final String DB_URL = "objectdb:$objectdb/db/points.odb";
+    //private static final String DB_URL = "objectdb://localhost:6136/mydatabase.odb";
     private static EntityManagerFactory entityManagerFactory;
 
     public static EntityManager getConnection() {
