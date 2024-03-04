@@ -1,10 +1,7 @@
 package juanya.cifpaviles;
 
-import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import juanya.cifpaviles.conexionesDB.db4oConnection;
 import juanya.cifpaviles.conexionesDB.objectdbConnection;
 import juanya.cifpaviles.model.Direccion;
@@ -13,20 +10,18 @@ import juanya.cifpaviles.db4o.*;
 import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.ServicioService;
 import juanya.cifpaviles.service.ServicioServiceImpl;
-import juanya.cifpaviles.service.Tcarnet.TcarnetServiceImpl;
-import juanya.cifpaviles.service.Testancia.TestanciaServiceImpl;
-import juanya.cifpaviles.service.Tparada.TparadaServiceImpl;
-import juanya.cifpaviles.service.Tperegrino.TperegrinoServiceImpl;
-import juanya.cifpaviles.service.TperegrinoParada.TperegrinoParadaServiceImpl;
-import juanya.cifpaviles.service.Tperfil.TperfilServiceImpl;
+import juanya.cifpaviles.service.TcarnetServiceImpl;
+import juanya.cifpaviles.service.TestanciaServiceImpl;
+import juanya.cifpaviles.service.TparadaServiceImpl;
+import juanya.cifpaviles.service.TperegrinoServiceImpl;
+import juanya.cifpaviles.service.TperegrinoParadaServiceImpl;
+import juanya.cifpaviles.service.TperfilServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 

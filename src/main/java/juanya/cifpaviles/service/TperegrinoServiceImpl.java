@@ -1,4 +1,4 @@
-package juanya.cifpaviles.service.Tperegrino;
+package juanya.cifpaviles.service;
 
 import jakarta.transaction.Transactional;
 import juanya.cifpaviles.model.Tcarnet;

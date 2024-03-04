@@ -2,16 +2,19 @@ package juanya.cifpaviles.service;
 
 import juanya.cifpaviles.model.Servicio;
 import juanya.cifpaviles.repository.ServicioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ServicioServiceImpl implements ServicioService {
-
     private ServicioRepository servicioRepository;
-
+    @Autowired
     public ServicioServiceImpl(ServicioRepository servicioRepository) {
         this.servicioRepository = servicioRepository;
     }
+
     @Override
     public void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, boolean esEnvio) {
         servicioRepository.crearServicio(nombre, precio, arrayIdParadas, esEnvio);

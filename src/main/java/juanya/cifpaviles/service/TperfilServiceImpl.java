@@ -1,4 +1,4 @@
-package juanya.cifpaviles.service.Tperfil;
+package juanya.cifpaviles.service;
 
 import juanya.cifpaviles.model.Tperegrino;
 import juanya.cifpaviles.model.Tperfil;

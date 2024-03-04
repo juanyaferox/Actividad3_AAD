@@ -1,6 +1,7 @@
 package juanya.cifpaviles.repository;
 
 import juanya.cifpaviles.model.Servicio;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

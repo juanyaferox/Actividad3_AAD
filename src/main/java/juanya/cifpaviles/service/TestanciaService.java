@@ -1,4 +1,4 @@
-package juanya.cifpaviles.service.Testancia;
+package juanya.cifpaviles.service;
 
 
 import juanya.cifpaviles.model.Testancia;

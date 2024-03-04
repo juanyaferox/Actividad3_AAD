@@ -3,16 +3,22 @@ package juanya.cifpaviles.repository;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import juanya.cifpaviles.conexionesDB.db4oConnection;
 import juanya.cifpaviles.model.Servicio;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class ServicioRepositoryImpl implements ServicioRepository {
-    private ObjectContainer db;
 
-    public ServicioRepositoryImpl(ObjectContainer db) {
-        this.db = db;
+    private ObjectContainer db = db4oConnection.getConnection();
+
+    public ServicioRepositoryImpl() {
+        this.db = db4oConnection.getConnection();
     }
     @Override
     public void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, boolean esEnvio) {
