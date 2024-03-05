@@ -2,6 +2,9 @@ package juanya.cifpaviles;
 
 import com.db4o.ObjectContainer;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.spi.PersistenceProvider;
+import jakarta.persistence.spi.PersistenceProviderResolver;
+import jakarta.persistence.spi.PersistenceProviderResolverHolder;
 import juanya.cifpaviles.conexionesDB.db4oConnection;
 import juanya.cifpaviles.conexionesDB.objectdbConnection;
 import juanya.cifpaviles.model.Direccion;
@@ -73,13 +76,23 @@ public class Main implements CommandLineRunner {
             db = db4oConnection.getConnection();
             System.out.println("Conexión a db4o realizada con éxito");
         } catch (Exception e) {
-            System.out.println("Conexión fallidad: "+e.getMessage());
+            System.out.println("Conexión fallida: "+e.getMessage());
         }
         try{
             entityManager = objectdbConnection.getConnection();
             System.out.println("Conexión a objectdb realizada con éxito");
         } catch (Exception e){
-            System.out.println("Conexión fallidad: "+e.getMessage());
+            System.out.println("ERROR");
+
+            PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
+            List<PersistenceProvider> providers = resolver.getPersistenceProviders();
+            int i = 0;
+            for (PersistenceProvider provider : providers) {
+                i++;
+                System.out.println("Persistence provider "+i+" : "+provider.getClass().getName());
+            }
+            
+            System.out.println("Conexión fallida: "+e.getMessage());
         }
 
         //lógica para estar seguro de la existencia de la carpeta contenedora
@@ -772,6 +785,5 @@ public class Main implements CommandLineRunner {
                 }
             }
         }
-
     }
 }
