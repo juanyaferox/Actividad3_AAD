@@ -86,12 +86,11 @@ public class Main implements CommandLineRunner {
 
             PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
             List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-            int i = 0;
+            System.out.println("Persistence providers disponibles: ");
             for (PersistenceProvider provider : providers) {
-                i++;
-                System.out.println("Persistence provider "+i+" : "+provider.getClass().getName());
+
+                System.out.println("Persistence provider: "+provider.getClass().getName());
             }
-            
             System.out.println("Conexión fallida: "+e.getMessage());
         }
 
