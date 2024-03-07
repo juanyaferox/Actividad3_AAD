@@ -82,15 +82,6 @@ public class Main implements CommandLineRunner {
             entityManager = objectdbConnection.getConnection();
             System.out.println("Conexión a objectdb realizada con éxito");
         } catch (Exception e){
-            System.out.println("ERROR");
-
-            PersistenceProviderResolver resolver = PersistenceProviderResolverHolder.getPersistenceProviderResolver();
-            List<PersistenceProvider> providers = resolver.getPersistenceProviders();
-            System.out.println("Persistence providers disponibles: ");
-            for (PersistenceProvider provider : providers) {
-
-                System.out.println("Persistence provider: "+provider.getClass().getName());
-            }
             System.out.println("Conexión fallida: "+e.getMessage());
         }
 

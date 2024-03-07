@@ -7,8 +7,8 @@ import com.db4o.config.EmbeddedConfiguration;
 import java.nio.file.Paths;
 
 public class db4oConnection {
-    private static final String DB4O_DATABASE_FILENAME = "database.db";
-    private static final String DB4O_FOLDER_PATH = Paths.get(System.getProperty("user.dir"), "db4oDB").toString();
+    private static final String DB4O_DATABASE_FILENAME = "db4o.db";
+    private static final String DB4O_FOLDER_PATH = Paths.get(System.getProperty("user.dir"), "db").toString();
     private static ObjectContainer db;
 
     public static ObjectContainer getConnection() {
