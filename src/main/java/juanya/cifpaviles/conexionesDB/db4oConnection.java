@@ -21,6 +21,7 @@ public class db4oConnection {
     public static void cerrarConexion() {
         if (db != null && !db.ext().isClosed()) {
             db.close();
+            System.out.println("Conexión con db4o cerrada");
         }
     }
 

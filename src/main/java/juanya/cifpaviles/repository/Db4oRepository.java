@@ -1,11 +1,12 @@
 package juanya.cifpaviles.repository;
 
+import juanya.cifpaviles.model.ConjuntoContratado;
+import juanya.cifpaviles.model.NMConjuntoServicio;
 import juanya.cifpaviles.model.Servicio;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface ServicioRepository {
+public interface Db4oRepository {
     void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, boolean esEnvio);
     Servicio obtenerServicioPorId(String pkid);
     List<Servicio> obtenerServicioEnvio();
@@ -15,4 +16,6 @@ public interface ServicioRepository {
     boolean verificarId(String id);
     boolean verificarPrecio(double precioServicio);
     List<Servicio> recorrerServicios();
+    void guardarConjunto(ConjuntoContratado conjunto);
+    void guardarConjuntoServicio(NMConjuntoServicio nMConjuntoServicio);
 }

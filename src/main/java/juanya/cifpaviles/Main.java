@@ -2,29 +2,20 @@ package juanya.cifpaviles;
 
 import com.db4o.ObjectContainer;
 import javax.persistence.EntityManager;
-import javax.persistence.spi.PersistenceProvider;
-import javax.persistence.spi.PersistenceProviderResolver;
-import javax.persistence.spi.PersistenceProviderResolverHolder;
+
 import juanya.cifpaviles.conexionesDB.db4oConnection;
 import juanya.cifpaviles.conexionesDB.objectdbConnection;
 import juanya.cifpaviles.model.Direccion;
 import juanya.cifpaviles.model.EnvioACasa;
 import juanya.cifpaviles.db4o.*;
 import juanya.cifpaviles.model.*;
-import juanya.cifpaviles.service.ServicioServiceImpl;
-import juanya.cifpaviles.service.TcarnetServiceImpl;
-import juanya.cifpaviles.service.TestanciaServiceImpl;
-import juanya.cifpaviles.service.TparadaServiceImpl;
-import juanya.cifpaviles.service.TperegrinoServiceImpl;
-import juanya.cifpaviles.service.TperegrinoParadaServiceImpl;
-import juanya.cifpaviles.service.TperfilServiceImpl;
+import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -52,8 +43,10 @@ public class Main implements CommandLineRunner {
     public TperegrinoParadaServiceImpl tperegrinoParadaService;
 
     @Autowired
-    public ServicioServiceImpl servicioService;
+    public Db4oServiceImpl db4oService;
 
+    @Autowired
+    public ObjectdbServiceImpl objectdbService;
 
     /*
     pasos a seguir:
@@ -70,11 +63,10 @@ public class Main implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("\u001B[38;5;173mBIENVENIDO AL PROGRAMA GESTOR DE LA BASE DE DATOS");
         //se inicia la conexion
-        ObjectContainer db = null;
-        EntityManager entityManager = null;
+        /*ObjectContainer db = null;*/
+        /*EntityManager entityManager = null;
         try{
-            db = db4oConnection.getConnection();
-            System.out.println("Conexión a db4o realizada con éxito");
+         db = db4oConnection.getConnection();
         } catch (Exception e) {
             System.out.println("Conexión fallida: "+e.getMessage());
         }
@@ -83,7 +75,7 @@ public class Main implements CommandLineRunner {
             System.out.println("Conexión a objectdb realizada con éxito");
         } catch (Exception e){
             System.out.println("Conexión fallida: "+e.getMessage());
-        }
+        }*/
 
         //lógica para estar seguro de la existencia de la carpeta contenedora
         //lógica para la creación de la carpeta contenedora
@@ -309,7 +301,7 @@ public class Main implements CommandLineRunner {
                                         do {
                                             System.out.println("Introduzca el nombre del servicio");
                                             nombreServicio = scanner.nextLine();
-                                            verificar = ServicioDAO.verificarNombre(nombreServicio, db);
+                                            verificar = db4oService.verificarNombre(nombreServicio);
                                             if (verificar) {
                                                 System.out.println("Ya existe un servicio con ese nombre," +
                                                         " desea repetir o salir");
@@ -328,7 +320,7 @@ public class Main implements CommandLineRunner {
                                         do {
                                             System.out.println("Introduzca el precio");
                                             precio = Double.parseDouble(scanner.nextLine());
-                                            if (ServicioDAO.verificarPrecio(precio)) {
+                                            if (db4oService.verificarPrecio(precio)) {
                                                 precioBucle = false;
                                             } else {
                                                 System.out.println("El precio introducido no es válido");
@@ -362,7 +354,7 @@ public class Main implements CommandLineRunner {
                                             //crear servicio en la base de datos y enviar el servicio a la vista
                                             envio = true;
                                         }
-                                        ServicioDAO.crearServicio(nombreServicio, precio, listIdParada, envio, db);
+                                        db4oService.crearServicio(nombreServicio, precio, listIdParada, envio);
 
                                         crearServicio = false;
                                     } while (crearServicio);
@@ -375,9 +367,9 @@ public class Main implements CommandLineRunner {
                                         System.out.println("Introduzca el nombre del servicio");
                                         String input = scanner.nextLine();
                                         if (input != null && !input.isEmpty()) {
-                                            boolean existsByNombreService = servicioService.verificarNombre(input);
+                                            boolean existsByNombreService = db4oService.verificarNombre(input);
                                             if (existsByNombreService) {
-                                                Servicio servicio = servicioService.obtenerServicioPorNombre(input);
+                                                Servicio servicio = db4oService.obtenerServicioPorNombre(input);
                                                 System.out.println("Los datos del servicio introducido son:\n" + servicio.toString()
                                                         + "\n¿Desea modificar los datos del servicio? \n Si\n No");
                                                 String opcion = scanner.nextLine();
@@ -398,7 +390,7 @@ public class Main implements CommandLineRunner {
                                                             nombreServicio = servicio.getNombre();
                                                             verificar = false;
                                                         } else {
-                                                            verificar = servicioService.verificarNombre(nombreServicio);
+                                                            verificar = db4oService.verificarNombre(nombreServicio);
                                                             if (verificar) {
                                                                 System.out.println("Ya existe un servicio con ese nombre");
                                                             }
@@ -412,7 +404,7 @@ public class Main implements CommandLineRunner {
                                                             System.out.println("Campo vacío, no se aplicaran cambios");
                                                             verificar = true;
                                                         } else {
-                                                            if (!servicioService.verificarPrecio(precio)) {
+                                                            if (!db4oService.verificarPrecio(precio)) {
                                                                 System.out.println("El precio se encuentra fuera de rango");
                                                             } else {
                                                                 precio = Double.parseDouble(input);
@@ -459,7 +451,7 @@ public class Main implements CommandLineRunner {
                                                             }
                                                         }
                                                     } while (!verificar);
-                                                    ServicioDAO.modificarServicioPorId(idServicio, nombreServicio, precio, IdParada, db);
+                                                    db4oService.modificarServicioPorId(idServicio, nombreServicio, precio, IdParada);
                                                     System.out.println("Servicio modificado con éxito");
                                                     crearServicio = false;
                                                 } else {
@@ -618,7 +610,7 @@ public class Main implements CommandLineRunner {
                                                 if (opcionServicio == 1) {
                                                     int idtparada = tparada.getId();//para sacar el id de la parada
                                                     //metodo para recorrer todas las listas de todo db4o y verificar coincidencia de numero
-                                                    List<Servicio> listaServicios = ServicioDAO.recorrerServicios(db);
+                                                    List<Servicio> listaServicios = db4oService.recorrerServicios();
                                                     for (Servicio servicio : listaServicios) {
                                                         //si coincide, se añade a la lista de servicios del peregrino
                                                         if (servicio.getArrayIdParadas().contains(idtparada)) {
@@ -644,7 +636,7 @@ public class Main implements CommandLineRunner {
                                                                     = ListaServiciosDisponibles.get(IntServicioAContratar);
 
                                                             System.out.println("El servicio contratado es: " + nombreServicio);
-                                                            Servicio servicio = ServicioDAO.obtenerServicioPorNombre(nombreServicio, db);
+                                                            Servicio servicio = db4oService.obtenerServicioPorNombre(nombreServicio);
                                                             if (servicio.getEsEnvio()) {
 
                                                                 //********************CU8********************
@@ -652,10 +644,9 @@ public class Main implements CommandLineRunner {
                                                                 String direccion = scanner.nextLine();
                                                                 System.out.println("¿Cuál es su localidad?");
                                                                 String localidad = scanner.nextLine();
-                                                                //em.getTransaction().begin();
+
                                                                 Direccion direccionObj = new Direccion(direccion, localidad);
-                                                                //em.persist(direccionObj);
-                                                                //em.getTransaction().commit();
+                                                                objectdbService.persistDireccion(direccionObj);
                                                                 //GUARDAR EN BD OBJECTDB*******************
                                                                 System.out.println("¿Cuáles son las especificaciones del paquete?");
                                                                 System.out.println("Introduzca el peso:");
@@ -682,8 +673,7 @@ public class Main implements CommandLineRunner {
                                                                 }
                                                                 EnvioACasa envioACasa = new EnvioACasa
                                                                         (peso,dimensiones,urgencia,tparada.getId(),servicio.getPkid(),direccionObj);
-                                                                //em.persist(envioACasa);
-                                                                //em.getTransaction().commit();
+                                                                objectdbService.persistEnvioACasa(envioACasa);
                                                                 //GUARDAR EN BD OBJECTDB**************************
                                                             }
                                                             //get precio servicio
@@ -703,13 +693,12 @@ public class Main implements CommandLineRunner {
                                                             //??extra -> servicio contratado
                                                             ConjuntoContratado conjunto = new ConjuntoContratado
                                                                     (preciototal, metodopago, extra, iDtestancia);
-                                                            db.store(conjunto);//me dio pereza crear el metodo
+                                                            db4oService.guardarConjunto(conjunto);//me dio pereza crear el metodo
                                                             //metodo para guardar en db4o!!!^^^^^^^^^^
-                                                            ConjuntoContratadoDAO.crearConjunto(conjunto, db);
                                                             //****
                                                             NMConjuntoServicio nm
                                                                     = new NMConjuntoServicio(conjunto, servicio);
-                                                            db.store(nm);
+                                                            db4oService.guardarConjuntoServicios(nm);
                                                             System.out.println("Operación realizada con éxito");
                                                             //crear conjunto con precio, metodo pago,extra?,idestancia
                                                             break;
@@ -751,7 +740,7 @@ public class Main implements CommandLineRunner {
                         case 3 -> {
                             System.out.println("VER ENVIOS REALIZADOS");
                             //*****************************CU9*********************************
-                            List<Servicio> listaServicios= ServicioDAO.obtenerServicioEnvio(db);
+                            List<Servicio> listaServicios= db4oService.obtenerServicioEnvio();
                             //obtemer desde db4o lista de servicios con esEnvio=true
                             List<EnvioACasa> listaEnvio = new ArrayList<>();
                             //obtener desde objectdb lista de envioacasa

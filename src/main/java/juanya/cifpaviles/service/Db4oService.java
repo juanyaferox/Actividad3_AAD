@@ -1,10 +1,12 @@
 package juanya.cifpaviles.service;
 
+import juanya.cifpaviles.model.ConjuntoContratado;
+import juanya.cifpaviles.model.NMConjuntoServicio;
 import juanya.cifpaviles.model.Servicio;
 
 import java.util.List;
 
-public interface ServicioService {
+public interface Db4oService {
     void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, boolean esEnvio);
     Servicio obtenerServicioPorId(String pkid);
     List<Servicio> obtenerServicioEnvio();
@@ -14,4 +16,6 @@ public interface ServicioService {
     boolean verificarId(String id);
     boolean verificarPrecio(double precioServicio);
     List<Servicio> recorrerServicios();
+    void guardarConjunto(ConjuntoContratado conjunto);
+    void guardarConjuntoServicios(NMConjuntoServicio conjuntoServicios);
 }

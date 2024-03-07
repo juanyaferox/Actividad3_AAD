@@ -27,6 +27,7 @@ public class objectdbConnection {
     public static void cerrarConexion() {
         if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
             entityManagerFactory.close();
+            System.out.println("Conexión con objectDB cerrada");
         }
     }
 

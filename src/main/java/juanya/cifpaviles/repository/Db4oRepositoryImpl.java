@@ -4,21 +4,26 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import juanya.cifpaviles.conexionesDB.db4oConnection;
+import juanya.cifpaviles.model.ConjuntoContratado;
+import juanya.cifpaviles.model.NMConjuntoServicio;
 import juanya.cifpaviles.model.Servicio;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class ServicioRepositoryImpl implements ServicioRepository {
+public class Db4oRepositoryImpl implements Db4oRepository {
 
-    private ObjectContainer db = db4oConnection.getConnection();
+    private ObjectContainer db;
 
-    public ServicioRepositoryImpl() {
-        this.db = db4oConnection.getConnection();
+    public Db4oRepositoryImpl() {
+        try {
+            this.db = db4oConnection.getConnection();
+            System.out.println("Conexión a db4o realizada con éxito");
+        }catch (Exception e) {
+            System.out.println("Error en la conexión");
+        }
     }
     @Override
     public void crearServicio(String nombre, double precio, List<Integer> arrayIdParadas, boolean esEnvio) {
@@ -101,5 +106,15 @@ public class ServicioRepositoryImpl implements ServicioRepository {
     public List<Servicio> recorrerServicios() {
         List<Servicio> listaServicios = db.queryByExample(new Servicio());
         return listaServicios;
+    }
+
+    @Override
+    public void guardarConjunto(ConjuntoContratado conjunto) {
+        db.store(conjunto);
+    }
+
+    @Override
+    public void guardarConjuntoServicio(NMConjuntoServicio nMConjuntoServicio) {
+        db.store(nMConjuntoServicio);
     }
 }

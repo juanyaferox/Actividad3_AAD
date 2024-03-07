@@ -1,4 +1,4 @@
-package juanya.cifpaviles.db4o;
+/*package juanya.cifpaviles.db4o;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -94,3 +94,4 @@ public class ServicioDAO {
         return listaServicios;
     }
 }
+*/
