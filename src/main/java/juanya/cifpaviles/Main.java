@@ -7,7 +7,6 @@ import juanya.cifpaviles.conexionesDB.db4oConnection;
 import juanya.cifpaviles.conexionesDB.objectdbConnection;
 import juanya.cifpaviles.model.Direccion;
 import juanya.cifpaviles.model.EnvioACasa;
-import juanya.cifpaviles.db4o.*;
 import juanya.cifpaviles.model.*;
 import juanya.cifpaviles.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
