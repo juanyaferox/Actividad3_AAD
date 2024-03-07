@@ -1,21 +1,10 @@
 package juanya.cifpaviles;
 
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.spi.PersistenceProvider;
-import juanya.cifpaviles.etc.ProgressBar;
+
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 
-import java.util.Collections;
-import java.util.Map;
 
 @SpringBootApplication
 public class Aplicacion{

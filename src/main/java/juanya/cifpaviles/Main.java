@@ -1,17 +1,16 @@
 package juanya.cifpaviles;
 
 import com.db4o.ObjectContainer;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.spi.PersistenceProvider;
-import jakarta.persistence.spi.PersistenceProviderResolver;
-import jakarta.persistence.spi.PersistenceProviderResolverHolder;
+import javax.persistence.EntityManager;
+import javax.persistence.spi.PersistenceProvider;
+import javax.persistence.spi.PersistenceProviderResolver;
+import javax.persistence.spi.PersistenceProviderResolverHolder;
 import juanya.cifpaviles.conexionesDB.db4oConnection;
 import juanya.cifpaviles.conexionesDB.objectdbConnection;
 import juanya.cifpaviles.model.Direccion;
 import juanya.cifpaviles.model.EnvioACasa;
 import juanya.cifpaviles.db4o.*;
 import juanya.cifpaviles.model.*;
-import juanya.cifpaviles.service.ServicioService;
 import juanya.cifpaviles.service.ServicioServiceImpl;
 import juanya.cifpaviles.service.TcarnetServiceImpl;
 import juanya.cifpaviles.service.TestanciaServiceImpl;
@@ -25,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -101,7 +101,7 @@ public class Main implements CommandLineRunner {
         //Path rutaCarpeta = Paths.get(carpetaPath);
         //verificarYCrearCarpeta(rutaCarpeta);
 
-        int n; //variable para menu
+        int n = -1; //variable para menu
         String usuario = null;//inicialización variable del nombre de sesión
         Scanner scanner = new Scanner(System.in);
         TipoSesion perfil = TipoSesion.INVITADO;//inicializacion de variable
@@ -112,7 +112,12 @@ public class Main implements CommandLineRunner {
                 case INVITADO -> {
                     System.out.println("SESIÓN: INVITADO");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Registrarse \n 2- Iniciar sesión \n 3- Salir");
-                    n = Integer.parseInt(scanner.nextLine());
+                    try {
+                        n = Integer.parseInt(scanner.nextLine());
+                    }catch (NumberFormatException e){
+                        System.out.println("Debe ser un número");
+                        n=-1;
+                    }
                     try {
                         switch (n) {
                             case 1 -> {
@@ -637,6 +642,7 @@ public class Main implements CommandLineRunner {
                                                     }
                                                     double preciototal = 0;
                                                     do {
+                                                        //doy por hecho que solo se puede contratar un servicio en cada hospedaje
                                                         System.out.println("Cuál desea contratar?");
                                                         int IntServicioAContratar = Integer.parseInt(scanner.nextLine());
                                                         if (ListaServiciosDisponibles.get(IntServicioAContratar).isEmpty()) {

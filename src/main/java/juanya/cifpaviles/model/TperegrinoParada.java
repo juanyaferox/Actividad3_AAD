@@ -1,14 +1,15 @@
 package juanya.cifpaviles.model;
 
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tperegrino_parada")
-@IdClass(TperegrinoParadaId.class)
+@Table (name = "tperegrino_parada")
+@IdClass (TperegrinoParadaId.class)
 public class TperegrinoParada {
 
     @Id
-    @ManyToOne(fetch = FetchType.EAGER, optional = false,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne (fetch = FetchType.EAGER, optional = false,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "pkfkid_parada", nullable = false)
     private Tparada pkfkidParada;
 

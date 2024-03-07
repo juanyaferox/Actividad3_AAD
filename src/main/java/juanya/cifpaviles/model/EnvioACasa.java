@@ -1,8 +1,13 @@
 package juanya.cifpaviles.model;
 
-import jakarta.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.jdo.annotations.Embedded;
 import java.util.Arrays;
 
 
@@ -11,7 +16,7 @@ import java.util.Arrays;
 @Entity
 public class EnvioACasa {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int pkid;
     private double peso;
     private int[] dimensiones = new int[3];

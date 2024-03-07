@@ -1,6 +1,7 @@
 package juanya.cifpaviles.model;
 
-import jakarta.persistence.*;
+
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class Direccion {
