@@ -629,7 +629,7 @@ public class Main implements CommandLineRunner {
                                                         System.out.println("Cuál desea contratar?");
                                                         int IntServicioAContratar = Integer.parseInt(scanner.nextLine());
                                                         if (ListaServiciosDisponibles.get(IntServicioAContratar).isEmpty()) {
-                                                            System.out.println("No se trata de una opcion disponible");
+                                                            System.out.println("No se trata de una opcion disponible, se asumirá que no requiere");
                                                         }
                                                         else {
                                                             String nombreServicio
@@ -646,7 +646,6 @@ public class Main implements CommandLineRunner {
                                                                 String localidad = scanner.nextLine();
 
                                                                 Direccion direccionObj = new Direccion(direccion, localidad);
-                                                                objectdbService.persistDireccion(direccionObj);
                                                                 //GUARDAR EN BD OBJECTDB*******************
                                                                 System.out.println("¿Cuáles son las especificaciones del paquete?");
                                                                 System.out.println("Introduzca el peso:");
@@ -740,14 +739,14 @@ public class Main implements CommandLineRunner {
                         case 3 -> {
                             System.out.println("VER ENVIOS REALIZADOS");
                             //*****************************CU9*********************************
-                            List<Servicio> listaServicios= db4oService.obtenerServicioEnvio();
+                            List<Servicio> listaServiciosEnvio = db4oService.obtenerServicioEnvio();
                             //obtemer desde db4o lista de servicios con esEnvio=true
-                            List<EnvioACasa> listaEnvio = new ArrayList<>();
+                            List<EnvioACasa> listaEnvio = objectdbService.obtenerListaEnvioACasa();
                             //obtener desde objectdb lista de envioacasa
                             List<EnvioACasa> enviosParada = new ArrayList<>();
                             //declarar nuevo list de enviosParada
 
-                            for (Servicio sao: listaServicios){
+                            for (Servicio sao: listaServiciosEnvio){
                                 for (EnvioACasa eac: listaEnvio){
                                     //for-each de servicio+envioacasa
                                     //if servicio.getId == envioacasa.getId, añadir a lista de enviosParada

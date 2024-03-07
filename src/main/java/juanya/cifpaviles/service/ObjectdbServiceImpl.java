@@ -8,6 +8,8 @@ import juanya.cifpaviles.repository.ObjectdbRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ObjectdbServiceImpl implements ObjectdbService {
     private ObjectdbRepository objectdbRepository;
@@ -23,5 +25,10 @@ public class ObjectdbServiceImpl implements ObjectdbService {
     @Override
     public void persistEnvioACasa(EnvioACasa envioACasa) {
         objectdbRepository.persistEnvioACasa(envioACasa);
+    }
+
+    @Override
+    public List<EnvioACasa> obtenerListaEnvioACasa() {
+        return objectdbRepository.obtenerListaEnvioACasa();
     }
 }

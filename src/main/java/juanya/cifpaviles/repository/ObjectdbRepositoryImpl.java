@@ -8,6 +8,9 @@ import juanya.cifpaviles.model.EnvioACasa;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.List;
+
 @Repository
 public class ObjectdbRepositoryImpl implements ObjectdbRepository {
     private EntityManager entityManager;
@@ -31,5 +34,12 @@ public class ObjectdbRepositoryImpl implements ObjectdbRepository {
     public void persistEnvioACasa(EnvioACasa envioACasa) {
         entityManager.persist(envioACasa);
         entityManager.getTransaction().commit();
+    }
+
+    @Override
+    public List<EnvioACasa> obtenerListaEnvioACasa() {
+        TypedQuery<EnvioACasa> query = entityManager.createQuery("SELECT e FROM EnvioACasa e", EnvioACasa.class);
+        List<EnvioACasa> listaEnvioACasa = query.getResultList();
+        return listaEnvioACasa;
     }
 }
