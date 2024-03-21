@@ -9,6 +9,7 @@
         <language minSize="52" name="Java" />
       </Languages>
     </inspection_tool>
+    <inspection_tool class="LossyEncoding" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="SqlResolveInspection" enabled="true" level="ERROR" enabled_by_default="true">
       <option name="suppressForPossibleStringLiterals" value="true" />
     </inspection_tool>

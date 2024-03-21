@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
-            <version>0.10.0</version>
+            <version>RELEASE</version>
         </dependency>
 
         <dependency><!--añadido el .jar atraves de maven para que no casque cada vez que reinicio-->
@@ -131,6 +131,24 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.exist-db/exist-core -->
+        <dependency>
+            <groupId>org.exist-db</groupId>
+            <artifactId>exist-core</artifactId>
+            <version>6.2.0</version>
+            <exclusions>
+                <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>log4j-slf4j2-impl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.xmldb-org</groupId>
+            <artifactId>xmldb-api</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

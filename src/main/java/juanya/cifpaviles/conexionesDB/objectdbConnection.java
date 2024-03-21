@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class objectdbConnection {
 
-    private static final String DEFAULT_DB_URL = "objectdb:$objectdb/db/points.odb";
+    private static final String DEFAULT_DB_URL = "objectdb:$objectdb/db/db.odb";
     private static final String CONFIG_FILE_PATH = "src/main/resources/application.properties";
     private static final String DB_URL_PROPERTY = "objectdb.url";
 

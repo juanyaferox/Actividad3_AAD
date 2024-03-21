@@ -4,6 +4,7 @@ import com.db4o.ObjectContainer;
 import javax.persistence.EntityManager;
 
 import juanya.cifpaviles.conexionesDB.db4oConnection;
+import juanya.cifpaviles.conexionesDB.existdbConnection;
 import juanya.cifpaviles.conexionesDB.objectdbConnection;
 import juanya.cifpaviles.model.Direccion;
 import juanya.cifpaviles.model.EnvioACasa;
@@ -14,6 +15,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
+import java.io.File;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.*;
@@ -46,6 +48,9 @@ public class Main implements CommandLineRunner {
 
     @Autowired
     public ObjectdbServiceImpl objectdbService;
+
+    @Autowired
+    public ExistdbServiceImpl existdbService;
 
     /*
     pasos a seguir:
@@ -192,9 +197,13 @@ public class Main implements CommandLineRunner {
                                                         "introduzca otro");
                                             }
                                         } while (existUser);
-
                                         //Se inserta en perfil con los datos introducidos+peregrino en caché
-
+                                        //******************************************************************
+                                        //INSERTAR XML CARNET EN COLLECTION DE PARADAS
+                                        //generarxml peregrino
+                                        File file = generarXmlPeregrino(lastcarnet, usuario);
+                                        existdbService.createXMLResource(file,"carnet"+lastcarnet.getId(),parada_actual);
+                                        //******************************************************************
                                     }
                                 } while (!exists);//false
                             }//fin del caso 1 (REGISTRO)
@@ -223,6 +232,8 @@ public class Main implements CommandLineRunner {
                                 System.out.println("Saliendo del programa...");
                                 db4oConnection.cerrarConexion();
                                 objectdbConnection.cerrarConexion();
+                                existdbConnection.closeConnection();
+
                                 break bucle;
                             }
                             default -> {
@@ -259,6 +270,10 @@ public class Main implements CommandLineRunner {
                                             System.out.println("No se encontraron coindencias en la base de datos");
                                             tparadaService.insercionParada(nombre, regionC);
                                             System.out.println("Se ha creado la parada con éxito");
+                                            //**********************************************************
+                                            //CREAR COLECCION PARA PARADA EN EXISTDB
+                                            existdbService.createCollection(nombre);
+                                            //**********************************************************
                                             crearParada = false;
                                             verificar = true;
                                         } else {
@@ -275,7 +290,9 @@ public class Main implements CommandLineRunner {
                                             } else {
                                                 System.out.println("No se ha introducido ninguna de las opciones, " +
                                                         "se va a realizar el cierre del programa");
+
                                                 break bucle;
+
                                             }
                                         }
                                     }
@@ -516,7 +533,8 @@ public class Main implements CommandLineRunner {
                     System.out.println("SESIÓN: ADMINISTRADOR DE PARADA \"" + nombreParada +
                             "\" REGIÓN \"" + regionParada + "\"");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Exportar datos parada" +
-                            "\n 2- Sellar/Alojar \n 3- Ver envíos realizados \n 4- Logout");
+                            "\n 2- Sellar/Alojar \n 3- Ver envíos realizados \n 4- Visualizar carnés expedidos" +
+                            " \n 5- Logout");
                     n = Integer.parseInt(scanner.nextLine());
                     switch (n) {
                         case 1 -> {
@@ -761,12 +779,18 @@ public class Main implements CommandLineRunner {
 
                         }
                         case 4 -> {
+                            System.out.println("VER CARNÉS EXPEDIDOS");
+                            existdbService.printXMLfromCollection(tparada.getCnombre());
+                        }
+                        case 5 -> {
                             System.out.println("Cerrando sesión...");
                             perfil = TipoSesion.INVITADO;
                         }
                     }
+
                 }
             }
         }
     }
+
 }

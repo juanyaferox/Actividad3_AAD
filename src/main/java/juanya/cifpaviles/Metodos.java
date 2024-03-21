@@ -117,6 +117,39 @@ public class Metodos {
         }
     }
 
+    static File generarXmlPeregrino(Tcarnet tcarnet, String usuario){
+        File xmlFile = null;
+        try{
+            // Crear el DocumentBuilder
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            // Crear el documento
+            Document document = dBuilder.newDocument();
+            // Crear el elemento raíz <carnet>
+            Element carnetElement = document.createElement("carnet");
+            carnetElement.setAttribute("user", usuario);
+            document.appendChild(carnetElement);
+            // Crear el elemento <id>
+            Element idElement = document.createElement("id");
+            idElement.appendChild(document.createTextNode(String.valueOf(tcarnet.getId())));
+            carnetElement.appendChild(idElement);
+            // Elemento <fecha_exp>
+            Element fechaExpElement = document.createElement("fecha_exp");
+            fechaExpElement.appendChild(document.createTextNode(String.valueOf(tcarnet.getFechaexp())));
+            carnetElement.appendChild(fechaExpElement);
+            // Escribir el contenido XML en un archivo
+            xmlFile = File.createTempFile("carnet"+tcarnet.getId(), ".xml");
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(xmlFile);
+            transformer.transform(source, result);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return xmlFile;
+    }
+
     private static Document convertirDocumentAXmlString
             (Tperegrino tperegrino, Tcarnet tcarnet, List<Tparada> tparadaList,
              List<Testancia> testanciaList) {

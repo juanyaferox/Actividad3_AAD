@@ -19,5 +19,6 @@ public class Aplicacion{
             // Manejar excepción genérica para otros errores durante la inicialización
             System.err.println("Error al iniciar la aplicación: " + e.getMessage());
         }
+        System.exit(0);
     }
 }
