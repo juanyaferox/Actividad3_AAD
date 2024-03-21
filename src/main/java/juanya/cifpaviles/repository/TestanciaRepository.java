@@ -14,5 +14,6 @@ import java.util.List;
 public interface TestanciaRepository extends JpaRepository<Testancia, Integer> {
     List<Object[]> findByFechaBetweenAndFkidParada(LocalDate fecha, LocalDate fecha2, Tparada tparada);
 
+
     List<Testancia> findByFkidPeregrino(Tperegrino tperegrino);
 }

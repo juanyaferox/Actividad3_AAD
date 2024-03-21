@@ -25,6 +25,7 @@ import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -368,6 +369,17 @@ public class Metodos {
                 "javax.persistence.jdbc.url", "objectdb:/objectDB/db.odb",
                 "javax.persistence.provider", "com.objectdb.jpa.Provider"
         );
+    }
+    public static String generateBackupFileName() {
+        // Obtener la fecha actual
+        LocalDate currentDate = LocalDate.now();
+
+        // Formatear la fecha en el formato "dd-MM-aaaa"
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = currentDate.format(formatter);
+
+        // Concatenar el nombre del archivo con la fecha formateada
+        return "backupcarnets<" + formattedDate+">";
     }
 
 

@@ -52,6 +52,9 @@ public class Main implements CommandLineRunner {
     @Autowired
     public ExistdbServiceImpl existdbService;
 
+    @Autowired
+    public MongoDbServiceImpl mongoDbService;
+
     /*
     pasos a seguir:
     #esto en db4o
@@ -247,7 +250,7 @@ public class Main implements CommandLineRunner {
                 case ADMIN_G -> {
                     System.out.println("SESIÓN: ADMINISTRADOR GENERAL");
                     System.out.println("¿QUE DESEA REALIZAR? \n 1- Crear parada \n 2- Crear/Modificar servicio " +
-                            "\n 3- Logout");
+                            "\n 3- Hacer backup de carnets \n 4- Logout");
                     n = Integer.parseInt(scanner.nextLine());
                     switch (n) {
                         case 1 -> {
@@ -482,7 +485,12 @@ public class Main implements CommandLineRunner {
                                 }
                             }
                         }
-                        case 3 -> perfil = TipoSesion.INVITADO;
+                        case 3 -> {
+                            System.out.println("Se va realizar el backup");
+                            mongoDbService.BackupCarnets(tcarnetService.selectAllCarnet());
+                            System.out.println("Backup realizado");
+                        }
+                        case 4 -> perfil = TipoSesion.INVITADO;
                     }
                 }
                 case PEREGRINO -> {

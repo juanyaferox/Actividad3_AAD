@@ -7,6 +7,7 @@ import juanya.cifpaviles.repository.TcarnetRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class TcarnetServiceImpl implements TcarnetService{
@@ -44,5 +45,10 @@ public class TcarnetServiceImpl implements TcarnetService{
     @Override
     public void updateCarnet(Tcarnet tcarnet) {
         tcarnetRepository.save(tcarnet);
+    }
+
+    @Override
+    public List<Tcarnet> selectAllCarnet() {
+        return tcarnetRepository.findAll();
     }
 }

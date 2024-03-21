@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class Aplicacion{
+public class Aplicacion {
     public static void main(String[] args) {
         try {
             System.out.println("\n\u001B[38;5;102mCARGANDO APLICACIÓN, POR FAVOR ESPERE\u001B[38;5;22m");

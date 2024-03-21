@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -16,10 +17,12 @@ import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Properties;
 
+
 @Configuration
 @PropertySource("classpath:application.properties")
 @ComponentScan("juanya.cifpaviles")
 @EnableJpaRepositories(basePackages = "juanya.cifpaviles.repository")
+@EnableMongoRepositories(basePackages = "juanya.cifpaviles.repository")
 public class ApplicationContext {
 
     @Bean(destroyMethod = "close")

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
+
 public interface TcarnetRepository extends JpaRepository<Tcarnet, Integer> {
     Tcarnet findById(int id);
+
 }
