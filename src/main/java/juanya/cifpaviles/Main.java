@@ -271,7 +271,7 @@ public class Main implements CommandLineRunner {
                                         verificar = tparadaService.existsTparada(nombre, regionC);
                                         if (!verificar) {
                                             System.out.println("No se encontraron coindencias en la base de datos");
-                                            tparadaService.insercionParada(nombre, regionC);
+                                            Tparada tparada = tparadaService.insercionParada(nombre, regionC);
                                             System.out.println("Se ha creado la parada con éxito");
                                             //**********************************************************
                                             //CREAR COLECCION PARA PARADA EN EXISTDB
@@ -279,6 +279,24 @@ public class Main implements CommandLineRunner {
                                             //**********************************************************
                                             crearParada = false;
                                             verificar = true;
+                                            boolean existUser;
+                                            do {
+                                                System.out.println("Cuál será el usuario del administrador?");
+                                                usuario = scanner.nextLine();
+                                                existUser = tperfilService.existsUser(usuario);
+                                                if (!existUser) {
+                                                    System.out.println("Introduzca la contraseña a registrar");
+                                                    String contrasena = scanner.nextLine();
+                                                    tperfilService.insertarAdminPerfil(usuario, contrasena, tparada);
+                                                    System.out.println("Usuario registrado con exito");
+                                                    break;
+                                                } else {
+                                                    System.out.println("Ya existe un usuario con ese usuario, " +
+                                                            "introduzca otro");
+                                                }
+                                            } while (true);
+                                            String contrasenia = scanner.nextLine();
+
                                         } else {
                                             System.out.println("Se ha encontrado una coincidencia en la base de datos");
                                             System.out.println("¿Qué desea hacer?\n" +
@@ -517,7 +535,7 @@ public class Main implements CommandLineRunner {
                             //String nombreParada = tparadaService.getParada(tperfil).getCnombre();
                             String nombreParada = "Parada";
                             generarXMLPeregrino(tperegrino, tcarnet, listaTparada, listaTestancia);
-                            //hacer un faking xml se deja para despues
+
                         }
                         case 2 -> {
                             System.out.println("LOGOUT");
@@ -771,12 +789,14 @@ public class Main implements CommandLineRunner {
                             List<EnvioACasa> enviosParada = new ArrayList<>();
                             //declarar nuevo list de enviosParada
 
-                            for (Servicio sao: listaServiciosEnvio){
-                                for (EnvioACasa eac: listaEnvio){
-                                    //for-each de servicio+envioacasa
-                                    //if servicio.getId == envioacasa.getId, añadir a lista de enviosParada
-                                    if (Objects.equals(sao.getPkid(), eac.getIdServicio())){
-                                        enviosParada.add(eac);
+                            for (Servicio sao : listaServiciosEnvio) {
+                                // Verificar si el servicio es de la parada actual y es envío
+                                if (sao.getArrayIdParadas().contains(tparada.getId())) {
+                                    for (EnvioACasa eac : listaEnvio) {
+                                        // Verificar si el servicio de envío coincide con el servicio actual
+                                        if (Objects.equals(sao.getPkid(), eac.getIdServicio())) {
+                                            enviosParada.add(eac);
+                                        }
                                     }
                                 }
                             }

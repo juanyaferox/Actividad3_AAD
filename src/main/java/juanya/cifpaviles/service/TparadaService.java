@@ -12,7 +12,7 @@ public interface TparadaService{
     Tparada objectTparada(String nombre);
 
     boolean existsTparada(String nombre, Character region);
-    void insercionParada(String nombre, Character region);
+    Tparada insercionParada(String nombre, Character region);
     Tparada getParada(Tperfil tperfil);
 
     Optional<Tparada> getParadaById(TperegrinoParada tperegrinoParada);

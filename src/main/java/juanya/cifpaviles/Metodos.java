@@ -26,6 +26,7 @@ import java.text.Normalizer;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -304,12 +305,12 @@ public class Metodos {
     private static void exportarDocumentoXml(Document document, String nombreArchivo) {
         try {
             //Declaramos la ruta
-            String ruta = Paths.get(System.getProperty("user.dir"), "xml").toString();
+            String ruta = "C:\\xml\\";
             File carpeta = new File(ruta);
             if (!carpeta.exists()) {
                 carpeta.mkdirs();
             }
-            ruta = Paths.get(ruta, nombreArchivo).toString();
+            ruta = ruta+nombreArchivo;
 
             // Configurar el transformer
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -381,6 +382,7 @@ public class Metodos {
         // Concatenar el nombre del archivo con la fecha formateada
         return "backupcarnets<" + formattedDate+">";
     }
+
 
 
 

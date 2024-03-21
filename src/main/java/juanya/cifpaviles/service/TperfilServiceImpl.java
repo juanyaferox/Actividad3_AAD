@@ -1,5 +1,6 @@
 package juanya.cifpaviles.service;
 
+import juanya.cifpaviles.model.Tparada;
 import juanya.cifpaviles.model.Tperegrino;
 import juanya.cifpaviles.model.Tperfil;
 import juanya.cifpaviles.repository.TperfilRepository;
@@ -15,6 +16,11 @@ public class TperfilServiceImpl implements TperfilService {
     @Override
     public void insercionPerfil(String user, String password, Tperegrino tperegrino) {
         Tperfil tperfil = new Tperfil(user, password, tperegrino, null);
+        tperfilRepository.save(tperfil);
+    }
+    @Override
+    public void insertarAdminPerfil(String user, String password, Tparada tparada) {
+        Tperfil tperfil = new Tperfil(user, password, null, tparada);
         tperfilRepository.save(tperfil);
     }
 

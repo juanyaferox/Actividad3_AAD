@@ -35,9 +35,10 @@ public class TparadaServiceImpl implements TparadaService{
     }
 
     @Override
-    public void insercionParada(String nombre, Character region) {
+    public Tparada insercionParada(String nombre, Character region) {
         Tparada tparada = new Tparada(nombre, region);
-        tparadaRepository.save(tparada);
+        Tparada tparadasave = tparadaRepository.save(tparada);
+        return tparadasave;
     }
 
     @Override

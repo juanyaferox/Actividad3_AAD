@@ -15,6 +15,8 @@ import java.util.List;
 public interface TperfilService {
     void insercionPerfil(String user, String password, Tperegrino tperegrino);
 
+    void insertarAdminPerfil(String user, String password, Tparada tparada);
+
     int verificarDatosTperfil(String usuario, String password);
 
     Tperfil findUser(String usuario);
